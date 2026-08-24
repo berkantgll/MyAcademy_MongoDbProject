@@ -1,8 +1,6 @@
-﻿using Travel.Web.Entitites.Common;
-
-namespace Travel.Web.Entitites
+﻿namespace Travel.Web.DTOs.UserDtos
 {
-    public class User : BaseEntity
+    public class CreateUserDto
     {
         public string FullName { get; set; }
         public string Email { get; set; }
