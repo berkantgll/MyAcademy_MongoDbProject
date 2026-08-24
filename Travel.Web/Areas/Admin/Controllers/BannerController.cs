@@ -36,7 +36,7 @@ namespace Travel.Web.Areas.Admin.Controllers
         {
             var banner = await _bannerService.GetByIdAsync(id);
             var updateBanner = _mapper.Map<UpdateBannerDto>(banner);
-            return View(banner);
+            return View(updateBanner);
         }
 
         [HttpPost]
