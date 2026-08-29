@@ -3,13 +3,13 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Travel.Web.DTOs.RouteDtos;
 using Travel.Web.Settings;
-using route = Travel.Web.Entitites.Route;
+using RouteEntity = Travel.Web.Entitites.Route;
 
 namespace Travel.Web.Services.RouteServices
 {
     public class RouteService : IRouteService
     {
-        private readonly IMongoCollection<route> _routeCollection;
+        private readonly IMongoCollection<RouteEntity> _routeCollection;
         private readonly IMapper _mapper;
 
         public RouteService(IMapper mapper, IDatabaseSettings databaseSettings)
@@ -18,12 +18,12 @@ namespace Travel.Web.Services.RouteServices
 
             var client = new MongoClient(databaseSettings.ConnectionString);
             var database = client.GetDatabase(databaseSettings.DatabaseName);
-            _routeCollection = database.GetCollection<route>(databaseSettings.RouteCollectionName);
+            _routeCollection = database.GetCollection<RouteEntity>(databaseSettings.RouteCollectionName);
         }
 
         public async Task CreateAsync(CreateRouteDto createRouteDto)
         {
-            var route = _mapper.Map<route>(createRouteDto);
+            var route = _mapper.Map<RouteEntity>(createRouteDto);
             await _routeCollection.InsertOneAsync(route);
         }
 
@@ -54,7 +54,7 @@ namespace Travel.Web.Services.RouteServices
 
         public async Task UpdateAsync(UpdateRouteDto updateRouteDto)
         {
-            var route = _mapper.Map<route>(updateRouteDto);
+            var route = _mapper.Map<RouteEntity>(updateRouteDto);
             await _routeCollection.FindOneAndReplaceAsync(x => x.Id == route.Id, route);
         }
     }
