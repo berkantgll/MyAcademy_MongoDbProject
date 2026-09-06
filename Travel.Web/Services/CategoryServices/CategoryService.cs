@@ -40,11 +40,24 @@ namespace Travel.Web.Services.CategoryServices
         public async Task<ResultCategoryDto> GetByIdAsync(string id)
         {
             var category = await _categoryCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (category == null)
+            {
+                throw new Exception("Kategori bulunamadı!");
+            }
+
             return _mapper.Map<ResultCategoryDto>(category);
         }
 
         public async Task UpdateAsync(UpdateCategoryDto updateCategoryDto)
         {
+            var existingCategory = await _categoryCollection.Find(x => x.Id == updateCategoryDto.Id).FirstOrDefaultAsync();
+
+            if(existingCategory == null)
+            {
+                throw new Exception("Kategori bulunamadı!");
+            }
+
             var category = _mapper.Map<Category>(updateCategoryDto);
             await _categoryCollection.FindOneAndReplaceAsync(x => x.Id == category.Id, category);
         }

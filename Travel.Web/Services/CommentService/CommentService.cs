@@ -44,6 +44,11 @@ namespace Travel.Web.Services.CommentService
         {
             var comment = await _commentCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
+            if(comment == null)
+            {
+                throw new Exception("Yorum bulunamadı!");
+            }
+
             return _mapper.Map<ResultCommentDto>(comment);
         }
     }

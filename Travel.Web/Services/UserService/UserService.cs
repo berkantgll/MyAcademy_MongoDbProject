@@ -12,7 +12,7 @@ namespace Travel.Web.Services.UserService
         private readonly IMongoCollection<User> _userCollection;
         private readonly IMapper _mapper;
 
-        public UserService(IDatabaseSettings databaseSettings,IMapper mapper)
+        public UserService(IDatabaseSettings databaseSettings, IMapper mapper)
         {
             var client = new MongoClient(databaseSettings.ConnectionString);
             var database = client.GetDatabase(databaseSettings.DatabaseName);
@@ -27,7 +27,7 @@ namespace Travel.Web.Services.UserService
 
         public async Task DeleteAsync(string id)
         {
-            await _userCollection.DeleteOneAsync(x=>x.Id==id);
+            await _userCollection.DeleteOneAsync(x => x.Id == id);
         }
 
         public async Task<List<ResultUserDto>> GetAllAsync()
@@ -39,11 +39,24 @@ namespace Travel.Web.Services.UserService
         public async Task<ResultUserDto> GetByIdAsync(string id)
         {
             var user = await _userCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new Exception("Kullanıcı bulunamadı!");
+            }
+
             return _mapper.Map<ResultUserDto>(user);
         }
 
         public async Task UpdateAsync(UpdateUserDto updateUserDto)
         {
+            var existingUser = await _userCollection.Find(x => x.Id == updateUserDto.Id).FirstOrDefaultAsync();
+
+            if (existingUser == null)
+            {
+                throw new Exception("Kullanıcı bulunamadı!");
+            }
+
             var user = _mapper.Map<User>(updateUserDto);
             await _userCollection.FindOneAndReplaceAsync(x => x.Id == user.Id, user);
         }

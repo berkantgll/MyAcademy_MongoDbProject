@@ -40,11 +40,24 @@ namespace Travel.Web.Services.BannerServices
         public async Task<ResultBannerDto> GetByIdAsync(string id)
         {
             var banner = await _bannerCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (banner == null)
+            {
+                throw new Exception("Banner bulunamadı!");
+            }
+
             return _mapper.Map<ResultBannerDto>(banner);
         }
 
         public async Task UpdateAsync(UpdateBannerDto updateBannerDto)
         {
+            var existingBanner = await _bannerCollection.Find(x => x.Id == updateBannerDto.Id).FirstOrDefaultAsync();
+
+            if (existingBanner == null)
+            {
+                throw new Exception("Banner bulunamadı!");
+            }
+
             var banner = _mapper.Map<Banner>(updateBannerDto);
 
             await _bannerCollection.FindOneAndReplaceAsync(x => x.Id == banner.Id, banner);

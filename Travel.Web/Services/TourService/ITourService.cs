@@ -14,6 +14,8 @@ namespace Travel.Web.Services.TourService
         //TOUR DATE
 
         Task AddTourDateAsync(string tourId ,CreateTourDateDto createTourDateDto);
+        // ITourService
+        Task<ResultTourDateDto> GetTourDateByIdAsync(string tourId, string tourDateId);
         Task UpdateTourDateAsync(string tourId, UpdateTourDateDto updateTourDateDto);
         Task DeleteTourDateAsync(string tourId , string tourDateId);
 
@@ -21,6 +23,7 @@ namespace Travel.Web.Services.TourService
 
         Task AddTourProgramAsync(string tourId, CreateTourProgramDto createTourProgramDto);
         Task UpdateTourProgramAsync(string tourId, UpdateTourProgramDto updateTourProgramDto);
+        Task<ResultTourProgramDto> GetTourProgramByIdAsync(string tourId, string tourProgramId);
         Task DeleteTourProgramAsync(string tourId, string tourProgramId);
 
         //ÖZEL METOTLAR 

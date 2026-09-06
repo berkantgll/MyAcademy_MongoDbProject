@@ -4,7 +4,16 @@ using Microsoft.Extensions.Options;
 using System.Net;
 using System.Reflection;
 using Travel.Web.Services.BannerServices;
+using Travel.Web.Services.CategoryServices;
+using Travel.Web.Services.CommentService;
+using Travel.Web.Services.DestinationService;
+using Travel.Web.Services.DestinationServices;
+using Travel.Web.Services.FavoriteService;
+using Travel.Web.Services.QuestionService;
+using Travel.Web.Services.ReservationService;
 using Travel.Web.Services.RouteServices;
+using Travel.Web.Services.TourService;
+using Travel.Web.Services.UserService;
 using Travel.Web.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +28,14 @@ builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection(na
 
 builder.Services.AddScoped<IBannerService, BannerService>();
 builder.Services.AddScoped<IRouteService, RouteService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IDestinationService, DestinationService>();
+builder.Services.AddScoped<ITourService, TourService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IQuestionService, QuestionService>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddSingleton<IDatabaseSettings>(sp =>
 {

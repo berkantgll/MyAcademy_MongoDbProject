@@ -43,6 +43,12 @@ namespace Travel.Web.Services.QuestionService
         {
             var question = await _questionCollection
                 .Find(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (question == null)
+            {
+                throw new Exception("Soru bulunamadı!");
+            }
+
             return _mapper.Map<ResultQuestionDto>(question);
         }
 
@@ -53,6 +59,11 @@ namespace Travel.Web.Services.QuestionService
             var question = await _questionCollection
                 .Find(x => x.Id == updateQuestionDto.Id)
                 .FirstOrDefaultAsync();
+
+            if (question == null)
+            {
+                throw new Exception("Soru bulunamadı!");
+            }
 
             question.IsAnswered = true;
 

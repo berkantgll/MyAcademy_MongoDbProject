@@ -25,6 +25,11 @@ namespace Travel.Web.Services.TourService
         {
             var tour = await _tourCollection.Find(x => x.Id == tourId).FirstOrDefaultAsync();
 
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
             var tourDate = _mapper.Map<TourDate>(createTourDateDto);
 
             tour.TourDates.Add(tourDate);
@@ -36,6 +41,11 @@ namespace Travel.Web.Services.TourService
         {
             var tour = await _tourCollection.Find(x => x.Id == tourId).FirstOrDefaultAsync();
 
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
             var tourProgram = _mapper.Map<TourProgram>(createTourProgramDto);
 
             tour.TourPrograms.Add(tourProgram);
@@ -45,7 +55,13 @@ namespace Travel.Web.Services.TourService
 
         public async Task ChangeStatusAsync(string id)
         {
-            var tour = await _tourCollection.Find(x=>x.Id== id).FirstOrDefaultAsync();
+            var tour = await _tourCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
             tour.IsActive = !tour.IsActive;
             await _tourCollection.FindOneAndReplaceAsync(x => x.Id == tour.Id, tour);
         }
@@ -55,16 +71,35 @@ namespace Travel.Web.Services.TourService
             var tour = _mapper.Map<Tour>(createTourDto);
             await _tourCollection.InsertOneAsync(tour);
         }
-
         public async Task DecreaseCapacityAsync(string tourId, string tourDateId, int personCount)
         {
-            var tour = await _tourCollection.Find(x => x.Id == tourId).FirstOrDefaultAsync();
+            var tour = await _tourCollection
+                .Find(x => x.Id == tourId)
+                .FirstOrDefaultAsync();
 
-            var tourDate = tour.TourDates.FirstOrDefault(x => x.Id == tourDateId);
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
+            var tourDate = tour.TourDates
+                .FirstOrDefault(x => x.Id == tourDateId);
+
+            if (tourDate == null)
+            {
+                throw new Exception("Tur tarihi bulunamadı!");
+            }
+
+            if (tourDate.Capacity < personCount)
+            {
+                throw new Exception("Kapasite yetersiz!");
+            }
 
             tourDate.Capacity -= personCount;
 
-            await _tourCollection.FindOneAndReplaceAsync(x => x.Id == tourId, tour);
+            await _tourCollection.FindOneAndReplaceAsync(
+                x => x.Id == tourId,
+                tour);
         }
 
         public async Task DeleteAsync(string id)
@@ -76,7 +111,17 @@ namespace Travel.Web.Services.TourService
         {
             var tour = await _tourCollection.Find(x => x.Id == tourId).FirstOrDefaultAsync();
 
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
             var tourDate = tour.TourDates.FirstOrDefault(x => x.Id == tourDateId);
+
+            if (tourDate == null)
+            {
+                throw new Exception("Tur tarihi bulunamadı!");
+            }
 
             tour.TourDates.Remove(tourDate);
 
@@ -87,7 +132,18 @@ namespace Travel.Web.Services.TourService
         {
             var tour = await _tourCollection.Find(x => x.Id == tourId).FirstOrDefaultAsync();
 
+
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
             var tourProgram = tour.TourPrograms.FirstOrDefault(x => x.Id == tourProgramId);
+
+            if (tourProgram == null)
+            {
+                throw new Exception("Tur programı bulunamadı!");
+            }
 
             tour.TourPrograms.Remove(tourProgram);
 
@@ -144,6 +200,12 @@ namespace Travel.Web.Services.TourService
         public async Task<ResultTourDto> GetByIdAsync(string id)
         {
             var tour = await _tourCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+            if(tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
             return _mapper.Map<ResultTourDto>(tour);
         }
 
@@ -157,24 +219,86 @@ namespace Travel.Web.Services.TourService
         {
             var tour = await _tourCollection.Find(x => x.Id == tourId).FirstOrDefaultAsync();
 
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
             var tourDate = tour.TourDates.FirstOrDefault(x => x.Id == updateTourDateDto.Id);
+
+            if (tourDate == null)
+            {
+                throw new Exception("Tur tarihi bulunamadı!");
+            }
 
             _mapper.Map(updateTourDateDto, tourDate);
 
             await _tourCollection.FindOneAndReplaceAsync(x => x.Id == tourId, tour);
         }
 
+        // TourService
+        public async Task<ResultTourDateDto> GetTourDateByIdAsync(string tourId, string tourDateId)
+        {
+            var tour = await _tourCollection.Find(x => x.Id == tourId).FirstOrDefaultAsync();
+
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
+            var tourDate = tour.TourDates.FirstOrDefault(x => x.Id == tourDateId);
+
+            if (tourDate == null)
+            {
+                throw new Exception("Tur tarihi bulunamadı!");
+            }
+
+            return _mapper.Map<ResultTourDateDto>(tourDate);
+        }
+
         public async Task UpdateTourProgramAsync(string tourId, UpdateTourProgramDto updateTourProgramDto)
         {
             var tour = await _tourCollection.Find(x => x.Id == tourId).FirstOrDefaultAsync();
 
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
             var tourProgram = tour.TourPrograms.FirstOrDefault(x => x.Id == updateTourProgramDto.Id);
+
+            if(tourProgram == null)
+            {
+                throw new Exception("Tur programı bulunamadı!");
+            }
 
             _mapper.Map(updateTourProgramDto, tourProgram);
 
-            await _tourCollection.FindOneAndReplaceAsync(x=>x.Id==tourId,tour);
-            
-            
+            await _tourCollection.FindOneAndReplaceAsync(x => x.Id == tourId, tour);
+
+
+        }
+
+        public async Task<ResultTourProgramDto> GetTourProgramByIdAsync(string tourId, string tourProgramId)
+        {
+            var tour = await _tourCollection
+                .Find(x => x.Id == tourId)
+                .FirstOrDefaultAsync();
+
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
+            var tourProgram = tour.TourPrograms
+                .FirstOrDefault(x => x.Id == tourProgramId);
+
+            if (tourProgram == null)
+            {
+                throw new Exception("Tur programı bulunamadı!");
+            }
+
+            return _mapper.Map<ResultTourProgramDto>(tourProgram);
         }
 
     }

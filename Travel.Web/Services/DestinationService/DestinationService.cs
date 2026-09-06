@@ -41,11 +41,24 @@ namespace Travel.Web.Services.DestinationService
         public async Task<ResultDestinationDto> GetByIdAsync(string id)
         {
             var destination = await _destinationCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (destination == null)
+            {
+                throw new Exception("Destinasyon bulunamadı!");
+            }
+
             return _mapper.Map<ResultDestinationDto>(destination);
         }
 
         public async Task UpdateAsync(UpdateDestinationDto updateDestinationDto)
         {
+            var existingDestination = await _destinationCollection.Find(x => x.Id == updateDestinationDto.Id).FirstOrDefaultAsync();
+
+            if (existingDestination == null)
+            {
+                throw new Exception("Destinasyon bulunamadı!");
+            }
+
             var destination = _mapper.Map<Destination>(updateDestinationDto);
             await _destinationCollection.FindOneAndReplaceAsync(x => x.Id == destination.Id, destination);
         }

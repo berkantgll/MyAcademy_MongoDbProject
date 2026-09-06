@@ -41,7 +41,7 @@ namespace Travel.Web.Services.RouteServices
         public async Task<List<ResultRouteDto>> GetAllByCityAsync(string city)
         {
             var routes = await _routeCollection.Find(x => x.City.ToLower().Contains(city.ToLower())).ToListAsync();
-
+         
             return _mapper.Map<List<ResultRouteDto>>(routes);
         }
 
@@ -49,11 +49,23 @@ namespace Travel.Web.Services.RouteServices
         {
             var route = await _routeCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
+            if(route == null)
+            {
+                throw new Exception("Rota bulunamadı!");
+            }
+
             return _mapper.Map<ResultRouteDto>(route);
         }
 
         public async Task UpdateAsync(UpdateRouteDto updateRouteDto)
         {
+            var existingRoute = await _routeCollection.Find(x => x.Id == updateRouteDto.Id).FirstOrDefaultAsync();
+
+            if(existingRoute == null)
+            {
+                throw new Exception("Rota bulunamadı!");
+            }
+
             var route = _mapper.Map<RouteEntity>(updateRouteDto);
             await _routeCollection.FindOneAndReplaceAsync(x => x.Id == route.Id, route);
         }
