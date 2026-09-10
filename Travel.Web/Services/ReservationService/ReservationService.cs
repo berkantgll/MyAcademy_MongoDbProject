@@ -103,5 +103,13 @@ namespace Travel.Web.Services.ReservationService
             await _reservationCollection.FindOneAndReplaceAsync(x => x.Id == reservation.Id, reservation);
            
         }
+
+        public async Task<int> GetReservationCountByTourIdAsync(string tourId)
+        {
+            var count = await _reservationCollection
+                .CountDocumentsAsync(x =>x.TourId==tourId);
+
+            return (int)count;
+        }
     }
 }

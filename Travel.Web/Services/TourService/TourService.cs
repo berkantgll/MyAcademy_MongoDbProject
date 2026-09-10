@@ -211,8 +211,27 @@ namespace Travel.Web.Services.TourService
 
         public async Task UpdateAsync(UpdateTourDto updateTourDto)
         {
-            var tour = _mapper.Map<Tour>(updateTourDto);
-            await _tourCollection.FindOneAndReplaceAsync(x => x.Id == tour.Id, tour);
+            var tour = await _tourCollection
+                .Find(x => x.Id == updateTourDto.Id)
+                .FirstOrDefaultAsync();
+
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
+            var tourDates = tour.TourDates;
+            var tourPrograms = tour.TourPrograms;
+
+            _mapper.Map(updateTourDto, tour);
+
+            tour.TourDates = tourDates;
+            tour.TourPrograms = tourPrograms;
+
+            await _tourCollection.FindOneAndReplaceAsync(
+                x => x.Id == tour.Id,
+                tour
+            );
         }
 
         public async Task UpdateTourDateAsync(string tourId, UpdateTourDateDto updateTourDateDto)

@@ -1,0 +1,817 @@
+﻿@using Travel.Web.DTOs.TourDtos
+@model UpdateTourDto
+
+@{
+    ViewData["Title"] = "Tur Düzenle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .content {
+        padding: 1.8rem;
+        flex: 1;
+        max-width: 1500px;
+    }
+
+    .crumb {
+        font-size: .8rem;
+        color: var(--muted);
+        margin-bottom: .4rem;
+    }
+
+        .crumb a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+            .crumb a:hover {
+                color: var(--teal-dark);
+            }
+
+        .crumb .cur {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+    .page-intro {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+    }
+
+        .page-intro h1 {
+            font-family: 'Sora';
+            font-weight: 700;
+            font-size: 1.7rem;
+            color: var(--navy);
+            margin: .15rem 0 .3rem;
+        }
+
+        .page-intro p {
+            color: var(--muted);
+            margin: 0;
+            font-size: .94rem;
+        }
+
+    .sec {
+        background: #fff;
+        border: 1px solid var(--line-2);
+        border-radius: var(--r);
+        box-shadow: var(--shadow-sm);
+        padding: 1.5rem 1.6rem;
+        margin-bottom: 1.3rem;
+    }
+
+    .sec-head {
+        margin-bottom: 1.2rem;
+    }
+
+        .sec-head h2 {
+            font-family: 'Sora';
+            font-weight: 700;
+            font-size: 1.12rem;
+            color: var(--navy);
+            margin: 0;
+        }
+
+        .sec-head p {
+            color: var(--muted);
+            font-size: .86rem;
+            margin: .4rem 0 0;
+        }
+
+    .field {
+        margin-bottom: 1rem;
+    }
+
+        .field label {
+            display: block;
+            font-size: .8rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: .35rem;
+        }
+
+    .req {
+        color: var(--cancel-fg);
+    }
+
+    .ctrl {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: var(--cream);
+        border-radius: 11px;
+        padding: .68rem .9rem;
+        font-size: .9rem;
+        color: var(--navy);
+        outline: none;
+        transition: .2s;
+        font-family: inherit;
+    }
+
+        .ctrl:focus {
+            border-color: var(--teal);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(15,163,163,.12);
+        }
+
+    textarea.ctrl {
+        resize: vertical;
+        min-height: 110px;
+    }
+
+    .text-danger {
+        font-size: .78rem;
+        margin-top: .3rem;
+        display: block;
+    }
+
+    .validation-summary-errors {
+        background: #fdf3f1;
+        border: 1px solid rgba(180,90,79,.3);
+        color: var(--cancel-fg);
+        border-radius: 12px;
+        padding: .85rem 1.1rem;
+        margin-bottom: 1.3rem;
+        font-size: .88rem;
+    }
+
+    .btn-teal {
+        background: var(--teal);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        font-weight: 600;
+        padding: .7rem 1.3rem;
+        font-size: .9rem;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        .btn-teal:hover {
+            background: var(--teal-dark);
+            color: #fff;
+        }
+
+    .btn-ghost {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font-weight: 600;
+        padding: .65rem 1.2rem;
+        font-size: .88rem;
+        color: var(--navy);
+        text-decoration: none;
+    }
+
+        .btn-ghost:hover {
+            border-color: var(--teal);
+            color: var(--teal-dark);
+        }
+
+    .btn-add {
+        background: rgba(15,163,163,.08);
+        border: 1px dashed rgba(15,163,163,.4);
+        color: var(--teal-dark);
+        border-radius: 11px;
+        font-weight: 600;
+        padding: .6rem 1rem;
+        font-size: .86rem;
+        cursor: pointer;
+    }
+
+    .btn-delete-row {
+        background: #fff;
+        border: 1px solid var(--line);
+        color: var(--cancel-fg);
+        border-radius: 10px;
+        padding: .55rem .8rem;
+        cursor: pointer;
+    }
+
+    .list-row {
+        background: var(--cream);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: .8rem;
+        margin-bottom: .7rem;
+    }
+
+    .status-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--cream);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1rem;
+    }
+
+        .status-box b {
+            display: block;
+            color: var(--navy);
+            font-family: 'Sora';
+            font-size: .9rem;
+        }
+
+        .status-box span {
+            color: var(--muted);
+            font-size: .78rem;
+        }
+
+    .action-bar {
+        position: sticky;
+        bottom: 0;
+        background: rgba(255,255,255,.94);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--line-2);
+        border-radius: 14px;
+        box-shadow: var(--shadow-md);
+        padding: .9rem 1.2rem;
+        display: flex;
+        justify-content: flex-end;
+        gap: .7rem;
+        margin-top: 1rem;
+    }
+
+    @@media(max-width:575px) {
+        .content {
+            padding: 1.1rem;
+        }
+    }
+</style>
+
+
+<div class="content">
+
+    <div class="crumb">
+
+        <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action="Index">
+            Dashboard
+        </a>
+
+        /
+
+        <a asp-area="Admin"
+               asp-controller="Tour"
+               asp-action="Index">
+            Turlar
+        </a>
+
+        /
+
+        <span class="cur">Tur Düzenle</span>
+
+    </div>
+
+
+    <div class="page-intro">
+
+        <div>
+            <h1>Tur Düzenle</h1>
+
+            <p>
+                Mevcut turun temel bilgilerini düzenleyebilirsiniz.
+                Tarih ve günlük program işlemleri tur detay ekranından yönetilir.
+            </p>
+        </div>
+
+        <a asp-area="Admin"
+               asp-controller="Tour"
+               asp-action="Index"
+               class="btn-ghost">
+            ← Turlara Dön
+        </a>
+
+    </div>
+
+
+    <form asp-area="Admin"
+          asp-controller="Tour"
+          asp-action="Update"
+          method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <div asp-validation-summary="ModelOnly"></div>
+
+
+        <!-- TEMEL BİLGİLER -->
+        <div class="sec">
+
+            <div class="sec-head">
+                <h2>Temel Bilgiler</h2>
+                <p>Turun temel bilgilerini güncelleyin.</p>
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Tur Adı <span class="req">*</span>
+                </label>
+
+                <input asp-for="TourName"
+                       class="ctrl"
+                       placeholder="Tur adı" />
+
+                <span asp-validation-for="TourName"
+                      class="text-danger"></span>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Açıklama <span class="req">*</span>
+                </label>
+
+                <textarea asp-for="Description"
+                          class="ctrl"
+                          rows="5"></textarea>
+
+                <span asp-validation-for="Description"
+                      class="text-danger"></span>
+
+            </div>
+
+
+            <div class="row g-3">
+
+                <div class="col-md-6 field">
+
+                    <label>
+                        Category Id <span class="req">*</span>
+                    </label>
+
+                    <select asp-for="CategoryId"
+                            asp-items="ViewBag.Categories"
+                            class="ctrl">
+
+                        <option value="">Kategori Seçiniz</option>
+
+                    </select>
+
+                    <span asp-validation-for="CategoryId"
+                          class="text-danger"></span>
+
+                </div>
+
+
+                <div class="col-md-6 field">
+
+                    <label>
+                        Destination Id <span class="req">*</span>
+                    </label>
+
+                    <select asp-for="DestinationId"
+                            asp-items="ViewBag.Destinations"
+                            class="ctrl">
+
+                        <option value="">Destinasyon Seçiniz</option>
+
+                    </select>
+
+                    <span asp-validation-for="DestinationId"
+                          class="text-danger"></span>
+
+                </div>
+
+            </div>
+
+
+            <div class="row g-3">
+
+                <div class="col-md-6 field">
+
+                    <label>Ülke</label>
+
+                    <input asp-for="Country"
+                           class="ctrl"
+                           placeholder="Ülke" />
+
+                    <span asp-validation-for="Country"
+                          class="text-danger"></span>
+
+                </div>
+
+
+                <div class="col-md-6 field">
+
+                    <label>Şehir</label>
+
+                    <input asp-for="City"
+                           class="ctrl"
+                           placeholder="Şehir" />
+
+                    <span asp-validation-for="City"
+                          class="text-danger"></span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FİYAT VE SÜRE -->
+        <div class="sec">
+
+            <div class="sec-head">
+                <h2>Fiyat & Süre</h2>
+                <p>Turun fiyat ve süre bilgilerini güncelleyin.</p>
+            </div>
+
+
+            <div class="row g-3">
+
+                <div class="col-md-4 field">
+
+                    <label>
+                        Kişi Başı Fiyat
+                        <span class="req">*</span>
+                    </label>
+
+                    <input asp-for="Price"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           class="ctrl" />
+
+                    <span asp-validation-for="Price"
+                          class="text-danger"></span>
+
+                </div>
+
+
+                <div class="col-md-4 field">
+
+                    <label>Gün</label>
+
+                    <input asp-for="Day"
+                           type="number"
+                           min="0"
+                           class="ctrl" />
+
+                    <span asp-validation-for="Day"
+                          class="text-danger"></span>
+
+                </div>
+
+
+                <div class="col-md-4 field">
+
+                    <label>Gece</label>
+
+                    <input asp-for="Night"
+                           type="number"
+                           min="0"
+                           class="ctrl" />
+
+                    <span asp-validation-for="Night"
+                          class="text-danger"></span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FEATURES -->
+        <div class="sec">
+
+            <div class="sec-head">
+                <h2>Tur Özellikleri</h2>
+                <p>Turun öne çıkan özelliklerini yönetin.</p>
+            </div>
+
+            <div id="featureList">
+
+                @if (Model.Features != null)
+                {
+                    for (int i = 0; i < Model.Features.Count; i++)
+                    {
+                        <div class="list-row">
+
+                            <div class="d-flex gap-2">
+
+                                <input class="ctrl"
+                                       name="Features[@i]"
+                                       value="@Model.Features[i]" />
+
+                                <button type="button"
+                                        class="btn-delete-row"
+                                        onclick="removeFeature(this)">
+                                    Sil
+                                </button>
+
+                            </div>
+
+                        </div>
+                    }
+                }
+
+            </div>
+
+            <button type="button"
+                    class="btn-add"
+                    onclick="addFeature()">
+                + Özellik Ekle
+            </button>
+
+        </div>
+
+
+        <!-- GÖRSELLER -->
+        <div class="sec">
+
+            <div class="sec-head">
+                <h2>Görseller</h2>
+                <p>Kapak ve galeri görsel adreslerini güncelleyin.</p>
+            </div>
+
+
+            <div class="field">
+
+                <label>Ana Kapak Görseli URL</label>
+
+                <input asp-for="CoverImageUrl"
+                       class="ctrl"
+                       placeholder="https://..." />
+
+                <span asp-validation-for="CoverImageUrl"
+                      class="text-danger"></span>
+
+            </div>
+
+
+            @if (!string.IsNullOrWhiteSpace(Model.CoverImageUrl))
+            {
+                <div class="mb-4">
+
+                    <img src="@Model.CoverImageUrl"
+                         alt="@Model.TourName"
+                         style="width:220px;
+                    height:130px;
+                    object-fit:cover;
+                    border-radius:12px;" />
+
+                </div>
+            }
+
+
+            <div class="field">
+
+                <label>Galeri Görselleri</label>
+
+                <div id="galleryList">
+
+                    @if (Model.GalleryImages != null)
+                    {
+                        for (int i = 0; i < Model.GalleryImages.Count; i++)
+                        {
+                            <div class="list-row">
+
+                                <div class="d-flex gap-2">
+
+                                    <input class="ctrl"
+                                           name="GalleryImages[@i]"
+                                           value="@Model.GalleryImages[i]" />
+
+                                    <button type="button"
+                                            class="btn-delete-row"
+                                            onclick="removeGalleryImage(this)">
+                                        Sil
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        }
+                    }
+
+                </div>
+
+                <button type="button"
+                        class="btn-add"
+                        onclick="addGalleryImage()">
+                    + Galeri Görseli Ekle
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- DURUM -->
+        <div class="sec">
+
+            <div class="sec-head">
+                <h2>Yayın Durumu</h2>
+            </div>
+
+
+            <div class="status-box">
+
+                <div>
+
+                    <b>Tur Durumu</b>
+
+                    <span>
+                        Turun aktif veya pasif durumunu belirleyin.
+                    </span>
+
+                </div>
+
+
+                <div style="width:180px">
+
+                    <select asp-for="IsActive"
+                            class="ctrl">
+
+                        <option value="true">
+                            Aktif
+                        </option>
+
+                        <option value="false">
+                            Pasif
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUTONLAR -->
+        <div class="action-bar">
+
+            <a asp-area="Admin"
+                   asp-controller="Tour"
+                   asp-action="Index"
+                   class="btn-ghost">
+                İptal
+            </a>
+
+            <button type="submit"
+                    class="btn-teal">
+                Değişiklikleri Kaydet
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<script>
+
+    let featureIndex =
+        document.querySelectorAll(
+            "#featureList .list-row"
+        ).length;
+
+
+    let galleryIndex =
+        document.querySelectorAll(
+            "#galleryList .list-row"
+        ).length;
+
+
+
+    function addFeature() {
+
+        const html = `
+
+            <div class="list-row">
+
+                <div class="d-flex gap-2">
+
+                    <input class="ctrl"
+                           name="Features[${featureIndex}]"
+                           placeholder="Örn. Profesyonel rehberlik" />
+
+                    <button type="button"
+                            class="btn-delete-row"
+                            onclick="removeFeature(this)">
+                        Sil
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        document
+            .getElementById("featureList")
+            .insertAdjacentHTML("beforeend", html);
+
+        featureIndex++;
+
+    }
+
+
+    function removeFeature(button) {
+
+        button
+            .closest(".list-row")
+            .remove();
+
+        reIndexFeatures();
+
+    }
+
+
+    function reIndexFeatures() {
+
+        const rows =
+            document.querySelectorAll(
+                "#featureList .list-row"
+            );
+
+        rows.forEach((row, index) => {
+
+            row.querySelector("input").name =
+                `Features[${index}]`;
+
+        });
+
+        featureIndex = rows.length;
+
+    }
+
+
+
+    function addGalleryImage() {
+
+        const html = `
+
+            <div class="list-row">
+
+                <div class="d-flex gap-2">
+
+                    <input class="ctrl"
+                           name="GalleryImages[${galleryIndex}]"
+                           placeholder="https://..." />
+
+                    <button type="button"
+                            class="btn-delete-row"
+                            onclick="removeGalleryImage(this)">
+                        Sil
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        document
+            .getElementById("galleryList")
+            .insertAdjacentHTML("beforeend", html);
+
+        galleryIndex++;
+
+    }
+
+
+    function removeGalleryImage(button) {
+
+        button
+            .closest(".list-row")
+            .remove();
+
+        reIndexGallery();
+
+    }
+
+
+    function reIndexGallery() {
+
+        const rows =
+            document.querySelectorAll(
+                "#galleryList .list-row"
+            );
+
+        rows.forEach((row, index) => {
+
+            row.querySelector("input").name =
+                `GalleryImages[${index}]`;
+
+        });
+
+        galleryIndex = rows.length;
+
+    }
+
+</script>

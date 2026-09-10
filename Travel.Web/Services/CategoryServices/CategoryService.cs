@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using Travel.Web.DTOs.CategoryDtos;
 using Travel.Web.Entitites;
@@ -33,8 +32,11 @@ namespace Travel.Web.Services.CategoryServices
 
         public async Task<List<ResultCategoryDto>> GetAllAsync()
         {
-            var category = await _categoryCollection.AsQueryable().ToListAsync();
-            return _mapper.Map<List<ResultCategoryDto>>(category);
+            var categories = await _categoryCollection
+                .Find(x => true)
+                .ToListAsync();
+
+            return _mapper.Map<List<ResultCategoryDto>>(categories);
         }
 
         public async Task<ResultCategoryDto> GetByIdAsync(string id)

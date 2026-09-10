@@ -33,11 +33,12 @@ namespace Travel.Web.Services.DestinationService
 
         public async Task<List<ResultDestinationDto>> GetAllAsync()
         {
-            var destination = await _destinationCollection.AsQueryable().ToListAsync();
-            return _mapper.Map<List<ResultDestinationDto>>(destination);
-            
-        }
+            var destinations = await _destinationCollection
+                .Find(x => true)
+                .ToListAsync();
 
+            return _mapper.Map<List<ResultDestinationDto>>(destinations);
+        }
         public async Task<ResultDestinationDto> GetByIdAsync(string id)
         {
             var destination = await _destinationCollection.Find(x => x.Id == id).FirstOrDefaultAsync();

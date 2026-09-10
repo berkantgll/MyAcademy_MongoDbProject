@@ -1,0 +1,833 @@
+﻿@using Travel.Web.DTOs.TourDtos
+@using System.Linq
+@model ResultTourDto
+
+@{
+    ViewData["Title"] = "Tur Detayları";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .content {
+        padding: 1.8rem;
+        flex: 1;
+        max-width: 1500px;
+    }
+
+    .crumb {
+        font-size: .8rem;
+        color: var(--muted);
+        margin-bottom: .5rem;
+    }
+
+        .crumb a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+            .crumb a:hover {
+                color: var(--teal-dark);
+            }
+
+        .crumb .cur {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+    .page-intro {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+    }
+
+        .page-intro h1 {
+            font-family: 'Sora';
+            font-weight: 700;
+            font-size: 1.7rem;
+            color: var(--navy);
+            margin: .15rem 0 .3rem;
+        }
+
+        .page-intro p {
+            color: var(--muted);
+            margin: 0;
+            font-size: .94rem;
+        }
+
+    .buttons {
+        display: flex;
+        gap: .6rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-teal {
+        background: var(--teal);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        font-weight: 600;
+        padding: .7rem 1.2rem;
+        font-size: .88rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+    }
+
+        .btn-teal:hover {
+            background: var(--teal-dark);
+            color: #fff;
+        }
+
+    .btn-ghost {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font-weight: 600;
+        padding: .65rem 1.15rem;
+        font-size: .88rem;
+        color: var(--navy);
+        text-decoration: none;
+    }
+
+        .btn-ghost:hover {
+            border-color: var(--teal);
+            color: var(--teal-dark);
+        }
+
+    .sec {
+        background: #fff;
+        border: 1px solid var(--line-2);
+        border-radius: var(--r);
+        box-shadow: var(--shadow-sm);
+        padding: 1.5rem;
+        margin-bottom: 1.3rem;
+    }
+
+    .sec-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.2rem;
+        flex-wrap: wrap;
+    }
+
+        .sec-head h2 {
+            font-family: 'Sora';
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--navy);
+            margin: 0;
+        }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+    }
+
+    .info-box {
+        background: var(--cream);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1rem;
+    }
+
+        .info-box span {
+            display: block;
+            font-size: .75rem;
+            color: var(--muted);
+            margin-bottom: .3rem;
+        }
+
+        .info-box b {
+            color: var(--navy);
+            font-family: 'Sora';
+            font-size: .9rem;
+        }
+
+    .cover-wrap {
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-start;
+    }
+
+    .cover-image {
+        width: 300px;
+        height: 190px;
+        border-radius: 14px;
+        object-fit: cover;
+        border: 1px solid var(--line);
+        flex: none;
+    }
+
+    .cover-empty {
+        width: 300px;
+        height: 190px;
+        border-radius: 14px;
+        background: var(--cream);
+        border: 1px dashed var(--line);
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        flex: none;
+    }
+
+    .description {
+        color: var(--muted);
+        font-size: .9rem;
+        line-height: 1.7;
+    }
+
+    .badge-active,
+    .badge-passive {
+        display: inline-flex;
+        align-items: center;
+        padding: .3rem .7rem;
+        border-radius: 999px;
+        font-size: .76rem;
+        font-weight: 600;
+    }
+
+    .badge-active {
+        background: var(--ok-bg);
+        color: var(--ok-fg);
+    }
+
+    .badge-passive {
+        background: var(--cancel-bg);
+        color: var(--cancel-fg);
+    }
+
+    .feature-wrap {
+        display: flex;
+        gap: .5rem;
+        flex-wrap: wrap;
+    }
+
+    .feature {
+        background: var(--cream);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: .35rem .75rem;
+        font-size: .8rem;
+        color: var(--navy);
+    }
+
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .8rem;
+    }
+
+        .gallery img {
+            width: 160px;
+            height: 105px;
+            border-radius: 11px;
+            object-fit: cover;
+            border: 1px solid var(--line);
+        }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    .tx {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .tx th {
+            text-align: left;
+            padding: .75rem .9rem;
+            border-bottom: 1px solid var(--line);
+            font-size: .74rem;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .tx td {
+            padding: .85rem .9rem;
+            border-bottom: 1px solid var(--line-2);
+            font-size: .88rem;
+            color: var(--navy);
+            vertical-align: middle;
+        }
+
+        .tx tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+    .action-buttons {
+        display: flex;
+        gap: .45rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-small {
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 9px;
+        padding: .4rem .7rem;
+        font-size: .78rem;
+        font-weight: 600;
+        color: var(--navy);
+        text-decoration: none;
+    }
+
+        .btn-small:hover {
+            border-color: var(--teal);
+            color: var(--teal-dark);
+        }
+
+        .btn-small.delete {
+            color: var(--cancel-fg);
+        }
+
+            .btn-small.delete:hover {
+                background: var(--cancel-bg);
+                border-color: var(--cancel-fg);
+            }
+
+    .empty {
+        text-align: center;
+        padding: 2rem;
+        color: var(--muted);
+        font-size: .88rem;
+    }
+
+    @@media(max-width:1000px) {
+        .info-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .cover-wrap {
+            flex-direction: column;
+        }
+    }
+
+    @@media(max-width:575px) {
+        .content {
+            padding: 1.1rem;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .cover-image,
+        .cover-empty {
+            width: 100%;
+        }
+    }
+</style>
+
+
+<div class="content">
+
+    <div class="crumb">
+
+        <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action="Index">
+            Dashboard
+        </a>
+
+        /
+
+        <a asp-area="Admin"
+               asp-controller="Tour"
+               asp-action="Index">
+            Turlar
+        </a>
+
+        /
+
+        <span class="cur">@Model.TourName</span>
+
+    </div>
+
+
+    <div class="page-intro">
+
+        <div>
+
+            <h1>@Model.TourName</h1>
+
+            <p>
+                Tur bilgileri, kalkış tarihleri ve günlük program yönetimi.
+            </p>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <a asp-area="Admin"
+                   asp-controller="Tour"
+                   asp-action="Index"
+                   class="btn-ghost">
+                ← Turlara Dön
+            </a>
+
+            <a asp-area="Admin"
+                   asp-controller="Tour"
+                   asp-action="Update"
+                   asp-route-id="@Model.Id"
+                   class="btn-teal">
+                Turu Düzenle
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ANA BİLGİLER -->
+    <div class="sec">
+
+        <div class="sec-head">
+            <h2>Tur Bilgileri</h2>
+
+            @if (Model.IsActive)
+            {
+                <span class="badge-active">
+                    Aktif
+                </span>
+            }
+            else
+            {
+                <span class="badge-passive">
+                    Pasif
+                </span>
+            }
+
+        </div>
+
+
+        <div class="cover-wrap">
+
+            @if (!string.IsNullOrWhiteSpace(Model.CoverImageUrl))
+            {
+                <img src="@Model.CoverImageUrl"
+                     class="cover-image"
+                     alt="@Model.TourName" />
+            }
+            else
+            {
+                <div class="cover-empty">
+                    Kapak görseli yok
+                </div>
+            }
+
+
+            <div style="flex:1">
+
+                <div class="info-grid">
+
+                    <div class="info-box">
+                        <span>Ülke</span>
+                        <b>@Model.Country</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Şehir</span>
+                        <b>@Model.City</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Fiyat</span>
+                        <b>@Model.Price.ToString("N0") TL</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Süre</span>
+                        <b>
+                            @Model.Day Gün /
+                            @Model.Night Gece
+                        </b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Category Id</span>
+                        <b>@Model.CategoryId</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Destination Id</span>
+                        <b>@Model.DestinationId</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Tur Tarihi Sayısı</span>
+                        <b>@(Model.TourDates?.Count ?? 0)</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Program Günü</span>
+                        <b>@(Model.TourPrograms?.Count ?? 0)</b>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="mt-4">
+
+            <h6 style="font-family:'Sora';color:var(--navy)">
+                Açıklama
+            </h6>
+
+            <div class="description">
+                @Model.Description
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FEATURES -->
+    <div class="sec">
+
+        <div class="sec-head">
+            <h2>Tur Özellikleri</h2>
+        </div>
+
+
+        @if (Model.Features != null && Model.Features.Any())
+        {
+            <div class="feature-wrap">
+
+                @foreach (var feature in Model.Features)
+                {
+                    <span class="feature">
+                        @feature
+                    </span>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="empty">
+                Bu tur için özellik eklenmemiş.
+            </div>
+        }
+
+    </div>
+
+
+    <!-- GALLERY -->
+    <div class="sec">
+
+        <div class="sec-head">
+            <h2>Galeri</h2>
+        </div>
+
+
+        @if (Model.GalleryImages != null &&
+             Model.GalleryImages.Any())
+        {
+            <div class="gallery">
+
+                @foreach (var image in Model.GalleryImages)
+                {
+                    <img src="@image"
+                         alt="@Model.TourName" />
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="empty">
+                Galeri görseli bulunmuyor.
+            </div>
+        }
+
+    </div>
+
+
+    <!-- TOUR DATES -->
+    <div class="sec">
+
+        <div class="sec-head">
+
+            <div>
+                <h2>Tur Tarihleri</h2>
+            </div>
+
+            <a asp-area="Admin"
+                   asp-controller="Tour"
+                   asp-action="AddTourDate"
+                   asp-route-tourId="@Model.Id"
+                   class="btn-teal">
+                + Yeni Tarih Ekle
+            </a>
+
+        </div>
+
+
+        @if (Model.TourDates != null &&
+             Model.TourDates.Any())
+        {
+            <div class="table-wrap">
+
+                <table class="tx">
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>Tarih</th>
+                            <th>Kontenjan</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @{
+                            var dateNumber = 1;
+                        }
+
+                        @foreach (var tourDate in Model.TourDates
+                            .OrderBy(x => x.Date))
+                        {
+                            <tr>
+
+                                <td>
+                                    @dateNumber
+                                </td>
+
+                                <td>
+                                    @tourDate.Date.ToString("dd.MM.yyyy")
+                                </td>
+
+                                <td>
+                                    @tourDate.Capacity
+                                </td>
+
+                                <td>
+
+                                    @if (tourDate.Date >= DateTime.Today)
+                                    {
+                                        <span class="badge-active">
+                                            Yaklaşan
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-passive">
+                                            Geçmiş
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <a asp-area="Admin"
+                                               asp-controller="Tour"
+                                               asp-action="UpdateTourDate"
+                                               asp-route-tourId="@Model.Id"
+                                               asp-route-tourDateId="@tourDate.Id"
+                                               class="btn-small">
+
+                                            Düzenle
+
+                                        </a>
+
+
+                                        <a asp-area="Admin"
+                                               asp-controller="Tour"
+                                               asp-action="DeleteTourDate"
+                                               asp-route-tourId="@Model.Id"
+                                               asp-route-tourDateId="@tourDate.Id"
+                                               class="btn-small delete"
+                                               onclick="return confirm('Bu tur tarihini silmek istediğinize emin misiniz?')">
+
+                                            Sil
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            dateNumber++;
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="empty">
+                Henüz tur tarihi eklenmemiş.
+            </div>
+        }
+
+    </div>
+
+
+    <!-- TOUR PROGRAM -->
+    <div class="sec">
+
+        <div class="sec-head">
+
+            <div>
+                <h2>Gün Gün Tur Programı</h2>
+            </div>
+
+            <a asp-area="Admin"
+                   asp-controller="Tour"
+                   asp-action="AddTourProgram"
+                   asp-route-tourId="@Model.Id"
+                   class="btn-teal">
+
+                + Yeni Program Ekle
+
+            </a>
+
+        </div>
+
+
+        @if (Model.TourPrograms != null &&
+             Model.TourPrograms.Any())
+        {
+            <div class="table-wrap">
+
+                <table class="tx">
+
+                    <thead>
+
+                        <tr>
+                            <th>Gün</th>
+                            <th>Başlık</th>
+                            <th>Şehir</th>
+                            <th>Ulaşım</th>
+                            <th>Öğün</th>
+                            <th>İşlemler</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var program in Model.TourPrograms
+                            .OrderBy(x => x.DayNumber))
+                        {
+                            <tr>
+
+                                <td>
+                                    @($"{program.DayNumber}. Gün")
+                                </td>
+
+                                <td>
+                                    <b>@program.Title</b>
+                                </td>
+
+                                <td>
+                                    @program.City
+                                </td>
+
+                                <td>
+                                    @program.Transport
+                                </td>
+
+                                <td>
+                                    @program.Meal
+                                </td>
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <a asp-area="Admin"
+                                               asp-controller="Tour"
+                                               asp-action="UpdateTourProgram"
+                                               asp-route-tourId="@Model.Id"
+                                               asp-route-tourProgramId="@program.Id"
+                                               class="btn-small">
+
+                                            Düzenle
+
+                                        </a>
+
+
+                                        <a asp-area="Admin"
+                                               asp-controller="Tour"
+                                               asp-action="DeleteTourProgram"
+                                               asp-route-tourId="@Model.Id"
+                                               asp-route-tourProgramId="@program.Id"
+                                               class="btn-small delete"
+                                               onclick="return confirm('Bu program gününü silmek istediğinize emin misiniz?')">
+
+                                            Sil
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td></td>
+
+                                <td colspan="5">
+
+                                    <div style="font-size:.82rem;
+                                        color:var(--muted);
+                                        line-height:1.6;">
+
+                                        @program.Description
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="empty">
+                Henüz günlük program eklenmemiş.
+            </div>
+        }
+
+    </div>
+
+</div>

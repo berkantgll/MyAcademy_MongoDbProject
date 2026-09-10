@@ -1,0 +1,91 @@
+﻿@using Travel.Web.DTOs.TourDtos
+@model CreateTourDateDto
+
+@{
+    ViewData["Title"] = "Tur Tarihi Ekle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .form-shell{max-width:1000px}
+    .sec{background:#fff;border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:1.5rem}
+    .field{margin-bottom:1rem}
+    .field label{display:block;font-size:.8rem;font-weight:600;color:var(--navy);margin-bottom:.35rem}
+    .ctrl{width:100%;border:1px solid var(--line);background:var(--cream);border-radius:11px;padding:.7rem .9rem;outline:none;color:var(--navy)}
+    .ctrl:focus{border-color:var(--teal);background:#fff}
+    .btn-teal{background:var(--teal);color:#fff;border:none;border-radius:999px;padding:.7rem 1.3rem;font-weight:600}
+    .btn-ghost{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.7rem 1.3rem;color:var(--navy);text-decoration:none}
+    .text-danger{font-size:.78rem}
+</style>
+
+<div class="content">
+    <div class="form-shell">
+
+        <h1 style="font-family:Sora;color:var(--navy);font-size:1.7rem;">
+            Yeni Tur Tarihi
+        </h1>
+
+        <p style="color:var(--muted)">
+            Tura yeni kalkış tarihi ve kontenjan ekleyin.
+        </p>
+
+        <div class="sec mt-4">
+
+            <form asp-area="Admin"
+                  asp-controller="Tour"
+                  asp-action="AddTourDate"
+                  method="post">
+
+                <input type="hidden"
+                       name="tourId"
+                       value="@ViewBag.TourId" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3"></div>
+
+                <div class="field">
+                    <label>Tarih</label>
+
+                    <input asp-for="Date"
+                           type="date"
+                           class="ctrl" />
+
+                    <span asp-validation-for="Date"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="field">
+                    <label>Kontenjan</label>
+
+                    <input asp-for="Capacity"
+                           type="number"
+                           min="0"
+                           class="ctrl" />
+
+                    <span asp-validation-for="Capacity"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+
+                    <a asp-area="Admin"
+                       asp-controller="Tour"
+                       asp-action="Details"
+                       asp-route-id="@ViewBag.TourId"
+                       class="btn-ghost">
+                        İptal
+                    </a>
+
+                    <button type="submit"
+                            class="btn-teal">
+                        Tarihi Ekle
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

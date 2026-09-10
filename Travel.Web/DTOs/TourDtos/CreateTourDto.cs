@@ -21,7 +21,7 @@
         public List<string> GalleryImages { get; set; } = new();
         public List<string> Features { get; set; } = new();
 
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         public List<CreateTourDateDto> TourDates { get; set; } = new();
         public List<CreateTourProgramDto> TourPrograms { get; set; } = new();
