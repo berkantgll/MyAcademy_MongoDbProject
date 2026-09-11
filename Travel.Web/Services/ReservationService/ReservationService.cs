@@ -51,7 +51,7 @@ namespace Travel.Web.Services.ReservationService
                 throw new Exception("Kapasite yetersiz!");
             }
 
-            reservation.TotalPrice = (reservation.AdultCount * tour.Price) + (reservation.ChildCount * (tour.Price/2));
+            reservation.TotalPrice = (reservation.AdultCount * tour.Price) + (reservation.ChildCount * (tour.Price / 2));
 
             reservation.ReservationDate = DateTime.Now;
 
@@ -101,15 +101,103 @@ namespace Travel.Web.Services.ReservationService
             reservation.Status = updateReservationDto.Status;
 
             await _reservationCollection.FindOneAndReplaceAsync(x => x.Id == reservation.Id, reservation);
-           
+
         }
 
         public async Task<int> GetReservationCountByTourIdAsync(string tourId)
         {
             var count = await _reservationCollection
-                .CountDocumentsAsync(x =>x.TourId==tourId);
+                .CountDocumentsAsync(x => x.TourId == tourId);
 
             return (int)count;
         }
+
+        public async Task ApproveAsync(string id)
+        {
+            var reservation = await _reservationCollection
+                .Find(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (reservation == null)
+            {
+                throw new Exception("Rezervasyon bulunamadı!");
+            }
+
+            if (reservation.Status == "İptal Edildi")
+            {
+                throw new Exception("İptal edilmiş rezervasyon onaylanamaz!");
+            }
+
+            if (reservation.Status == "Onaylandı")
+            {
+                return;
+            }
+
+            var update = Builders<Reservation>.Update
+                .Set(x => x.Status, "Onaylandı");
+
+            await _reservationCollection.UpdateOneAsync(
+                x => x.Id == id,
+                update
+            );
+        }
+
+        public async Task CancelAsync(string id)
+        {
+            var reservation = await _reservationCollection
+                .Find(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (reservation == null)
+            {
+                throw new Exception("Rezervasyon bulunamadı!");
+            }
+
+            // Aynı rezervasyon ikinci kez iptal edilirse
+            // kontenjan ikinci kez artırılmasın.
+            if (reservation.Status == "İptal Edildi")
+            {
+                return;
+            }
+
+            var tour = await _tourCollection
+                .Find(x => x.Id == reservation.TourId)
+                .FirstOrDefaultAsync();
+
+            if (tour == null)
+            {
+                throw new Exception("Tur bulunamadı!");
+            }
+
+            var tourDate = tour.TourDates
+                .FirstOrDefault(x =>
+                    x.Date.Date == reservation.SelectedTourDate.Date);
+
+            if (tourDate == null)
+            {
+                throw new Exception("Rezervasyona ait tur tarihi bulunamadı!");
+            }
+
+            var totalPerson =
+                reservation.AdultCount +
+                reservation.ChildCount;
+
+            // Rezervasyon yapılırken düşürdüğümüz kapasiteyi geri veriyoruz.
+            tourDate.Capacity += totalPerson;
+
+            await _tourCollection.FindOneAndReplaceAsync(
+                x => x.Id == tour.Id,
+                tour
+            );
+
+            var update = Builders<Reservation>.Update
+                .Set(x => x.Status, "İptal Edildi");
+
+            await _reservationCollection.UpdateOneAsync(
+                x => x.Id == reservation.Id,
+                update
+            );
+        }
     }
 }
+

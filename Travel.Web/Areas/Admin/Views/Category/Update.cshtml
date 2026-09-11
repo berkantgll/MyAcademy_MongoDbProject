@@ -1,0 +1,53 @@
+﻿@using Travel.Web.DTOs.CategoryDtos
+@model UpdateCategoryDto
+
+@{
+    ViewData["Title"] = "Kategori Güncelle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content" style="padding:1.8rem;max-width:1000px">
+
+    <h1 style="font-family:Sora;color:var(--navy)">
+        Kategori Güncelle
+    </h1>
+
+    <div class="mt-4 p-4 bg-white rounded-4 border">
+
+        <form asp-area="Admin"
+              asp-controller="Category"
+              asp-action="Update"
+              method="post">
+
+            <input type="hidden"
+                   asp-for="Id" />
+
+            <label class="form-label">
+                Kategori Adı
+            </label>
+
+            <input asp-for="CategoryName"
+                   class="form-control mb-2" />
+
+            <span asp-validation-for="CategoryName"
+                  class="text-danger"></span>
+
+            <div class="mt-4 d-flex gap-2">
+
+                <a asp-action="Index"
+                       class="btn btn-light">
+                    İptal
+                </a>
+
+                <button type="submit"
+                        class="btn btn-success">
+                    Güncelle
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

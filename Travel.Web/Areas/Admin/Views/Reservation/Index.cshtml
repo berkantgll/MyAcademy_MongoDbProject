@@ -1,0 +1,577 @@
+﻿@using Travel.Web.Areas.Admin.Models
+@model List<AdminReservationListViewModel>
+
+@{
+    ViewData["Title"] = "Rezervasyon Yönetimi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    var reservations =
+        Model ?? new List<AdminReservationListViewModel>();
+
+    var totalCount =
+        reservations.Count;
+
+    var approvedCount =
+        reservations.Count(x =>
+            x.Reservation.Status == "Onaylandı");
+
+    var cancelledCount =
+        reservations.Count(x =>
+            x.Reservation.Status == "İptal Edildi");
+
+    var pendingCount =
+        reservations.Count(x =>
+            x.Reservation.Status != "Onaylandı" &&
+            x.Reservation.Status != "İptal Edildi");
+}
+
+<style>
+
+    .content {
+        padding: 1.8rem;
+        max-width: 1500px;
+    }
+
+    .crumb {
+        font-size: .8rem;
+        color: var(--muted);
+        margin-bottom: .4rem;
+    }
+
+        .crumb a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .crumb .cur {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+    .page-intro {
+        margin-bottom: 1.5rem;
+    }
+
+        .page-intro h1 {
+            font-family: 'Sora';
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: .3rem;
+        }
+
+        .page-intro p {
+            color: var(--muted);
+            margin: 0;
+            font-size: .9rem;
+        }
+
+    .kpi {
+        background: #fff;
+        border: 1px solid var(--line-2);
+        border-radius: var(--r);
+        box-shadow: var(--shadow-sm);
+        padding: 1rem;
+        height: 100%;
+    }
+
+        .kpi .num {
+            font-family: 'Sora';
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--navy);
+        }
+
+        .kpi .lab {
+            font-size: .8rem;
+            color: var(--muted);
+        }
+
+    .filter-card {
+        background: #fff;
+        border: 1px solid var(--line-2);
+        border-radius: var(--r);
+        box-shadow: var(--shadow-sm);
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .ctrl {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: var(--cream);
+        border-radius: 10px;
+        padding: .65rem .85rem;
+        outline: none;
+        font-size: .87rem;
+    }
+
+        .ctrl:focus {
+            border-color: var(--teal);
+            background: #fff;
+        }
+
+    .table-card {
+        background: #fff;
+        border: 1px solid var(--line-2);
+        border-radius: var(--r);
+        box-shadow: var(--shadow-sm);
+        overflow: visible;
+    }
+
+    .tx {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .tx th {
+            padding: .8rem 1rem;
+            border-bottom: 1px solid var(--line);
+            color: var(--muted);
+            font-size: .72rem;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .tx td {
+            padding: .9rem 1rem;
+            border-bottom: 1px solid var(--line-2);
+            color: var(--navy);
+            font-size: .85rem;
+            vertical-align: middle;
+        }
+
+        .tx tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tx tbody tr:hover {
+            background: var(--cream);
+        }
+
+    .tour-name {
+        font-family: 'Sora';
+        font-weight: 600;
+    }
+
+    .badge-x {
+        display: inline-flex;
+        padding: .3rem .65rem;
+        border-radius: 999px;
+        font-size: .73rem;
+        font-weight: 600;
+    }
+
+    .approved {
+        background: var(--ok-bg);
+        color: var(--ok-fg);
+    }
+
+    .cancelled {
+        background: var(--cancel-bg);
+        color: var(--cancel-fg);
+    }
+
+    .pending {
+        background: #fff7df;
+        color: #9a6a00;
+    }
+
+    .actions {
+        display: flex;
+        gap: .4rem;
+    }
+
+    .btn-action {
+        border: 1px solid var(--line);
+        background: #fff;
+        padding: .4rem .65rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: .76rem;
+        font-weight: 600;
+    }
+
+    .btn-approve {
+        color: var(--teal-dark);
+    }
+
+        .btn-approve:hover {
+            background: rgba(15,163,163,.08);
+            color: var(--teal-dark);
+        }
+
+    .btn-cancel {
+        color: var(--cancel-fg);
+    }
+
+        .btn-cancel:hover {
+            background: var(--cancel-bg);
+            color: var(--cancel-fg);
+        }
+
+    .empty {
+        padding: 3rem;
+        text-align: center;
+        color: var(--muted);
+    }
+
+</style>
+
+<div class="content">
+
+    <div class="crumb">
+
+        <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action="Index">
+            Dashboard
+        </a>
+
+        /
+
+        <span class="cur">
+            Rezervasyonlar
+        </span>
+
+    </div>
+
+    <div class="page-intro">
+
+        <h1>
+            Rezervasyon Yönetimi
+        </h1>
+
+        <p>
+            Gelen rezervasyonları görüntüleyebilir,
+            onaylayabilir veya iptal edebilirsiniz.
+        </p>
+
+    </div>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-6 col-lg-3">
+
+            <div class="kpi">
+
+                <div class="num">
+                    @totalCount
+                </div>
+
+                <div class="lab">
+                    Toplam Rezervasyon
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-6 col-lg-3">
+
+            <div class="kpi">
+
+                <div class="num">
+                    @pendingCount
+                </div>
+
+                <div class="lab">
+                    Bekleyen
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-6 col-lg-3">
+
+            <div class="kpi">
+
+                <div class="num">
+                    @approvedCount
+                </div>
+
+                <div class="lab">
+                    Onaylanan
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-6 col-lg-3">
+
+            <div class="kpi">
+
+                <div class="num">
+                    @cancelledCount
+                </div>
+
+                <div class="lab">
+                    İptal Edilen
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="filter-card">
+
+        <div class="row g-2">
+
+            <div class="col-md-8">
+
+                <input type="text"
+                       id="search"
+                       class="ctrl"
+                       placeholder="Tur veya kullanıcı ara..." />
+
+            </div>
+
+            <div class="col-md-4">
+
+                <select id="statusFilter"
+                        class="ctrl">
+
+                    <option value="">
+                        Tüm Durumlar
+                    </option>
+
+                    <option value="Bekliyor">
+                        Bekliyor
+                    </option>
+
+                    <option value="Onaylandı">
+                        Onaylandı
+                    </option>
+
+                    <option value="İptal Edildi">
+                        İptal Edildi
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="table-card">
+
+        @if (reservations.Any())
+        {
+            <table class="tx">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Tur</th>
+
+                        <th>Kullanıcı</th>
+
+                        <th>Tur Tarihi</th>
+
+                        <th>Kişi</th>
+
+                        <th>Toplam</th>
+
+                        <th>Rezervasyon Tarihi</th>
+
+                        <th>Durum</th>
+
+                        <th>İşlemler</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="reservationRows">
+
+                    @foreach (var item in reservations)
+                    {
+                        var reservation =
+                            item.Reservation;
+
+                        var totalPerson =
+                            reservation.AdultCount +
+                            reservation.ChildCount;
+
+                        var statusClass =
+                            reservation.Status == "Onaylandı"
+                                ? "approved"
+                                : reservation.Status == "İptal Edildi"
+                                    ? "cancelled"
+                                    : "pending";
+
+                        <tr class="reservation-row"
+                            data-tour="@item.TourName"
+                            data-user="@reservation.UserId"
+                            data-status="@reservation.Status">
+
+                            <td>
+                                <span class="tour-name">
+                                    @item.TourName
+                                </span>
+                            </td>
+
+                            <td>
+                                @reservation.UserId
+                            </td>
+
+                            <td>
+                                @reservation.SelectedTourDate.ToString("dd.MM.yyyy")
+                            </td>
+
+                            <td>
+
+                                @totalPerson kişi
+
+                                <div style="font-size:.72rem;color:var(--muted)">
+                                    @reservation.AdultCount yetişkin /
+                                    @reservation.ChildCount çocuk
+                                </div>
+
+                            </td>
+
+                            <td style="font-weight:600;">
+                                @reservation.TotalPrice.ToString("N0") TL
+                            </td>
+
+                            <td>
+                                @reservation.ReservationDate.ToString("dd.MM.yyyy")
+                            </td>
+
+                            <td>
+
+                                <span class="badge-x @statusClass">
+                                    @reservation.Status
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <div class="actions">
+
+                                    @if (reservation.Status != "Onaylandı")
+                                    {
+                                        <a asp-area="Admin"
+                                               asp-controller="Reservation"
+                                               asp-action="Approve"
+                                               asp-route-id="@reservation.Id"
+                                               class="btn-action btn-approve">
+
+                                            Onayla
+
+                                        </a>
+                                    }
+
+                                    @if (reservation.Status != "İptal Edildi")
+                                    {
+                                        <a asp-area="Admin"
+                                               asp-controller="Reservation"
+                                               asp-action="Cancel"
+                                               asp-route-id="@reservation.Id"
+                                               class="btn-action btn-cancel">
+
+                                            İptal Et
+
+                                        </a>
+                                    }
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        }
+        else
+        {
+            <div class="empty">
+                Henüz rezervasyon bulunmuyor.
+            </div>
+        }
+
+    </div>
+
+</div>
+
+<script>
+
+    const search =
+        document.getElementById("search");
+
+    const statusFilter =
+        document.getElementById("statusFilter");
+
+
+    function applyFilters() {
+
+        const searchValue =
+            (search.value || "")
+                .toLocaleLowerCase("tr-TR");
+
+        const statusValue =
+            statusFilter.value;
+
+
+        document
+            .querySelectorAll(".reservation-row")
+            .forEach(row => {
+
+                const tour =
+                    (row.dataset.tour || "")
+                        .toLocaleLowerCase("tr-TR");
+
+                const user =
+                    (row.dataset.user || "")
+                        .toLocaleLowerCase("tr-TR");
+
+                const status =
+                    row.dataset.status || "";
+
+
+                const matchesSearch =
+                    !searchValue ||
+                    tour.includes(searchValue) ||
+                    user.includes(searchValue);
+
+
+                const matchesStatus =
+                    !statusValue ||
+                    status === statusValue;
+
+
+                row.style.display =
+                    matchesSearch &&
+                    matchesStatus
+                        ? ""
+                        : "none";
+
+            });
+
+    }
+
+
+    search.addEventListener(
+        "input",
+        applyFilters
+    );
+
+
+    statusFilter.addEventListener(
+        "change",
+        applyFilters
+    );
+
+</script>

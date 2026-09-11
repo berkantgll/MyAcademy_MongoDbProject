@@ -1,0 +1,507 @@
+﻿@using Travel.Web.DTOs.CategoryDtos
+@model List<ResultCategoryDto>
+
+@{
+    ViewData["Title"] = "Kategori Yönetimi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    var categories = Model ?? new List<ResultCategoryDto>();
+}
+
+<style>
+
+    .content {
+        padding: 1.8rem;
+        max-width: 1500px;
+    }
+
+    .crumb {
+        font-size: .8rem;
+        color: var(--muted);
+        margin-bottom: .4rem;
+    }
+
+        .crumb a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+            .crumb a:hover {
+                color: var(--teal-dark);
+            }
+
+        .crumb .cur {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+    .page-intro {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+    }
+
+        .page-intro h1 {
+            font-family: 'Sora';
+            font-weight: 700;
+            font-size: 1.7rem;
+            color: var(--navy);
+            margin: .15rem 0 .3rem;
+        }
+
+        .page-intro p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .92rem;
+        }
+
+    .btn-teal {
+        background: var(--teal);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        font-weight: 600;
+        padding: .7rem 1.25rem;
+        font-size: .88rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        transition: .2s;
+    }
+
+        .btn-teal:hover {
+            background: var(--teal-dark);
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(15,163,163,.25);
+        }
+
+    .summary-card {
+        display: inline-flex;
+        align-items: center;
+        gap: .75rem;
+        background: #fff;
+        border: 1px solid var(--line-2);
+        border-radius: 13px;
+        box-shadow: var(--shadow-sm);
+        padding: .8rem 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .summary-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        background: rgba(15,163,163,.1);
+        color: var(--teal-dark);
+        font-weight: 700;
+    }
+
+    .summary-card strong {
+        display: block;
+        font-family: 'Sora';
+        font-size: 1.1rem;
+        color: var(--navy);
+        line-height: 1.1;
+    }
+
+    .summary-card span {
+        font-size: .78rem;
+        color: var(--muted);
+    }
+
+    .table-card {
+        background: #fff;
+        border: 1px solid var(--line-2);
+        border-radius: var(--r);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+    }
+
+    .table-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.2rem;
+        border-bottom: 1px solid var(--line-2);
+    }
+
+        .table-head h2 {
+            font-family: 'Sora';
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 0;
+        }
+
+        .table-head span {
+            font-size: .78rem;
+            color: var(--muted);
+        }
+
+    .tx {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .tx th {
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--muted);
+            font-weight: 600;
+            text-align: left;
+            padding: .8rem 1.2rem;
+            border-bottom: 1px solid var(--line);
+            background: rgba(248,249,247,.5);
+        }
+
+        .tx td {
+            padding: .9rem 1.2rem;
+            border-bottom: 1px solid var(--line-2);
+            vertical-align: middle;
+        }
+
+        .tx tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tx tbody tr {
+            transition: .15s;
+        }
+
+            .tx tbody tr:hover {
+                background: var(--cream);
+            }
+
+    .category-cell {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .category-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        background: rgba(15,163,163,.09);
+        color: var(--teal-dark);
+        flex: none;
+    }
+
+    .category-name {
+        font-family: 'Sora';
+        font-size: .88rem;
+        font-weight: 600;
+        color: var(--navy);
+    }
+
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: .45rem;
+    }
+
+    .btn-action {
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 9px;
+        padding: .42rem .75rem;
+        font-size: .78rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: .15s;
+    }
+
+    .btn-edit {
+        color: var(--teal-dark);
+    }
+
+        .btn-edit:hover {
+            border-color: var(--teal);
+            background: rgba(15,163,163,.06);
+            color: var(--teal-dark);
+        }
+
+    .btn-delete {
+        color: var(--cancel-fg);
+    }
+
+        .btn-delete:hover {
+            border-color: var(--cancel-fg);
+            background: var(--cancel-bg);
+            color: var(--cancel-fg);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+    }
+
+    .empty-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        margin: 0 auto 1rem;
+        display: grid;
+        place-items: center;
+        background: rgba(15,163,163,.08);
+        color: var(--teal-dark);
+        font-size: 1.3rem;
+    }
+
+    .empty-state h3 {
+        font-family: 'Sora';
+        color: var(--navy);
+        font-size: 1rem;
+        margin-bottom: .35rem;
+    }
+
+    .empty-state p {
+        color: var(--muted);
+        font-size: .85rem;
+        margin-bottom: 1rem;
+    }
+
+    @@media(max-width:575px) {
+
+        .content {
+            padding: 1.1rem;
+        }
+
+        .tx th,
+        .tx td {
+            padding: .75rem;
+        }
+    }
+
+</style>
+
+
+<div class="content">
+
+    <!-- Breadcrumb -->
+    <div class="crumb">
+
+        <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action="Index">
+            Dashboard
+        </a>
+
+        /
+
+        <span class="cur">
+            Kategoriler
+        </span>
+
+    </div>
+
+
+    <!-- Header -->
+    <div class="page-intro">
+
+        <div>
+
+            <h1>
+                Kategori Yönetimi
+            </h1>
+
+            <p>
+                Tur kategorilerini ekleyebilir, düzenleyebilir ve silebilirsiniz.
+            </p>
+
+        </div>
+
+
+        <a asp-area="Admin"
+               asp-controller="Category"
+               asp-action="Create"
+               class="btn-teal">
+
+            <span style="font-size:1rem;">
+                +
+            </span>
+
+            Yeni Kategori
+
+        </a>
+
+    </div>
+
+
+    <!-- Summary -->
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            K
+        </div>
+
+        <div>
+
+            <strong>
+                @categories.Count
+            </strong>
+
+            <span>
+                Toplam Kategori
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- Table -->
+    <div class="table-card">
+
+        <div class="table-head">
+
+            <h2>
+                Kategoriler
+            </h2>
+
+            <span>
+                @categories.Count kayıt
+            </span>
+
+        </div>
+
+
+        @if (categories.Any())
+        {
+            <table class="tx">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Kategori Adı
+                        </th>
+
+                        <th style="width:210px;text-align:right;">
+                            İşlemler
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @foreach (var category in categories)
+                    {
+                        <tr>
+
+                            <td>
+
+                                <div class="category-cell">
+
+                                    <div class="category-icon">
+
+                                        <svg width="17"
+                                             height="17"
+                                             viewBox="0 0 24 24"
+                                             fill="none"
+                                             stroke="currentColor"
+                                             stroke-width="2">
+
+                                            <path d="M20 13l-7 7-9-9V4h7z" />
+
+                                            <line x1="7.5"
+                                                  y1="7.5"
+                                                  x2="7.51"
+                                                  y2="7.5" />
+
+                                        </svg>
+
+                                    </div>
+
+
+                                    <div class="category-name">
+                                        @category.CategoryName
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="actions">
+
+                                    <a asp-area="Admin"
+                                           asp-controller="Category"
+                                           asp-action="Update"
+                                           asp-route-id="@category.Id"
+                                           class="btn-action btn-edit">
+
+                                        Düzenle
+
+                                    </a>
+
+
+                                    <a asp-area="Admin"
+                                           asp-controller="Category"
+                                           asp-action="Delete"
+                                           asp-route-id="@category.Id"
+                                           class="btn-action btn-delete"
+                                           onclick="return confirm('@category.CategoryName kategorisini silmek istediğinize emin misiniz?')">
+
+                                        Sil
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        }
+        else
+        {
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    K
+                </div>
+
+                <h3>
+                    Henüz kategori yok
+                </h3>
+
+                <p>
+                    Tur oluşturabilmek için önce bir kategori ekleyin.
+                </p>
+
+                <a asp-area="Admin"
+                       asp-controller="Category"
+                       asp-action="Create"
+                       class="btn-teal">
+
+                    + Yeni Kategori
+
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+</div>

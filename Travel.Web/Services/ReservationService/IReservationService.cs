@@ -9,6 +9,8 @@ namespace Travel.Web.Services.ReservationService
         Task CreateAsync(CreateReservationDto createReservationDto);
         Task UpdateStatusAsync(UpdateReservationDto updateReservationDto);
         Task DeleteAsync(string id);
+        Task ApproveAsync(string id);
+        Task CancelAsync(string id);
 
         Task<int> GetReservationCountByTourIdAsync(string tourId);
     }
