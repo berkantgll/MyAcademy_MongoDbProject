@@ -1,4 +1,6 @@
 ﻿@using Travel.Web.Models
+@using Travel.Web.DTOs.CommentDtos
+@using Travel.Web.DTOs.DestinationDtos
 
 @model List<PublicTourListViewModel>
 
@@ -6,9 +8,41 @@
     ViewData["Title"] = "Ana Sayfa";
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
 
+
     var tours =
         Model ?? new List<PublicTourListViewModel>();
+
+
+    var featuredDestinations =
+        ViewBag.FeaturedDestinations
+        as List<ResultDestinationDto>
+        ?? new List<ResultDestinationDto>();
+
+
+    var destinationImages =
+        ViewBag.DestinationImages
+        as Dictionary<string, string>
+        ?? new Dictionary<string, string>();
+
+
+    var homeComments =
+        ViewBag.HomeComments
+        as List<ResultCommentDto>
+        ?? new List<ResultCommentDto>();
+
+
+    var allToursBannerImage =
+        ViewBag.AllToursBannerImage
+        as string
+        ?? "/images/travelio-hero.png";
+
+
+    var ctaImage =
+        ViewBag.CtaImage
+        as string
+        ?? "/images/travelio-hero.png";
 }
+
 
 @section Styles {
 
@@ -17,7 +51,19 @@
 
     <style>
 
-        /* HERO */
+        /*
+                    HOME'DA FOOTER CTA'NIN
+                    HEMEN ALTINDA BAŞLASIN
+                */
+
+        main {
+            flex: none;
+        }
+
+
+        /* ==================================================
+                   HERO
+                ================================================== */
 
         .hero {
             height: 500px;
@@ -27,12 +73,14 @@
             color: white;
         }
 
+
         .hero-content {
             width: 100%;
             max-width: 1280px;
             margin: auto;
             padding: 28px 25px;
         }
+
 
         .hero-small {
             color: #68e2e2;
@@ -42,6 +90,7 @@
             letter-spacing: .18em;
         }
 
+
         .hero h1 {
             max-width: 610px;
             margin: 10px 0 12px;
@@ -49,6 +98,7 @@
             font-weight: 800;
             line-height: 1.04;
         }
+
 
         .hero-text {
             max-width: 580px;
@@ -59,7 +109,10 @@
         }
 
 
-        /* SEARCH */
+
+        /* ==================================================
+                   SEARCH
+                ================================================== */
 
         .search-box {
             max-width: 900px;
@@ -70,6 +123,7 @@
             box-shadow: 0 18px 45px rgba(0,0,0,.20);
         }
 
+
         .search-field {
             min-height: 58px;
             padding: 6px 16px;
@@ -79,6 +133,7 @@
             border-right: 1px solid #e9e5de;
         }
 
+
         .search-icon {
             width: 27px;
             color: var(--teal);
@@ -87,10 +142,12 @@
             flex-shrink: 0;
         }
 
+
         .search-content {
             width: 100%;
             min-width: 0;
         }
+
 
             .search-content label {
                 display: block;
@@ -101,6 +158,7 @@
                 letter-spacing: .10em;
                 text-transform: uppercase;
             }
+
 
         .search-control {
             width: 100%;
@@ -115,7 +173,10 @@
         }
 
 
-        /* KİŞİ SAYISI */
+
+        /* ==================================================
+                   KİŞİ
+                ================================================== */
 
         .person-select {
             width: 100%;
@@ -137,6 +198,7 @@
             background-position: right center;
         }
 
+
         .search-button {
             width: 100%;
             height: 48px;
@@ -147,7 +209,10 @@
         }
 
 
-        /* HERO STATS */
+
+        /* ==================================================
+                   HERO STATS
+                ================================================== */
 
         .hero-stats {
             display: flex;
@@ -156,16 +221,19 @@
             margin-top: 24px;
         }
 
+
         .hero-stat {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
+
         .hero-stat-icon {
             color: rgba(255,255,255,.75);
             font-size: 1.5rem;
         }
+
 
         .hero-stat strong {
             display: block;
@@ -174,21 +242,27 @@
             line-height: 1.1;
         }
 
+
         .hero-stat span {
             color: rgba(255,255,255,.80);
             font-size: .68rem;
         }
 
 
-        /* POPÜLER TURLAR */
+
+        /* ==================================================
+                   POPÜLER TURLAR
+                ================================================== */
 
         .tours-section {
             padding: 16px 0 25px;
         }
 
+
         .popular-header {
             margin-bottom: 8px;
         }
+
 
         .section-small {
             margin-bottom: 2px;
@@ -199,11 +273,14 @@
             letter-spacing: .17em;
         }
 
+
         .section-title {
             margin: 0;
+            color: var(--navy);
             font-size: 1.65rem;
             font-weight: 800;
         }
+
 
         .all-tours-btn {
             padding: 7px 14px;
@@ -216,6 +293,7 @@
             transition: .2s;
         }
 
+
             .all-tours-btn:hover {
                 color: white;
                 background: var(--teal);
@@ -223,7 +301,10 @@
             }
 
 
-        /* TOUR CARD */
+
+        /* ==================================================
+                   TOUR CARD
+                ================================================== */
 
         .tour-card {
             height: 100%;
@@ -235,10 +316,12 @@
             transition: .2s;
         }
 
+
             .tour-card:hover {
                 transform: translateY(-3px);
                 box-shadow: 0 12px 26px rgba(14,42,59,.11);
             }
+
 
         .tour-image {
             height: 118px;
@@ -247,6 +330,7 @@
             overflow: hidden;
         }
 
+
             .tour-image img {
                 width: 100%;
                 height: 100%;
@@ -254,9 +338,11 @@
                 transition: .3s;
             }
 
+
         .tour-card:hover .tour-image img {
             transform: scale(1.03);
         }
+
 
         .tour-image-placeholder {
             width: 100%;
@@ -266,6 +352,7 @@
             color: #91a0a8;
             font-size: 1.5rem;
         }
+
 
         .tour-category {
             position: absolute;
@@ -279,9 +366,11 @@
             font-weight: 600;
         }
 
+
         .tour-body {
             padding: 8px 11px 10px;
         }
+
 
         .tour-location {
             display: flex;
@@ -291,6 +380,7 @@
             font-size: .62rem;
             font-weight: 600;
         }
+
 
         .tour-name {
             margin: 3px 0 5px;
@@ -302,6 +392,7 @@
             text-overflow: ellipsis;
         }
 
+
         .tour-info {
             display: flex;
             align-items: center;
@@ -311,6 +402,7 @@
             font-size: .61rem;
         }
 
+
             .tour-info span {
                 display: flex;
                 align-items: center;
@@ -318,9 +410,11 @@
                 white-space: nowrap;
             }
 
+
             .tour-info i {
                 color: var(--teal);
             }
+
 
         .tour-bottom {
             padding-top: 7px;
@@ -330,18 +424,20 @@
             border-top: 1px solid #eeeae4;
         }
 
+
         .tour-price small {
             display: block;
-            margin-bottom: 0;
             color: var(--muted);
             font-size: .54rem;
         }
+
 
         .tour-price strong {
             color: var(--navy);
             font-family: 'Sora';
             font-size: .92rem;
         }
+
 
         .tour-btn {
             padding: 6px 9px;
@@ -355,13 +451,393 @@
             font-weight: 600;
         }
 
+
             .tour-btn:hover {
                 color: white;
                 background: var(--teal);
             }
 
 
-        /* RESPONSIVE */
+
+        /* ==================================================
+                   TÜM TURLAR BANNER
+                ================================================== */
+
+        .all-tours-banner-section {
+            padding: 20px 0 45px;
+        }
+
+
+        .all-tours-banner {
+            min-height: 205px;
+            padding: 35px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            background-position: center;
+            background-size: cover;
+            border-radius: 22px;
+            overflow: hidden;
+            color: white;
+        }
+
+
+        .banner-small {
+            margin-bottom: 5px;
+            color: #7ee9e5;
+            font-size: .67rem;
+            font-weight: 700;
+            letter-spacing: .16em;
+        }
+
+
+        .all-tours-banner h2 {
+            margin: 0 0 8px;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+
+        .all-tours-banner p {
+            max-width: 520px;
+            margin: 0;
+            color: rgba(255,255,255,.83);
+            font-size: .8rem;
+        }
+
+
+        .banner-btn {
+            padding: 11px 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            flex-shrink: 0;
+            background: white;
+            border-radius: 999px;
+            color: var(--navy);
+            font-size: .72rem;
+            font-weight: 700;
+        }
+
+
+            .banner-btn:hover {
+                color: white;
+                background: var(--teal);
+            }
+
+
+
+        /* ==================================================
+                   DESTİNASYONLAR
+                ================================================== */
+
+        .destination-section {
+            padding: 15px 0 55px;
+        }
+
+
+        .home-section-header {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+
+        .home-section-text {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: .77rem;
+        }
+
+
+        .destination-card {
+            height: 210px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 17px;
+            background: #e9ecef;
+            box-shadow: 0 7px 20px rgba(14,42,59,.08);
+        }
+
+
+            .destination-card img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: .35s;
+            }
+
+
+            .destination-card:hover img {
+                transform: scale(1.05);
+            }
+
+
+        .destination-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: flex-end;
+            padding: 17px;
+            background: linear-gradient( to top, rgba(5,29,43,.82), rgba(5,29,43,.02) 65% );
+        }
+
+
+        .destination-info {
+            color: white;
+        }
+
+
+            .destination-info strong {
+                display: block;
+                font-size: .95rem;
+                font-weight: 700;
+            }
+
+
+            .destination-info span {
+                color: rgba(255,255,255,.76);
+                font-size: .64rem;
+            }
+
+
+        .destination-arrow {
+            width: 34px;
+            height: 34px;
+            position: absolute;
+            right: 14px;
+            bottom: 14px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255,255,255,.6);
+            border-radius: 50%;
+            color: white;
+            backdrop-filter: blur(5px);
+        }
+
+
+
+        /* ==================================================
+                   NEDEN TRAVELIO
+                ================================================== */
+
+        .why-section {
+            padding: 50px 0;
+            background: #f7f5f1;
+        }
+
+
+        .why-card {
+            height: 100%;
+            padding: 23px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background: white;
+            border: 1px solid #e8e4de;
+            border-radius: 16px;
+            box-shadow: 0 5px 16px rgba(14,42,59,.04);
+        }
+
+
+        .why-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 13px;
+            background: var(--teal);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+
+        .why-card h3 {
+            margin: 1px 0 5px;
+            color: var(--navy);
+            font-size: .85rem;
+            font-weight: 700;
+        }
+
+
+        .why-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .72rem;
+            line-height: 1.6;
+        }
+
+
+
+        /* ==================================================
+                   YORUMLAR
+                ================================================== */
+
+        .home-comments-section {
+            padding: 55px 0;
+        }
+
+
+        .home-comment-card {
+            height: 100%;
+            padding: 22px;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(14,42,59,.05);
+        }
+
+
+        .home-comment-stars {
+            margin-bottom: 12px;
+            color: #f4b400;
+            font-size: .76rem;
+        }
+
+
+        .home-comment-text {
+            min-height: 65px;
+            margin: 0 0 18px;
+            color: var(--navy);
+            font-size: .8rem;
+            line-height: 1.7;
+        }
+
+
+        .home-comment-bottom {
+            padding-top: 13px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            border-top: 1px solid #eeeae4;
+        }
+
+
+        .home-comment-avatar {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            background: var(--navy);
+            color: white;
+            border-radius: 50%;
+        }
+
+
+        .home-comment-bottom strong {
+            display: block;
+            color: var(--navy);
+            font-size: .68rem;
+        }
+
+
+        .home-comment-bottom span {
+            display: block;
+            color: var(--muted);
+            font-size: .6rem;
+        }
+
+
+
+        /* ==================================================
+                   CTA
+                ================================================== */
+
+        .home-cta-section {
+            padding: 0;
+            margin: 0;
+        }
+
+
+        .home-cta {
+            min-height: 300px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 22px 22px 0 0;
+            color: white;
+            overflow: hidden;
+        }
+
+
+        .home-cta-content {
+            max-width: 650px;
+        }
+
+
+        .home-cta-small {
+            color: #79e3df;
+            font-size: .67rem;
+            font-weight: 700;
+            letter-spacing: .16em;
+        }
+
+
+        .home-cta h2 {
+            margin: 7px 0 10px;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+
+        .home-cta p {
+            margin-bottom: 22px;
+            color: rgba(255,255,255,.85);
+            font-size: .8rem;
+        }
+
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+
+        .cta-primary,
+        .cta-secondary {
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-size: .72rem;
+            font-weight: 700;
+        }
+
+
+        .cta-primary {
+            background: var(--teal);
+            color: white;
+        }
+
+
+            .cta-primary:hover {
+                color: white;
+                background: var(--teal-dark);
+            }
+
+
+        .cta-secondary {
+            background: white;
+            color: var(--navy);
+        }
+
+
+            .cta-secondary:hover {
+                color: white;
+                background: var(--navy);
+            }
+
+
+
+        /* ==================================================
+                   RESPONSIVE
+                ================================================== */
 
         @@media(max-width: 992px) {
 
@@ -370,11 +846,19 @@
                 min-height: 500px;
             }
 
+
             .search-field {
                 border-right: none;
                 border-bottom: 1px solid #e9e5de;
             }
+
+
+            .all-tours-banner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
         }
+
 
         @@media(max-width: 768px) {
 
@@ -382,15 +866,40 @@
                 font-size: 2.4rem;
             }
 
+
             .hero-stats {
                 gap: 20px;
                 flex-wrap: wrap;
             }
 
-            .popular-header {
+
+            .popular-header,
+            .home-section-header {
                 align-items: flex-start !important;
+                flex-direction: column;
                 gap: 10px;
             }
+
+
+            .all-tours-banner {
+                padding: 28px 24px;
+            }
+
+
+                .all-tours-banner h2 {
+                    font-size: 1.6rem;
+                }
+
+
+            .home-cta {
+                min-height: 270px;
+                padding: 30px 20px;
+            }
+
+
+                .home-cta h2 {
+                    font-size: 1.55rem;
+                }
         }
 
     </style>
@@ -398,7 +907,9 @@
 
 
 
-<!-- HERO -->
+<!-- ==================================================
+     HERO
+================================================== -->
 
 <section class="hero">
 
@@ -583,10 +1094,9 @@
 
 
 
-        <!-- İSTATİSTİKLER -->
+        <!-- STATS -->
 
         <div class="hero-stats">
-
 
             <div class="hero-stat">
 
@@ -605,7 +1115,6 @@
                 </div>
 
             </div>
-
 
 
             <div class="hero-stat">
@@ -627,25 +1136,23 @@
             </div>
 
 
-
             <div class="hero-stat">
 
-                <i class="bi bi-people hero-stat-icon"></i>
+                <i class="bi bi-person-check hero-stat-icon"></i>
 
                 <div>
 
                     <strong>
-                        @ViewBag.TotalCapacity
+                        @ViewBag.UserCount
                     </strong>
 
                     <span>
-                        Kalan Kontenjan
+                        Kullanıcı
                     </span>
 
                 </div>
 
             </div>
-
 
         </div>
 
@@ -656,10 +1163,11 @@
 
 
 
-<!-- POPÜLER TURLAR -->
+<!-- ==================================================
+     POPÜLER TURLAR
+================================================== -->
 
-<section class="tours-section"
-         id="turlar">
+<section class="tours-section">
 
     <div class="site-container">
 
@@ -701,8 +1209,6 @@
 
 
 
-        <!-- TUR KARTLARI -->
-
         <div class="row g-3">
 
 
@@ -715,12 +1221,11 @@
                     <div class="tour-card">
 
 
-                        <!-- FOTOĞRAF -->
-
                         <div class="tour-image">
 
 
-                            @if (!string.IsNullOrWhiteSpace(item.Tour.CoverImageUrl))
+                            @if (!string.IsNullOrWhiteSpace(
+                                item.Tour.CoverImageUrl))
                             {
                                 <img src="@item.Tour.CoverImageUrl"
                                      alt="@item.Tour.TourName" />
@@ -745,8 +1250,6 @@
                         </div>
 
 
-
-                        <!-- BODY -->
 
                         <div class="tour-body">
 
@@ -842,6 +1345,597 @@
                 </div>
 
             }
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     TÜM TURLAR BANNER
+================================================== -->
+
+<section class="all-tours-banner-section">
+
+    <div class="site-container">
+
+
+        <div class="all-tours-banner"
+             style="
+            background-image:
+            linear-gradient(
+            90deg,
+            rgba(4,31,47,.90),
+            rgba(4,31,47,.35)
+            ),
+            url('@allToursBannerImage');
+            ">
+
+
+            <div>
+
+
+                <div class="banner-small">
+
+                    DAHA FAZLA KEŞFET
+
+                </div>
+
+
+                <h2>
+                    Tüm Turlar
+                </h2>
+
+
+                <p>
+
+                    Farklı şehirleri, kültürleri ve rotaları keşfedin.
+                    Size uygun seyahati Travelio ile bulun.
+
+                </p>
+
+
+            </div>
+
+
+
+            <a asp-controller="Tour"
+                   asp-action="Index"
+                   class="banner-btn">
+
+                Tüm Turları Gör
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     ÖNE ÇIKAN DESTİNASYONLAR
+================================================== -->
+
+<section class="destination-section">
+
+    <div class="site-container">
+
+
+        <div class="home-section-header">
+
+
+            <div>
+
+                <div class="section-small">
+
+                    KEŞFEDİLECEK YERLER
+
+                </div>
+
+
+                <h2 class="section-title">
+
+                    Öne Çıkan Destinasyonlar
+
+                </h2>
+
+
+                <div class="home-section-text">
+
+                    Yeni şehirleri ve rotaları keşfet.
+
+                </div>
+
+            </div>
+
+
+
+            <a asp-controller="Destination"
+                   asp-action="Index"
+                   class="all-tours-btn">
+
+                Tüm Destinasyonları Gör
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+        </div>
+
+
+
+        <div class="row g-3">
+
+
+            @foreach (var destination in featuredDestinations)
+            {
+                var destinationImage =
+                    destinationImages.ContainsKey(destination.Id)
+                    ? destinationImages[destination.Id]
+                    : "/images/travelio-hero.png";
+
+
+                <div class="col-md-6 col-lg-3">
+
+
+                    <a asp-controller="Tour"
+                           asp-action="Index"
+                           asp-route-destination="@destination.DestinationName">
+
+
+                        <div class="destination-card">
+
+
+                            <img src="@destinationImage"
+                                 alt="@destination.DestinationName" />
+
+
+                            <div class="destination-overlay">
+
+
+                                <div class="destination-info">
+
+                                    <strong>
+
+                                        @destination.DestinationName
+
+                                    </strong>
+
+
+                                    <span>
+
+                                        @destination.City,
+                                        @destination.Country
+
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="destination-arrow">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </a>
+
+
+                </div>
+
+            }
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     NEDEN TRAVELIO
+================================================== -->
+
+<section class="why-section">
+
+    <div class="site-container">
+
+
+        <div class="home-section-header">
+
+
+            <div>
+
+                <div class="section-small">
+
+                    NEDEN TRAVELIO?
+
+                </div>
+
+
+                <h2 class="section-title">
+
+                    Seyahati Daha Kolay Hale Getiriyoruz
+
+                </h2>
+
+            </div>
+
+
+
+            <a asp-controller="About"
+                   asp-action="Index"
+                   class="all-tours-btn">
+
+                Hakkımızda
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+        </div>
+
+
+
+        <div class="row g-3">
+
+
+            <div class="col-md-4">
+
+                <div class="why-card">
+
+
+                    <div class="why-icon">
+
+                        <i class="bi bi-calendar-check"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            Kolay Rezervasyon
+                        </h3>
+
+                        <p>
+
+                            Tur tarihlerini ve kontenjanları görüntüleyerek
+                            birkaç adımda rezervasyon oluşturun.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-md-4">
+
+                <div class="why-card">
+
+
+                    <div class="why-icon">
+
+                        <i class="bi bi-globe2"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            Seçili Rotalar
+                        </h3>
+
+                        <p>
+
+                            Farklı şehirler ve ülkelerdeki tur seçeneklerini
+                            tek bir yerde keşfedin.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-md-4">
+
+                <div class="why-card">
+
+
+                    <div class="why-icon">
+
+                        <i class="bi bi-people"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            Gerçek Kullanıcı Deneyimleri
+                        </h3>
+
+                        <p>
+
+                            Gezginlerin yorumlarını inceleyin ve seyahat
+                            kararınızı daha kolay verin.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     YORUMLAR
+================================================== -->
+
+<section class="home-comments-section">
+
+    <div class="site-container">
+
+
+        <div class="home-section-header">
+
+
+            <div>
+
+                <div class="section-small">
+
+                    KULLANICI DENEYİMLERİ
+
+                </div>
+
+
+                <h2 class="section-title">
+
+                    Gezginler Ne Diyor?
+
+                </h2>
+
+            </div>
+
+
+
+            <a asp-controller="Comment"
+                   asp-action="Index"
+                   class="all-tours-btn">
+
+                Tüm Yorumları Gör
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+        </div>
+
+
+
+        @if (homeComments.Any())
+        {
+
+            <div class="row g-3">
+
+
+                @foreach (var comment in homeComments)
+                {
+
+                    <div class="col-md-4">
+
+
+                        <div class="home-comment-card">
+
+
+                            <div class="home-comment-stars">
+
+
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= comment.Rating)
+                                    {
+                                        <i class="bi bi-star-fill"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-star"></i>
+                                    }
+                                }
+
+
+                            </div>
+
+
+
+                            <p class="home-comment-text">
+
+                                “@comment.CommentText”
+
+                            </p>
+
+
+
+                            <div class="home-comment-bottom">
+
+
+                                <div class="home-comment-avatar">
+
+                                    <i class="bi bi-person"></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+
+                                        Travelio Kullanıcısı
+
+                                    </strong>
+
+                                    <span>
+
+                                        @comment.CreatedDate.ToString("dd.MM.yyyy")
+
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                }
+
+
+            </div>
+
+        }
+        else
+        {
+
+            <div class="text-muted small">
+
+                Henüz yayınlanmış kullanıcı yorumu bulunmuyor.
+
+            </div>
+
+        }
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     CTA
+================================================== -->
+
+<section class="home-cta-section">
+
+    <div class="site-container">
+
+
+        <div class="home-cta"
+             style="
+            background:
+            linear-gradient(
+            rgba(5,37,55,.45),
+            rgba(5,37,55,.72)
+            ),
+            url('@ctaImage')
+            center / cover no-repeat;
+            ">
+
+
+            <div class="home-cta-content">
+
+
+                <div class="home-cta-small">
+
+                    YENİ ROTALAR SENİ BEKLİYOR
+
+                </div>
+
+
+                <h2>
+
+                    Sıradaki Seyahatinizi Keşfedin
+
+                </h2>
+
+
+                <p>
+
+                    Yeni şehirler, farklı kültürler ve unutulmaz
+                    deneyimler için Travelio rotalarını keşfedin.
+
+                </p>
+
+
+
+                <div class="cta-buttons">
+
+
+                    <a asp-controller="Tour"
+                           asp-action="Index"
+                           class="cta-primary">
+
+                        Turları Keşfet
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+
+                    <a asp-controller="Contact"
+                           asp-action="Index"
+                           class="cta-secondary">
+
+                        Bize Ulaş
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
 
 
         </div>

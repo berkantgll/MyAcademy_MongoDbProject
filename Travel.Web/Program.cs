@@ -2,7 +2,9 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using System.Globalization;
 using System.Reflection;
 using Travel.Web.Entitites;
 using Travel.Web.Services.BannerServices;
@@ -20,76 +22,214 @@ using Travel.Web.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+// ======================================================
+// AUTOMAPPER
+// ======================================================
 
-builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters().AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(
+    Assembly.GetExecutingAssembly());
 
-builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection(nameof(DatabaseSettings)));
+
+// ======================================================
+// FLUENT VALIDATION
+// ======================================================
+
+builder.Services
+    .AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters()
+    .AddValidatorsFromAssembly(
+        Assembly.GetExecutingAssembly());
+
+
+// ======================================================
+// DATABASE SETTINGS
+// ======================================================
+
+builder.Services.Configure<DatabaseSettings>(
+    builder.Configuration
+        .GetSection(nameof(DatabaseSettings)));
+
+
+// ======================================================
+// SERVICES
+// ======================================================
 
 builder.Services.AddScoped<IBannerService, BannerService>();
+
 builder.Services.AddScoped<IRouteService, RouteService>();
+
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 builder.Services.AddScoped<IDestinationService, DestinationService>();
+
 builder.Services.AddScoped<ITourService, TourService>();
+
 builder.Services.AddScoped<IReservationService, ReservationService>();
+
 builder.Services.AddScoped<ICommentService, CommentService>();
+
 builder.Services.AddScoped<IQuestionService, QuestionService>();
+
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 
+// ======================================================
+// AUTHENTICATION
+// ======================================================
+
 builder.Services
-    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddAuthentication(
+        CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Account/Login";
-        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.LoginPath =
+            "/Account/Login";
 
-        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.AccessDeniedPath =
+            "/Account/AccessDenied";
 
-        options.SlidingExpiration = true;
+        options.ExpireTimeSpan =
+            TimeSpan.FromHours(8);
+
+        options.SlidingExpiration =
+            true;
     });
 
 
 builder.Services.AddAuthorization();
 
 
+// ======================================================
+// MONGODB SETTINGS
+// ======================================================
+
 builder.Services.AddSingleton<IDatabaseSettings>(sp =>
 {
-    return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+    return sp
+        .GetRequiredService<IOptions<DatabaseSettings>>()
+        .Value;
 });
 
-builder.Services.AddControllersWithViews();
+
+// ======================================================
+// LOCALIZATION
+// ======================================================
+
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Resources";
+});
+
+
+builder.Services
+    .AddControllersWithViews()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization();
+
+
+// DESTEKLENEN DİLLER
+
+var supportedCultures =
+    new[]
+    {
+        new CultureInfo("tr-TR"),
+        new CultureInfo("en-US")
+    };
+
+
+builder.Services.Configure<RequestLocalizationOptions>(
+    options =>
+    {
+        options.DefaultRequestCulture =
+            new RequestCulture("tr-TR");
+
+        options.SupportedCultures =
+            supportedCultures;
+
+        options.SupportedUICultures =
+            supportedCultures;
+
+
+        options.RequestCultureProviders =
+            new List<IRequestCultureProvider>
+            {
+                new CookieRequestCultureProvider()
+            };
+    });
+
+
+// ======================================================
+// APP
+// ======================================================
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
+// ======================================================
+// ERROR
+// ======================================================
+
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler(
+        "/Home/Error");
+
     app.UseHsts();
 }
 
+
+// ======================================================
+// PIPELINE
+// ======================================================
+
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+
+
+// LOCALIZATION
+// ROUTING'DEN ÖNCE
+
+var localizationOptions =
+    app.Services
+        .GetRequiredService<
+            IOptions<RequestLocalizationOptions>>()
+        .Value;
+
+
+app.UseRequestLocalization(
+    localizationOptions);
+
 
 app.UseRouting();
 
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
+
+// ======================================================
+// ROUTES
+// ======================================================
+
 app.MapControllerRoute(
-           name: "areas",
-           pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-         );
+    name: "areas",
+    pattern:
+        "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+);
+
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern:
+        "{controller=Home}/{action=Index}/{id?}"
+);
+
 
 app.Run();

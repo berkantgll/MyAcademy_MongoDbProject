@@ -1,9 +1,32 @@
 ﻿@model Travel.Web.Entitites.User
 
+@using Travel.Web.DTOs.CommentDtos
+@using Travel.Web.DTOs.QuestionDtos
+@using Travel.Web.DTOs.TourDtos
+
 @{
     ViewData["Title"] = "Profilim";
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
+
+
+    var myComments =
+        ViewBag.MyComments
+        as List<ResultCommentDto>
+        ?? new List<ResultCommentDto>();
+
+
+    var myQuestions =
+        ViewBag.MyQuestions
+        as List<ResultQuestionDto>
+        ?? new List<ResultQuestionDto>();
+
+
+    var tours =
+        ViewBag.Tours
+        as List<ResultTourDto>
+        ?? new List<ResultTourDto>();
 }
+
 
 @section Styles {
 
@@ -16,10 +39,14 @@
             padding: 45px 0 70px;
         }
 
+
         .profile-wrapper {
-            max-width: 800px;
+            max-width: 1000px;
             margin: auto;
         }
+
+
+        /* PROFİL KARTI */
 
         .profile-card {
             background: white;
@@ -27,7 +54,9 @@
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 8px 25px rgba(14,42,59,.06);
+            margin-bottom: 25px;
         }
+
 
         .profile-header {
             padding: 30px;
@@ -37,6 +66,7 @@
             background: var(--navy);
             color: white;
         }
+
 
         .profile-avatar-big {
             width: 80px;
@@ -52,11 +82,13 @@
             font-weight: 700;
         }
 
+
         .profile-header h1 {
             margin: 0 0 5px;
             font-size: 1.5rem;
             font-weight: 700;
         }
+
 
         .profile-header p {
             margin: 0;
@@ -64,9 +96,11 @@
             font-size: .8rem;
         }
 
+
         .profile-body {
             padding: 25px 30px;
         }
+
 
         .profile-title {
             margin-bottom: 18px;
@@ -74,6 +108,9 @@
             font-size: 1rem;
             font-weight: 700;
         }
+
+
+        /* BİLGİ */
 
         .profile-info {
             margin-bottom: 15px;
@@ -84,9 +121,11 @@
             border-bottom: 1px solid #eeeae4;
         }
 
+
             .profile-info:last-child {
                 border-bottom: none;
             }
+
 
         .profile-info-icon {
             width: 38px;
@@ -99,17 +138,23 @@
             flex-shrink: 0;
         }
 
+
         .profile-info small {
             display: block;
             color: var(--muted);
             font-size: .6rem;
         }
 
+
         .profile-info strong {
             display: block;
             color: var(--navy);
             font-size: .8rem;
         }
+
+
+
+        /* BUTONLAR */
 
         .profile-actions {
             margin-top: 25px;
@@ -118,7 +163,8 @@
             flex-wrap: wrap;
         }
 
-        .reservation-btn-profile {
+
+        .profile-action-btn {
             padding: 10px 16px;
             display: inline-flex;
             align-items: center;
@@ -128,12 +174,15 @@
             border-radius: 999px;
             font-size: .75rem;
             font-weight: 600;
+            transition: .2s;
         }
 
-            .reservation-btn-profile:hover {
+
+            .profile-action-btn:hover {
                 background: var(--teal-dark);
                 color: white;
             }
+
 
         .logout-profile-btn {
             padding: 10px 16px;
@@ -148,10 +197,273 @@
             font-weight: 600;
         }
 
+
             .logout-profile-btn:hover {
                 background: #fff1f1;
                 color: #c94d4d;
             }
+
+
+
+        /* İSTATİSTİK */
+
+        .profile-summary {
+            margin-bottom: 25px;
+        }
+
+
+        .summary-card {
+            height: 100%;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 15px;
+            box-shadow: 0 5px 16px rgba(14,42,59,.04);
+        }
+
+
+        .summary-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            background: #edf8f7;
+            color: var(--teal);
+            border-radius: 12px;
+        }
+
+
+        .summary-card strong {
+            display: block;
+            color: var(--navy);
+            font-family: 'Sora';
+            font-size: 1rem;
+        }
+
+
+        .summary-card span {
+            color: var(--muted);
+            font-size: .65rem;
+        }
+
+
+
+        /* PROFİL BÖLÜMLERİ */
+
+        .profile-section {
+            margin-bottom: 22px;
+            padding: 25px;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(14,42,59,.04);
+        }
+
+
+        .profile-section-header {
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+
+            .profile-section-header h2 {
+                margin: 0;
+                color: var(--navy);
+                font-size: 1.1rem;
+                font-weight: 700;
+            }
+
+
+        .profile-section-count {
+            padding: 5px 9px;
+            background: #edf8f7;
+            color: var(--teal-dark);
+            border-radius: 999px;
+            font-size: .65rem;
+            font-weight: 600;
+        }
+
+
+
+        /* YORUMLAR */
+
+        .my-comment {
+            padding: 16px 0;
+            border-bottom: 1px solid #eeeae4;
+        }
+
+
+            .my-comment:last-child {
+                border-bottom: none;
+            }
+
+
+        .my-item-top {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+
+        .my-tour-name {
+            color: var(--navy);
+            font-size: .78rem;
+            font-weight: 700;
+        }
+
+
+            .my-tour-name i {
+                margin-right: 4px;
+                color: var(--teal);
+            }
+
+
+        .my-item-date {
+            color: var(--muted);
+            font-size: .62rem;
+            white-space: nowrap;
+        }
+
+
+        .my-stars {
+            margin-bottom: 7px;
+            color: #f4b400;
+            font-size: .72rem;
+        }
+
+
+        .my-comment-text {
+            margin: 0;
+            color: var(--muted);
+            font-size: .77rem;
+            line-height: 1.7;
+        }
+
+
+
+        /* STATUS */
+
+        .profile-status {
+            display: inline-flex;
+            margin-top: 9px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: .6rem;
+            font-weight: 600;
+        }
+
+
+        .status-success {
+            background: #eaf7ef;
+            color: #26834a;
+        }
+
+
+        .status-pending {
+            background: #fff7df;
+            color: #9a7513;
+        }
+
+
+
+        /* SORU */
+
+        .my-question {
+            padding: 16px 0;
+            border-bottom: 1px solid #eeeae4;
+        }
+
+
+            .my-question:last-child {
+                border-bottom: none;
+            }
+
+
+        .my-question-text {
+            margin: 0;
+            color: var(--navy);
+            font-size: .78rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+
+        .my-answer {
+            margin-top: 10px;
+            padding: 12px 14px;
+            background: #f4f9f9;
+            border-radius: 10px;
+        }
+
+
+            .my-answer small {
+                display: block;
+                margin-bottom: 4px;
+                color: var(--teal-dark);
+                font-size: .6rem;
+                font-weight: 700;
+            }
+
+
+            .my-answer p {
+                margin: 0;
+                color: var(--muted);
+                font-size: .72rem;
+                line-height: 1.6;
+            }
+
+
+
+        /* EMPTY */
+
+        .profile-empty {
+            padding: 30px 15px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .75rem;
+        }
+
+
+            .profile-empty i {
+                display: block;
+                margin-bottom: 8px;
+                color: #a3b1b7;
+                font-size: 1.5rem;
+            }
+
+
+
+        @@media(max-width: 768px) {
+
+            .profile-header {
+                align-items: flex-start;
+            }
+
+
+            .profile-body {
+                padding: 22px;
+            }
+
+
+            .profile-section {
+                padding: 20px;
+            }
+
+
+            .my-item-top {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
 
     </style>
 }
@@ -164,12 +476,14 @@
         <div class="profile-wrapper">
 
 
+
+            <!-- PROFİL -->
+
             <div class="profile-card">
 
 
-                <!-- ÜST -->
-
                 <div class="profile-header">
+
 
                     <div class="profile-avatar-big">
 
@@ -185,6 +499,7 @@
                     </div>
 
 
+
                     <div>
 
                         <h1>
@@ -197,24 +512,31 @@
 
                     </div>
 
+
                 </div>
 
 
 
-                <!-- BİLGİLER -->
-
                 <div class="profile-body">
 
+
                     <div class="profile-title">
+
                         Hesap Bilgileri
+
                     </div>
+
 
 
                     <div class="profile-info">
 
+
                         <div class="profile-info-icon">
+
                             <i class="bi bi-person"></i>
+
                         </div>
+
 
                         <div>
 
@@ -228,14 +550,20 @@
 
                         </div>
 
+
                     </div>
+
 
 
                     <div class="profile-info">
 
+
                         <div class="profile-info-icon">
+
                             <i class="bi bi-envelope"></i>
+
                         </div>
+
 
                         <div>
 
@@ -249,14 +577,20 @@
 
                         </div>
 
+
                     </div>
+
 
 
                     <div class="profile-info">
 
+
                         <div class="profile-info-icon">
+
                             <i class="bi bi-shield-check"></i>
+
                         </div>
+
 
                         <div>
 
@@ -270,16 +604,17 @@
 
                         </div>
 
+
                     </div>
 
 
 
-                    <!-- BUTONLAR -->
                     <div class="profile-actions">
+
 
                         <a asp-controller="Reservation"
                                asp-action="MyReservations"
-                               class="reservation-btn-profile">
+                               class="profile-action-btn">
 
                             <i class="bi bi-suitcase2"></i>
 
@@ -290,11 +625,31 @@
 
                         <a asp-controller="Favorite"
                                asp-action="Index"
-                               class="reservation-btn-profile">
+                               class="profile-action-btn">
 
                             <i class="bi bi-heart"></i>
 
                             Favorilerim
+
+                        </a>
+
+
+                        <a href="#yorumlarim"
+                               class="profile-action-btn">
+
+                            <i class="bi bi-chat-left-text"></i>
+
+                            Yorumlarım
+
+                        </a>
+
+
+                        <a href="#sorularim"
+                               class="profile-action-btn">
+
+                            <i class="bi bi-question-circle"></i>
+
+                            Sorularım
 
                         </a>
 
@@ -309,10 +664,344 @@
 
                         </a>
 
+
                     </div>
 
 
                 </div>
+
+
+            </div>
+
+
+
+            <!-- ÖZET -->
+
+            <div class="row g-3 profile-summary">
+
+
+                <div class="col-md-6">
+
+                    <div class="summary-card">
+
+
+                        <div class="summary-icon">
+
+                            <i class="bi bi-chat-left-text"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                @myComments.Count
+                            </strong>
+
+                            <span>
+                                Yorumum
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-md-6">
+
+                    <div class="summary-card">
+
+
+                        <div class="summary-icon">
+
+                            <i class="bi bi-question-circle"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                @myQuestions.Count
+                            </strong>
+
+                            <span>
+                                Sorum
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- YORUMLARIM -->
+
+            <div class="profile-section"
+                 id="yorumlarim">
+
+
+                <div class="profile-section-header">
+
+
+                    <h2>
+
+                        <i class="bi bi-chat-left-text me-1"></i>
+
+                        Yorumlarım
+
+                    </h2>
+
+
+                    <span class="profile-section-count">
+
+                        @myComments.Count yorum
+
+                    </span>
+
+
+                </div>
+
+
+
+                @if (myComments.Any())
+                {
+
+                    @foreach (var comment in myComments)
+                    {
+                        var tour =
+                            tours.FirstOrDefault(
+                                x => x.Id == comment.TourId);
+
+
+                        <div class="my-comment">
+
+
+                            <div class="my-item-top">
+
+
+                                <div class="my-tour-name">
+
+                                    <i class="bi bi-geo-alt-fill"></i>
+
+                                    @(tour?.TourName ?? "Tur")
+
+                                </div>
+
+
+                                <span class="my-item-date">
+
+                                    @comment.CreatedDate.ToString("dd.MM.yyyy")
+
+                                </span>
+
+
+                            </div>
+
+
+
+                            <div class="my-stars">
+
+
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= comment.Rating)
+                                    {
+                                        <i class="bi bi-star-fill"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-star"></i>
+                                    }
+                                }
+
+
+                            </div>
+
+
+
+                            <p class="my-comment-text">
+
+                                @comment.CommentText
+
+                            </p>
+
+
+
+                            @if (comment.IsApproved)
+                            {
+                                <span class="profile-status status-success">
+
+                                    Onaylandı
+
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="profile-status status-pending">
+
+                                    Onay Bekliyor
+
+                                </span>
+                            }
+
+
+                        </div>
+                    }
+
+                }
+                else
+                {
+
+                    <div class="profile-empty">
+
+                        <i class="bi bi-chat-left"></i>
+
+                        Henüz bir tur hakkında yorum yapmadınız.
+
+                    </div>
+
+                }
+
+
+            </div>
+
+
+
+            <!-- SORULARIM -->
+
+            <div class="profile-section"
+                 id="sorularim">
+
+
+                <div class="profile-section-header">
+
+
+                    <h2>
+
+                        <i class="bi bi-question-circle me-1"></i>
+
+                        Sorularım
+
+                    </h2>
+
+
+                    <span class="profile-section-count">
+
+                        @myQuestions.Count soru
+
+                    </span>
+
+
+                </div>
+
+
+
+                @if (myQuestions.Any())
+                {
+
+                    @foreach (var question in myQuestions)
+                    {
+                        var tour =
+                            tours.FirstOrDefault(
+                                x => x.Id == question.TourId);
+
+
+                        <div class="my-question">
+
+
+                            <div class="my-item-top">
+
+
+                                <div class="my-tour-name">
+
+                                    <i class="bi bi-geo-alt-fill"></i>
+
+                                    @(tour?.TourName ?? "Tur")
+
+                                </div>
+
+
+                                <span class="my-item-date">
+
+                                    @question.QuestionTime.ToString("dd.MM.yyyy")
+
+                                </span>
+
+
+                            </div>
+
+
+
+                            <p class="my-question-text">
+
+                                @question.QuestionText
+
+                            </p>
+
+
+
+                            @if (question.IsAnswered)
+                            {
+
+                                <span class="profile-status status-success">
+
+                                    Cevaplandı
+
+                                </span>
+
+
+                                <div class="my-answer">
+
+                                    <small>
+                                        TRAVELIO YANITI
+                                    </small>
+
+                                    <p>
+                                        @question.AnswerText
+                                    </p>
+
+                                </div>
+
+                            }
+                            else
+                            {
+
+                                <span class="profile-status status-pending">
+
+                                    Cevap Bekliyor
+
+                                </span>
+
+                            }
+
+
+                        </div>
+                    }
+
+                }
+                else
+                {
+
+                    <div class="profile-empty">
+
+                        <i class="bi bi-question-circle"></i>
+
+                        Henüz bir tur hakkında soru sormadınız.
+
+                    </div>
+
+                }
 
 
             </div>

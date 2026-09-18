@@ -3,6 +3,11 @@
 @{
     ViewData["Title"] = "Destinasyonlar";
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
+
+    var destinationImages =
+        ViewBag.DestinationImages
+        as Dictionary<string, string>
+        ?? new Dictionary<string, string>();
 }
 
 @section Styles {
@@ -13,12 +18,15 @@
     <style>
 
         .destination-page {
-            padding: 50px 0 80px;
+            padding: 50px 0 70px;
         }
+
+
+        /* HEADER */
 
         .destination-header {
             max-width: 650px;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
             .destination-header small {
@@ -42,65 +50,94 @@
             }
 
 
+        /* CARD */
+
         .destination-card {
             height: 100%;
-            padding: 24px;
             background: white;
             border: 1px solid #e5e1db;
-            border-radius: 16px;
+            border-radius: 17px;
+            overflow: hidden;
             box-shadow: 0 6px 18px rgba(14,42,59,.05);
-            transition: .2s;
+            transition: .25s;
         }
 
             .destination-card:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 12px 26px rgba(14,42,59,.10);
+                transform: translateY(-4px);
+                box-shadow: 0 14px 30px rgba(14,42,59,.11);
             }
 
 
-        .destination-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 18px;
-            display: grid;
-            place-items: center;
-            background: #edf8f7;
-            color: var(--teal);
-            border-radius: 14px;
-            font-size: 1.3rem;
+        /* IMAGE */
+
+        .destination-image {
+            height: 175px;
+            position: relative;
+            overflow: hidden;
+            background: #e9ecef;
+        }
+
+            .destination-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: .35s;
+            }
+
+        .destination-card:hover .destination-image img {
+            transform: scale(1.04);
+        }
+
+
+        .destination-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient( to top, rgba(7,35,54,.25), transparent 55% );
+        }
+
+
+        /* BODY */
+
+        .destination-body {
+            padding: 18px 20px 20px;
         }
 
 
         .destination-card h3 {
-            margin-bottom: 6px;
+            margin: 0 0 6px;
             color: var(--navy);
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 700;
         }
 
 
         .destination-location {
-            margin-bottom: 20px;
+            margin-bottom: 17px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
             color: var(--muted);
-            font-size: .75rem;
+            font-size: .72rem;
         }
 
             .destination-location i {
-                margin-right: 4px;
                 color: var(--teal);
             }
 
 
+        /* BUTTON */
+
         .destination-btn {
+            padding: 8px 13px;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            padding: 8px 13px;
+            gap: 6px;
             background: var(--navy);
             color: white;
             border-radius: 999px;
             font-size: .68rem;
             font-weight: 600;
+            transition: .2s;
         }
 
             .destination-btn:hover {
@@ -115,6 +152,15 @@
             background: white;
             border: 1px solid #e5e1db;
             border-radius: 16px;
+            color: var(--muted);
+        }
+
+
+        @@media(max-width: 768px) {
+
+            .destination-image {
+                height: 200px;
+            }
         }
 
     </style>
@@ -125,6 +171,8 @@
 
     <div class="site-container">
 
+
+        <!-- HEADER -->
 
         <div class="destination-header">
 
@@ -143,51 +191,75 @@
         </div>
 
 
+
         @if (Model != null && Model.Any())
         {
+
             <div class="row g-4">
+
 
                 @foreach (var destination in Model)
                 {
+                    var imageUrl =
+                        destinationImages.ContainsKey(destination.Id)
+                        ? destinationImages[destination.Id]
+                        : "/images/travelio-hero.png";
+
+
                     <div class="col-md-6 col-lg-4">
 
 
                         <div class="destination-card">
 
 
-                            <div class="destination-icon">
+                            <!-- IMAGE -->
 
-                                <i class="bi bi-geo-alt-fill"></i>
+                            <div class="destination-image">
 
-                            </div>
+                                <img src="@imageUrl"
+                                     alt="@destination.DestinationName" />
 
-
-                            <h3>
-
-                                @destination.DestinationName
-
-                            </h3>
-
-
-                            <div class="destination-location">
-
-                                <i class="bi bi-map"></i>
-
-                                @destination.City, @destination.Country
+                                <div class="destination-image-overlay"></div>
 
                             </div>
 
 
-                            <a asp-controller="Tour"
-                                   asp-action="Index"
-                                   asp-route-destination="@destination.DestinationName"
-                                   class="destination-btn">
 
-                                Turları Gör
+                            <!-- BODY -->
 
-                                <i class="bi bi-arrow-right"></i>
+                            <div class="destination-body">
 
-                            </a>
+
+                                <h3>
+
+                                    @destination.DestinationName
+
+                                </h3>
+
+
+                                <div class="destination-location">
+
+                                    <i class="bi bi-geo-alt-fill"></i>
+
+                                    @destination.City, @destination.Country
+
+                                </div>
+
+
+
+                                <a asp-controller="Tour"
+                                       asp-action="Index"
+                                       asp-route-destination="@destination.DestinationName"
+                                       class="destination-btn">
+
+                                    Turları Gör
+
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </a>
+
+
+                            </div>
 
 
                         </div>
@@ -196,15 +268,19 @@
                     </div>
                 }
 
+
             </div>
+
         }
         else
         {
+
             <div class="empty-destination">
 
                 Henüz destinasyon bulunmuyor.
 
             </div>
+
         }
 
 

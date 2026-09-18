@@ -1,9 +1,15 @@
-﻿@{
+﻿@using Microsoft.Extensions.Localization
+@using System.Globalization
+
+@inject IStringLocalizer<Travel.Web.SharedResource> Localizer
+
+@{
     var currentController =
         ViewContext.RouteData.Values["controller"]?.ToString();
 
     var currentAction =
         ViewContext.RouteData.Values["action"]?.ToString();
+
 
     var isHome =
         currentController == "Home" &&
@@ -21,10 +27,22 @@
     var isProfile =
         currentController == "Profile";
 
-    var isAbout = currentController == "About";
+    var isAbout =
+        currentController == "About";
 
-    var isContact = currentController == "Contact";
+    var isContact =
+        currentController == "Contact";
+
+
+    var currentCulture =
+        CultureInfo.CurrentUICulture.Name;
+
+
+    var returnUrl =
+        Context.Request.Path +
+        Context.Request.QueryString;
 }
+
 
 <style>
 
@@ -63,6 +81,7 @@
         text-decoration: none;
     }
 
+
         .site-brand:hover {
             color: var(--navy);
         }
@@ -86,6 +105,7 @@
         gap: 30px;
     }
 
+
         .site-menu a {
             position: relative;
             padding-bottom: 8px;
@@ -96,14 +116,17 @@
             transition: .2s;
         }
 
+
             .site-menu a:hover {
                 color: var(--teal);
             }
+
 
             .site-menu a.active {
                 color: var(--teal);
                 font-weight: 700;
             }
+
 
                 .site-menu a.active::after {
                     content: "";
@@ -117,13 +140,57 @@
                 }
 
 
-    /* USER */
+    /* SAĞ TARAF */
 
     .nav-user {
         display: flex;
         align-items: center;
         gap: 10px;
     }
+
+
+    /* LANGUAGE */
+
+    .language-switch {
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        background: #f4f6f6;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+    }
+
+
+    .language-form {
+        margin: 0;
+        padding: 0;
+    }
+
+
+    .language-btn {
+        min-width: 34px;
+        padding: 5px 8px;
+        border: none;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--muted);
+        font-size: .66rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+
+        .language-btn:hover {
+            color: var(--teal);
+        }
+
+
+        .language-btn.active {
+            background: var(--navy);
+            color: white;
+        }
 
 
     /* PROFİL */
@@ -143,10 +210,12 @@
         transition: .2s;
     }
 
+
         .profile-pill:hover {
             color: var(--teal);
             border-color: var(--teal);
         }
+
 
         .profile-pill.profile-active {
             color: var(--teal);
@@ -166,6 +235,7 @@
         font-size: .7rem;
     }
 
+
     .profile-pill:hover .profile-avatar,
     .profile-pill.profile-active .profile-avatar {
         background: var(--teal);
@@ -183,6 +253,7 @@
         text-decoration: none;
         transition: .2s;
     }
+
 
         .logout-btn:hover {
             background: #fff1f1;
@@ -203,6 +274,7 @@
         transition: .2s;
     }
 
+
         .login-btn:hover {
             color: var(--teal);
             border-color: var(--teal);
@@ -210,6 +282,14 @@
 
 
     /* RESPONSIVE */
+
+    @@media(max-width: 1050px) {
+
+        .site-menu {
+            gap: 18px;
+        }
+    }
+
 
     @@media(max-width: 900px) {
 
@@ -243,7 +323,6 @@
         </a>
 
 
-
         <!-- MENU -->
 
         <nav class="site-menu">
@@ -253,7 +332,7 @@
                    asp-action="Index"
                    class="@(isHome ? "active" : "")">
 
-                Ana Sayfa
+                @Localizer["Home"]
 
             </a>
 
@@ -262,7 +341,7 @@
                    asp-action="Index"
                    class="@(isTour ? "active" : "")">
 
-                Turlar
+                @Localizer["Tours"]
 
             </a>
 
@@ -271,15 +350,16 @@
                    asp-action="Index"
                    class="@(isDestination ? "active" : "")">
 
-                Destinasyonlar
+                @Localizer["Destinations"]
 
             </a>
+
 
             <a asp-controller="Comment"
                    asp-action="Index"
                    class="@(isComment ? "active" : "")">
 
-                Yorumlar
+                @Localizer["Reviews"]
 
             </a>
 
@@ -288,30 +368,94 @@
                    asp-action="Index"
                    class="@(isAbout ? "active" : "")">
 
-                Hakkımızda
+                @Localizer["About"]
 
             </a>
+
 
             <a asp-controller="Contact"
                    asp-action="Index"
                    class="@(isContact ? "active" : "")">
 
-                İletişim
+                @Localizer["Contact"]
 
             </a>
+
 
         </nav>
 
 
-
-        <!-- USER -->
+        <!-- SAĞ TARAF -->
 
         <div class="nav-user">
 
 
+            <!-- TR / EN -->
+
+            <div class="language-switch">
+
+
+                <form asp-controller="Language"
+                      asp-action="SetLanguage"
+                      method="post"
+                      class="language-form">
+
+                    @Html.AntiForgeryToken()
+
+
+                    <input type="hidden"
+                           name="culture"
+                           value="tr-TR" />
+
+
+                    <input type="hidden"
+                           name="returnUrl"
+                           value="@returnUrl" />
+
+
+                    <button type="submit"
+                            class="language-btn @(currentCulture == "tr-TR" ? "active" : "")">
+
+                        TR
+
+                    </button>
+
+                </form>
+
+
+                <form asp-controller="Language"
+                      asp-action="SetLanguage"
+                      method="post"
+                      class="language-form">
+
+                    @Html.AntiForgeryToken()
+
+
+                    <input type="hidden"
+                           name="culture"
+                           value="en-US" />
+
+
+                    <input type="hidden"
+                           name="returnUrl"
+                           value="@returnUrl" />
+
+
+                    <button type="submit"
+                            class="language-btn @(currentCulture == "en-US" ? "active" : "")">
+
+                        EN
+
+                    </button>
+
+                </form>
+
+
+            </div>
+
+
             @if (User.Identity?.IsAuthenticated == true)
             {
-
                 <a asp-controller="Profile"
                        asp-action="Index"
                        class="profile-pill @(isProfile ? "profile-active" : "")">
@@ -332,19 +476,17 @@
                        asp-action="Logout"
                        class="logout-btn">
 
-                    Çıkış
+                    @Localizer["Logout"]
 
                 </a>
-
             }
             else
             {
-
                 <a asp-controller="Account"
                        asp-action="Login"
                        class="login-btn">
 
-                    Giriş Yap
+                    @Localizer["Login"]
 
                 </a>
 
@@ -353,10 +495,9 @@
                        asp-action="Register"
                        class="btn-teal">
 
-                    Kayıt Ol
+                    @Localizer["Register"]
 
                 </a>
-
             }
 
 
