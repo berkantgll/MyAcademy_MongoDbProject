@@ -1,12 +1,15 @@
-﻿using Travel.Web.DTOs.FavoriteDtos;
+﻿using Travel.Web.Entitites;
 
-namespace Travel.Web.Services.FavoriteService
+namespace Travel.Web.Services.FavoriteServices
 {
     public interface IFavoriteService
     {
-        Task<List<ResultFavoriteDto>> GetAllAsync();
-        Task<ResultFavoriteDto> GetByIdAsync(string id);
-        Task CreateAsync(CreateFavoriteDto createFavoriteDto);
-        Task DeleteAsync(string id);
+        Task AddAsync(string userId, string tourId);
+
+        Task RemoveAsync(string userId, string tourId);
+
+        Task<bool> IsFavoriteAsync(string userId, string tourId);
+
+        Task<List<Favorite>> GetByUserIdAsync(string userId);
     }
 }

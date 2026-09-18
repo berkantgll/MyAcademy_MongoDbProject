@@ -1,0 +1,583 @@
+﻿@using Travel.Web.Models
+@model List<MyReservationViewModel>
+
+@{
+    ViewData["Title"] = "Rezervasyonlarım";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+}
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+
+        .reservation-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cancel-btn {
+            padding: 8px 14px;
+            border: 1px solid #e7a5a5;
+            border-radius: 999px;
+            background: white;
+            color: #c94d4d;
+            font-size: .68rem;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+            .cancel-btn:hover {
+                background: #fff1f1;
+                color: #c94d4d;
+            }
+
+
+        .reservations-page {
+            padding: 45px 0 70px;
+        }
+
+        .page-small {
+            color: var(--teal);
+            font-family: 'Sora';
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .16em;
+        }
+
+        .page-title {
+            margin: 5px 0 7px;
+            color: var(--navy);
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
+
+        .page-text {
+            margin-bottom: 30px;
+            color: var(--muted);
+            font-size: .85rem;
+        }
+
+
+        /* CARD */
+
+        .reservation-card {
+            margin-bottom: 18px;
+            display: flex;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(14,42,59,.05);
+        }
+
+
+        /* IMAGE */
+
+        .reservation-image {
+            width: 220px;
+            min-height: 180px;
+            background: #e9ecef;
+            flex-shrink: 0;
+        }
+
+            .reservation-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            min-height: 180px;
+            display: grid;
+            place-items: center;
+            color: #91a0a8;
+            font-size: 2rem;
+        }
+
+
+        /* BODY */
+
+        .reservation-body {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .reservation-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .tour-name {
+            margin: 0 0 5px;
+            color: var(--navy);
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .reservation-date-created {
+            color: var(--muted);
+            font-size: .65rem;
+        }
+
+
+        /* STATUS */
+
+        .status {
+            height: fit-content;
+            padding: 6px 11px;
+            border-radius: 999px;
+            font-size: .65rem;
+            font-weight: 700;
+        }
+
+        .status-waiting {
+            background: #fff6dc;
+            color: #a87500;
+        }
+
+        .status-approved {
+            background: #e5f7ee;
+            color: #198754;
+        }
+
+        .status-cancelled {
+            background: #fdeaea;
+            color: #c84242;
+        }
+
+
+        /* INFO */
+
+        .reservation-info {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .info-item i {
+                color: var(--teal);
+                font-size: 1rem;
+            }
+
+            .info-item small {
+                display: block;
+                color: var(--muted);
+                font-size: .57rem;
+            }
+
+            .info-item strong {
+                display: block;
+                color: var(--navy);
+                font-size: .73rem;
+            }
+
+
+        /* BOTTOM */
+
+        .reservation-bottom {
+            margin-top: 18px;
+            padding-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eeeae4;
+        }
+
+        .total-label {
+            color: var(--muted);
+            font-size: .62rem;
+        }
+
+        .total-price {
+            color: var(--navy);
+            font-family: 'Sora';
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .detail-btn {
+            padding: 8px 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--navy);
+            border-radius: 999px;
+            color: white;
+            font-size: .68rem;
+            font-weight: 600;
+        }
+
+            .detail-btn:hover {
+                color: white;
+                background: var(--teal);
+            }
+
+
+        /* EMPTY */
+
+        .empty-box {
+            padding: 70px 20px;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+            .empty-box i {
+                display: block;
+                margin-bottom: 15px;
+                color: var(--teal);
+                font-size: 2.5rem;
+            }
+
+            .empty-box h3 {
+                font-size: 1.1rem;
+            }
+
+            .empty-box p {
+                color: var(--muted);
+                font-size: .8rem;
+            }
+
+
+        @@media(max-width:768px) {
+
+            .reservation-card {
+                display: block;
+            }
+
+            .reservation-image {
+                width: 100%;
+                height: 180px;
+            }
+
+            .reservation-top {
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+}
+
+
+<section class="reservations-page">
+
+    <div class="site-container">
+
+
+        <div class="page-small">
+            SEYAHATLERİM
+        </div>
+
+        <h1 class="page-title">
+            Rezervasyonlarım
+        </h1>
+
+        <p class="page-text">
+            Oluşturduğun tur rezervasyonlarını buradan takip edebilirsin.
+        </p>
+
+
+
+        @if (Model.Any())
+        {
+
+            @foreach (var item in Model)
+            {
+
+                var statusClass = "status-waiting";
+
+
+                if (item.Reservation.Status == "Onaylandı")
+                {
+                    statusClass = "status-approved";
+                }
+                else if (item.Reservation.Status == "İptal Edildi")
+                {
+                    statusClass = "status-cancelled";
+                }
+
+
+                <div class="reservation-card">
+
+
+                    <!-- RESİM -->
+
+                    <div class="reservation-image">
+
+
+                        @if (!string.IsNullOrWhiteSpace(item.CoverImageUrl))
+                        {
+                            <img src="@item.CoverImageUrl"
+                                 alt="@item.TourName" />
+                        }
+                        else
+                        {
+                            <div class="image-placeholder">
+
+                                <i class="bi bi-image"></i>
+
+                            </div>
+                        }
+
+
+                    </div>
+
+
+
+                    <!-- CONTENT -->
+
+                    <div class="reservation-body">
+
+
+                        <div>
+
+
+                            <div class="reservation-top">
+
+
+                                <div>
+
+                                    <h2 class="tour-name">
+
+                                        @item.TourName
+
+                                    </h2>
+
+
+                                    <div class="reservation-date-created">
+
+                                        Rezervasyon tarihi:
+
+                                        @item.Reservation.ReservationDate.ToString("dd.MM.yyyy")
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <span class="status @statusClass">
+
+                                    @item.Reservation.Status
+
+                                </span>
+
+
+                            </div>
+
+
+
+                            <!-- INFO -->
+
+                            <div class="reservation-info">
+
+
+                                <div class="info-item">
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Tur Tarihi
+                                        </small>
+
+                                        <strong>
+
+                                            @item.Reservation.SelectedTourDate.ToString("dd.MM.yyyy")
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="info-item">
+
+                                    <i class="bi bi-person"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Yetişkin
+                                        </small>
+
+                                        <strong>
+
+                                            @item.Reservation.AdultCount Kişi
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="info-item">
+
+                                    <i class="bi bi-person-heart"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Çocuk
+                                        </small>
+
+                                        <strong>
+
+                                            @item.Reservation.ChildCount Kişi
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- ALT -->
+
+                        <div class="reservation-bottom">
+
+
+                            <div>
+
+                                <div class="total-label">
+                                    Toplam Tutar
+                                </div>
+
+                                <div class="total-price">
+
+                                    @item.Reservation.TotalPrice.ToString("N0") TL
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="reservation-actions">
+
+                                <a asp-controller="Tour"
+                                       asp-action="Details"
+                                       asp-route-id="@item.Reservation.TourId"
+                                       class="detail-btn">
+
+                                    Turu Gör
+
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </a>
+
+                                @if (item.Reservation.Status != "İptal Edildi")
+                                {
+                                    <form asp-controller="Reservation"
+                                          asp-action="Cancel"
+                                          method="post">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@item.Reservation.Id" />
+
+                                        <button type="submit"
+                                                class="cancel-btn"
+                                                onclick="return confirm('Rezervasyonu iptal etmek istediğinize emin misiniz?')">
+
+                                            <i class="bi bi-x-circle"></i>
+
+                                            İptal Et
+
+                                        </button>
+
+                                    </form>
+                                }
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+            }
+
+        }
+        else
+        {
+
+            <div class="empty-box">
+
+                <i class="bi bi-suitcase2"></i>
+
+                <h3>
+                    Henüz rezervasyonun yok
+                </h3>
+
+                <p>
+                    Travelio turlarını keşfederek ilk seyahatini planlayabilirsin.
+                </p>
+
+
+                <a asp-controller="Tour"
+                       asp-action="Index"
+                       class="btn-teal">
+
+                    Turları Keşfet
+
+                </a>
+
+            </div>
+
+        }
+
+
+    </div>
+
+</section>

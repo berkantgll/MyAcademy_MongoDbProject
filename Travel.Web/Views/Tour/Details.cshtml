@@ -1,8 +1,19 @@
 ﻿@model Travel.Web.DTOs.TourDtos.ResultTourDto
 
+@using Travel.Web.DTOs.CommentDtos
+@using Travel.Web.DTOs.QuestionDtos
+
 @{
     ViewData["Title"] = Model.TourName;
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
+
+    var comments =
+        ViewBag.Comments as List<ResultCommentDto>
+        ?? new List<ResultCommentDto>();
+
+    var questions =
+        ViewBag.Questions as List<ResultQuestionDto>
+        ?? new List<ResultQuestionDto>();
 }
 
 @section Styles {
@@ -15,6 +26,7 @@
         .tour-detail-page {
             padding: 35px 0 70px;
         }
+
 
         /* ÜST BİLGİ */
 
@@ -231,7 +243,7 @@
             }
 
 
-        /* REZERVASYON KARTI */
+        /* REZERVASYON */
 
         .reservation-card {
             position: sticky;
@@ -288,7 +300,7 @@
             }
 
 
-        /* TOPLAM FİYAT */
+        /* TOPLAM */
 
         .total-price-box {
             margin-top: 18px;
@@ -331,6 +343,247 @@
             }
 
 
+        /* FAVORİ */
+
+        .favorite-add-btn {
+            width: 100%;
+            height: 44px;
+            margin-top: 10px;
+            background: white;
+            color: var(--navy);
+            border: 1px solid #e5e1db;
+            border-radius: 999px;
+            font-size: .78rem;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+            .favorite-add-btn:hover {
+                color: var(--teal);
+                border-color: var(--teal);
+                background: #f4f9f9;
+            }
+
+
+        /* YORUM */
+
+        .comment-rating {
+            width: 100%;
+            height: 42px;
+            padding: 0 10px;
+            background: #faf9f7;
+            border: 1px solid #e5e1db;
+            border-radius: 9px;
+            outline: none;
+            color: var(--navy);
+            font-size: .75rem;
+        }
+
+            .comment-rating:focus {
+                border-color: var(--teal);
+            }
+
+        .comment-textarea {
+            width: 100%;
+            min-height: 110px;
+            padding: 12px;
+            resize: vertical;
+            background: #faf9f7;
+            border: 1px solid #e5e1db;
+            border-radius: 9px;
+            outline: none;
+            color: var(--navy);
+            font-size: .78rem;
+        }
+
+            .comment-textarea:focus {
+                border-color: var(--teal);
+            }
+
+        .comment-submit-btn {
+            margin-top: 10px;
+            padding: 9px 18px;
+            background: var(--teal);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 600;
+        }
+
+            .comment-submit-btn:hover {
+                background: var(--teal-dark);
+            }
+
+        .comment-item {
+            padding: 16px 0;
+            border-bottom: 1px solid #eeeae4;
+        }
+
+            .comment-item:last-child {
+                border-bottom: none;
+            }
+
+        .comment-top {
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .comment-user {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--navy);
+            font-size: .75rem;
+            font-weight: 600;
+        }
+
+            .comment-user i {
+                color: var(--teal);
+            }
+
+        .comment-date {
+            color: var(--muted);
+            font-size: .65rem;
+        }
+
+        .comment-stars {
+            margin-bottom: 7px;
+            color: #f4b400;
+            font-size: .75rem;
+        }
+
+        .comment-text {
+            margin: 0;
+            color: var(--muted);
+            font-size: .78rem;
+            line-height: 1.7;
+        }
+
+
+        /* SORULAR */
+
+        .question-description {
+            margin: -7px 0 18px;
+            color: var(--muted);
+            font-size: .75rem;
+            line-height: 1.6;
+        }
+
+        .question-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            resize: vertical;
+            background: #faf9f7;
+            border: 1px solid #e5e1db;
+            border-radius: 9px;
+            outline: none;
+            color: var(--navy);
+            font-size: .78rem;
+        }
+
+            .question-textarea:focus {
+                border-color: var(--teal);
+            }
+
+        .question-submit-btn {
+            margin-top: 10px;
+            padding: 9px 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+            .question-submit-btn:hover {
+                background: var(--teal);
+            }
+
+        .question-item {
+            padding: 17px 0;
+            border-bottom: 1px solid #eeeae4;
+        }
+
+            .question-item:last-child {
+                border-bottom: none;
+            }
+
+        .question-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            color: var(--navy);
+        }
+
+            .question-top i {
+                margin-top: 2px;
+                color: var(--teal);
+            }
+
+            .question-top strong {
+                font-size: .8rem;
+                line-height: 1.6;
+            }
+
+        .question-answer {
+            margin-top: 12px;
+            padding: 13px 15px;
+            display: flex;
+            gap: 10px;
+            background: #f4f9f9;
+            border-radius: 11px;
+        }
+
+            .question-answer > i {
+                margin-top: 2px;
+                color: var(--teal);
+            }
+
+            .question-answer small {
+                display: block;
+                margin-bottom: 4px;
+                color: var(--teal-dark);
+                font-size: .62rem;
+                font-weight: 700;
+            }
+
+            .question-answer p {
+                margin: 0;
+                color: var(--navy);
+                font-size: .75rem;
+                line-height: 1.65;
+            }
+
+        .question-date {
+            display: block;
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: .62rem;
+        }
+
+        .question-login {
+            padding: 12px 14px;
+            background: #f8f7f4;
+            border-radius: 10px;
+            color: var(--muted);
+            font-size: .75rem;
+        }
+
+            .question-login a {
+                color: var(--teal);
+                font-weight: 600;
+            }
+
+
         /* GERİ */
 
         .back-link {
@@ -345,6 +598,14 @@
             .back-link:hover {
                 color: var(--teal);
             }
+
+
+        /* MESAJ */
+
+        .reservation-message {
+            border-radius: 12px;
+            font-size: .8rem;
+        }
 
 
         @@media(max-width: 991px) {
@@ -385,16 +646,41 @@
         </a>
 
 
+        <!-- GENEL MESAJLAR -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success reservation-message">
+
+                @TempData["SuccessMessage"]
+
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger reservation-message">
+
+                @TempData["ErrorMessage"]
+
+            </div>
+        }
+
 
         <!-- BAŞLIK -->
 
         <div class="detail-category">
+
             Travelio Turu
+
         </div>
 
+
         <h1 class="detail-title">
+
             @Model.TourName
+
         </h1>
+
 
         <div class="detail-location">
 
@@ -403,7 +689,6 @@
             @Model.City, @Model.Country
 
         </div>
-
 
 
         <!-- KAPAK -->
@@ -417,7 +702,6 @@
             }
 
         </div>
-
 
 
         <!-- BİLGİ BAR -->
@@ -444,7 +728,6 @@
             </div>
 
 
-
             <div class="detail-info-item">
 
                 <i class="bi bi-geo-alt"></i>
@@ -462,7 +745,6 @@
                 </div>
 
             </div>
-
 
 
             <div class="detail-info-item">
@@ -487,11 +769,10 @@
         </div>
 
 
-
         <div class="row g-4">
 
 
-            <!-- SOL TARAF -->
+            <!-- SOL -->
 
             <div class="col-lg-8">
 
@@ -513,24 +794,19 @@
                 </div>
 
 
-
                 <!-- ÖZELLİKLER -->
                 @if (Model.Features != null && Model.Features.Any())
                 {
-
                     <div class="detail-box">
 
                         <h3>
                             Tur Özellikleri
                         </h3>
 
-
                         <div class="feature-list">
-
 
                             @foreach (var feature in Model.Features)
                             {
-
                                 <div class="feature-item">
 
                                     <i class="bi bi-check-circle-fill"></i>
@@ -538,16 +814,12 @@
                                     @feature
 
                                 </div>
-
                             }
-
 
                         </div>
 
                     </div>
-
                 }
-
 
 
                 <!-- TARİHLER -->
@@ -561,12 +833,9 @@
 
                     @if (Model.TourDates != null && Model.TourDates.Any())
                     {
-
                         @foreach (var date in Model.TourDates.OrderBy(x => x.Date))
                         {
-
                             <div class="date-item">
-
 
                                 <div class="date-main">
 
@@ -583,25 +852,19 @@
 
                                 </span>
 
-
                             </div>
-
                         }
-
                     }
                     else
                     {
-
                         <div class="text-muted small">
 
                             Henüz tur tarihi eklenmemiş.
 
                         </div>
-
                     }
 
                 </div>
-
 
 
                 <!-- PROGRAM -->
@@ -615,12 +878,9 @@
 
                     @if (Model.TourPrograms != null && Model.TourPrograms.Any())
                     {
-
                         @foreach (var program in Model.TourPrograms.OrderBy(x => x.DayNumber))
                         {
-
                             <div class="program-item">
-
 
                                 <div class="program-day">
 
@@ -631,11 +891,9 @@
 
                                 <div class="program-content">
 
-
                                     <h5>
                                         @program.Title
                                     </h5>
-
 
                                     <p>
                                         @program.Description
@@ -647,7 +905,6 @@
 
                                         @if (!string.IsNullOrWhiteSpace(program.City))
                                         {
-
                                             <span>
 
                                                 <i class="bi bi-geo-alt"></i>
@@ -655,13 +912,11 @@
                                                 @program.City
 
                                             </span>
-
                                         }
 
 
                                         @if (!string.IsNullOrWhiteSpace(program.Transport))
                                         {
-
                                             <span>
 
                                                 <i class="bi bi-bus-front"></i>
@@ -669,13 +924,11 @@
                                                 @program.Transport
 
                                             </span>
-
                                         }
 
 
                                         @if (!string.IsNullOrWhiteSpace(program.Meal))
                                         {
-
                                             <span>
 
                                                 <i class="bi bi-cup-hot"></i>
@@ -683,9 +936,337 @@
                                                 @program.Meal
 
                                             </span>
-
                                         }
 
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-muted small">
+
+                            Henüz tur programı eklenmemiş.
+
+                        </div>
+                    }
+
+                </div>
+
+
+                <!-- YORUM YAP -->
+
+                <div class="detail-box">
+
+                    <h3>
+                        Yorum Yap
+                    </h3>
+
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <form asp-controller="Comment"
+                              asp-action="Add"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+
+                            <input type="hidden"
+                                   name="TourId"
+                                   value="@Model.Id" />
+
+
+                            <label class="reservation-label">
+                                Puanınız
+                            </label>
+
+
+                            <select name="Rating"
+                                    class="comment-rating"
+                                    required>
+
+                                <option value="">
+                                    Puan seçiniz
+                                </option>
+
+                                <option value="5">
+                                    5 - Mükemmel
+                                </option>
+
+                                <option value="4">
+                                    4 - Çok İyi
+                                </option>
+
+                                <option value="3">
+                                    3 - İyi
+                                </option>
+
+                                <option value="2">
+                                    2 - Orta
+                                </option>
+
+                                <option value="1">
+                                    1 - Kötü
+                                </option>
+
+                            </select>
+
+
+                            <label class="reservation-label">
+                                Yorumunuz
+                            </label>
+
+
+                            <textarea name="CommentText"
+                                      class="comment-textarea"
+                                      placeholder="Tur hakkındaki düşüncelerinizi yazın..."
+                                      required></textarea>
+
+
+                            <button type="submit"
+                                    class="comment-submit-btn">
+
+                                <i class="bi bi-send"></i>
+
+                                Yorumu Gönder
+
+                            </button>
+
+
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="text-muted small">
+
+                            Yorum yapabilmek için
+
+                            <a asp-controller="Account"
+                                   asp-action="Login">
+
+                                giriş yapmalısınız.
+
+                            </a>
+
+                        </div>
+                    }
+
+                </div>
+
+
+                <!-- YORUMLAR -->
+
+                <div class="detail-box">
+
+                    <h3>
+                        Yorumlar
+                    </h3>
+
+
+                    @if (comments.Any())
+                    {
+                        @foreach (var comment in comments)
+                        {
+                            <div class="comment-item">
+
+
+                                <div class="comment-top">
+
+                                    <div class="comment-user">
+
+                                        <i class="bi bi-person-circle"></i>
+
+                                        Travelio Kullanıcısı
+
+                                    </div>
+
+
+                                    <div class="comment-date">
+
+                                        @comment.CreatedDate.ToString("dd.MM.yyyy")
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="comment-stars">
+
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= comment.Rating)
+                                        {
+                                            <i class="bi bi-star-fill"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-star"></i>
+                                        }
+                                    }
+
+                                </div>
+
+
+                                <p class="comment-text">
+
+                                    @comment.CommentText
+
+                                </p>
+
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-muted small">
+
+                            Bu tur için henüz yayınlanmış yorum bulunmuyor.
+
+                        </div>
+                    }
+
+                </div>
+
+
+
+                <!-- SORU SOR -->
+
+                <div class="detail-box">
+
+                    <h3>
+                        Bu Tur Hakkında Soru Sor
+                    </h3>
+
+                    <p class="question-description">
+                        Tur hakkında merak ettiğiniz bir konuyu bize sorabilirsiniz.
+                        Cevaplanan sorular bu sayfada yayınlanır.
+                    </p>
+
+
+                    @if (TempData["QuestionSuccess"] != null)
+                    {
+                        <div class="alert alert-success reservation-message">
+
+                            @TempData["QuestionSuccess"]
+
+                        </div>
+                    }
+
+
+                    @if (TempData["QuestionError"] != null)
+                    {
+                        <div class="alert alert-danger reservation-message">
+
+                            @TempData["QuestionError"]
+
+                        </div>
+                    }
+
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <form asp-controller="Question"
+                              asp-action="Add"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+
+                            <input type="hidden"
+                                   name="TourId"
+                                   value="@Model.Id" />
+
+
+                            <textarea name="QuestionText"
+                                      class="question-textarea"
+                                      placeholder="Örneğin: Müze giriş ücretleri tur fiyatına dahil mi?"
+                                      required></textarea>
+
+
+                            <button type="submit"
+                                    class="question-submit-btn">
+
+                                <i class="bi bi-send"></i>
+
+                                Soruyu Gönder
+
+                            </button>
+
+
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="question-login">
+
+                            Soru sorabilmek için
+
+                            <a asp-controller="Account"
+                                   asp-action="Login">
+
+                                giriş yapmalısınız.
+
+                            </a>
+
+                        </div>
+                    }
+
+                </div>
+
+
+
+                <!-- SORU VE CEVAPLAR -->
+
+                <div class="detail-box">
+
+                    <h3>
+                        Sık Sorulan Sorular
+                    </h3>
+
+
+                    @if (questions.Any())
+                    {
+                        @foreach (var question in questions)
+                        {
+                            <div class="question-item">
+
+
+                                <div class="question-top">
+
+                                    <i class="bi bi-question-circle-fill"></i>
+
+                                    <strong>
+
+                                        @question.QuestionText
+
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="question-answer">
+
+                                    <i class="bi bi-chat-left-text-fill"></i>
+
+
+                                    <div>
+
+                                        <small>
+                                            TRAVELIO YANITI
+                                        </small>
+
+
+                                        <p>
+
+                                            @question.AnswerText
+
+                                        </p>
 
                                     </div>
 
@@ -693,20 +1274,23 @@
                                 </div>
 
 
+                                <span class="question-date">
+
+                                    @question.QuestionTime.ToString("dd.MM.yyyy")
+
+                                </span>
+
+
                             </div>
-
                         }
-
                     }
                     else
                     {
-
                         <div class="text-muted small">
 
-                            Henüz tur programı eklenmemiş.
+                            Bu tur hakkında henüz cevaplanmış bir soru bulunmuyor.
 
                         </div>
-
                     }
 
                 </div>
@@ -716,183 +1300,183 @@
 
 
 
-            <!-- SAĞ TARAF -->
+            <!-- SAĞ -->
 
             <div class="col-lg-4">
-
 
                 <div class="reservation-card">
 
 
-                    <!-- KİŞİ BAŞI FİYAT -->
+                    <!-- REZERVASYON FORMU -->
 
-                    <div class="price-label">
-
-                        Kişi başı
-
-                    </div>
+                    <form asp-controller="Reservation"
+                          asp-action="Create"
+                          method="post">
 
 
-                    <div class="detail-price">
-
-                        @Model.Price.ToString("N0") TL
-
-                        <small>
-                            / kişi
-                        </small>
-
-                    </div>
+                        @Html.AntiForgeryToken()
 
 
-
-                    <!-- TARİH -->
-
-                    <label class="reservation-label">
-
-                        Tur Tarihi
-
-                    </label>
+                        <input type="hidden"
+                               name="TourId"
+                               value="@Model.Id" />
 
 
-                    <select id="tourDate"
-                            class="reservation-control">
+                        <div class="price-label">
+
+                            Kişi başı
+
+                        </div>
 
 
-                        <option value="">
-
-                            Tarih seçiniz
-
-                        </option>
-
-
-                        @if (Model.TourDates != null)
-                        {
-
-                            @foreach (var date in Model.TourDates
-                                .Where(x =>
-                                    x.Date >= DateTime.Today &&
-                                    x.Capacity > 0)
-                                .OrderBy(x => x.Date))
-                            {
-
-                                <option value="@date.Id">
-
-                                    @date.Date.ToString("dd.MM.yyyy")
-                                    - @date.Capacity yer
-
-                                </option>
-
-                            }
-
-                        }
-
-
-                    </select>
-
-
-
-                    <!-- YETİŞKİN -->
-
-                    <label class="reservation-label">
-
-                        Yetişkin
-
-                    </label>
-
-
-                    <select id="adultCount"
-                            class="reservation-control">
-
-                        <option value="1">
-                            1 Yetişkin
-                        </option>
-
-                        <option value="2">
-                            2 Yetişkin
-                        </option>
-
-                        <option value="3">
-                            3 Yetişkin
-                        </option>
-
-                        <option value="4">
-                            4 Yetişkin
-                        </option>
-
-                    </select>
-
-
-
-                    <!-- ÇOCUK -->
-
-                    <label class="reservation-label">
-
-                        Çocuk
-
-                    </label>
-
-
-                    <select id="childCount"
-                            class="reservation-control">
-
-                        <option value="0">
-                            0 Çocuk
-                        </option>
-
-                        <option value="1">
-                            1 Çocuk
-                        </option>
-
-                        <option value="2">
-                            2 Çocuk
-                        </option>
-
-                        <option value="3">
-                            3 Çocuk
-                        </option>
-
-                    </select>
-
-
-
-                    <!-- TOPLAM FİYAT -->
-
-                    <div class="total-price-box">
-
-                        <span>
-                            Toplam Tutar
-                        </span>
-
-                        <strong id="totalPrice">
+                        <div class="detail-price">
 
                             @Model.Price.ToString("N0") TL
 
-                        </strong>
+                            <small>
+                                / kişi
+                            </small>
 
-                    </div>
+                        </div>
+
+
+                        <label class="reservation-label">
+
+                            Tur Tarihi
+
+                        </label>
+
+
+                        <select name="TourDateId"
+                                id="tourDate"
+                                class="reservation-control"
+                                required>
+
+                            <option value="">
+                                Tarih seçiniz
+                            </option>
+
+
+                            @if (Model.TourDates != null)
+                            {
+                                @foreach (var date in Model.TourDates
+                                    .Where(x =>
+                                        x.Date >= DateTime.Today &&
+                                        x.Capacity > 0)
+                                    .OrderBy(x => x.Date))
+                                {
+                                    <option value="@date.Id">
+
+                                        @date.Date.ToString("dd.MM.yyyy")
+                                        - @date.Capacity yer
+
+                                    </option>
+                                }
+                            }
+
+                        </select>
+
+
+                        <label class="reservation-label">
+
+                            Yetişkin
+
+                        </label>
+
+
+                        <select name="AdultCount"
+                                id="adultCount"
+                                class="reservation-control">
+
+                            <option value="1">1 Yetişkin</option>
+                            <option value="2">2 Yetişkin</option>
+                            <option value="3">3 Yetişkin</option>
+                            <option value="4">4 Yetişkin</option>
+
+                        </select>
+
+
+                        <label class="reservation-label">
+
+                            Çocuk
+
+                        </label>
+
+
+                        <select name="ChildCount"
+                                id="childCount"
+                                class="reservation-control">
+
+                            <option value="0">0 Çocuk</option>
+                            <option value="1">1 Çocuk</option>
+                            <option value="2">2 Çocuk</option>
+                            <option value="3">3 Çocuk</option>
+
+                        </select>
+
+
+                        <div class="total-price-box">
+
+                            <span>
+                                Toplam Tutar
+                            </span>
+
+                            <strong id="totalPrice">
+
+                                @Model.Price.ToString("N0") TL
+
+                            </strong>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="reservation-btn">
+
+                            <i class="bi bi-calendar-check"></i>
+
+                            Rezervasyon Yap
+
+                        </button>
+
+
+                    </form>
 
 
 
-                    <!-- BUTTON -->
+                    <!-- FAVORİ -->
 
-                    <button type="button"
-                            class="reservation-btn">
+                    <form asp-controller="Favorite"
+                          asp-action="Add"
+                          method="post">
 
-                        <i class="bi bi-calendar-check"></i>
+                        @Html.AntiForgeryToken()
 
-                        Rezervasyon Yap
 
-                    </button>
+                        <input type="hidden"
+                               name="tourId"
+                               value="@Model.Id" />
+
+
+                        <button type="submit"
+                                class="favorite-add-btn">
+
+                            <i class="bi bi-heart"></i>
+
+                            Favorilere Ekle
+
+                        </button>
+
+
+                    </form>
 
 
                 </div>
-
 
             </div>
 
 
         </div>
-
 
     </div>
 
@@ -927,12 +1511,9 @@
                 parseInt(childSelect.value);
 
 
-            // Yetişkin tam fiyat
             const adultTotal =
                 adultCount * tourPrice;
 
-
-            // Çocuk %50 fiyat
             const childTotal =
                 childCount * tourPrice * 0.5;
 
@@ -943,7 +1524,6 @@
 
             totalPriceElement.innerText =
                 totalPrice.toLocaleString("tr-TR") + " TL";
-
         }
 
 

@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "Hakkımızda";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+
+        .about-page {
+            padding: 55px 0 80px;
+        }
+
+        .about-header {
+            max-width: 700px;
+            margin-bottom: 35px;
+        }
+
+            .about-header small {
+                color: var(--teal);
+                font-size: .7rem;
+                font-weight: 700;
+                letter-spacing: .12em;
+            }
+
+            .about-header h1 {
+                margin: 6px 0 10px;
+                color: var(--navy);
+                font-size: 2.2rem;
+                font-weight: 800;
+            }
+
+            .about-header p {
+                margin: 0;
+                color: var(--muted);
+                font-size: .88rem;
+                line-height: 1.8;
+            }
+
+        .about-card {
+            height: 100%;
+            padding: 25px;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 16px;
+        }
+
+        .about-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 15px;
+            display: grid;
+            place-items: center;
+            background: #edf8f7;
+            color: var(--teal);
+            border-radius: 14px;
+            font-size: 1.3rem;
+        }
+
+        .about-card h3 {
+            color: var(--navy);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .about-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .8rem;
+            line-height: 1.7;
+        }
+
+    </style>
+}
+
+
+<section class="about-page">
+
+    <div class="site-container">
+
+        <div class="about-header">
+
+            <small>
+                TRAVELIO
+            </small>
+
+            <h1>
+                Hakkımızda
+            </h1>
+
+            <p>
+                Travelio, farklı şehirleri ve kültürleri keşfetmek isteyen
+                kullanıcılar için tur seçeneklerini tek bir platformda sunar.
+                Amacımız tur arama, rezervasyon ve seyahat planlama sürecini
+                daha kolay hale getirmektir.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <div class="about-card">
+
+                    <div class="about-icon">
+                        <i class="bi bi-globe2"></i>
+                    </div>
+
+                    <h3>
+                        Farklı Rotalar
+                    </h3>
+
+                    <p>
+                        Yurt içi ve yurt dışındaki farklı destinasyonları
+                        kullanıcılarla buluşturuyoruz.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="about-card">
+
+                    <div class="about-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+
+                    <h3>
+                        Kolay Rezervasyon
+                    </h3>
+
+                    <p>
+                        Kullanıcılar tur tarihlerini ve kontenjanları
+                        görüntüleyerek kolayca rezervasyon oluşturabilir.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="about-card">
+
+                    <div class="about-icon">
+                        <i class="bi bi-chat-heart"></i>
+                    </div>
+
+                    <h3>
+                        Kullanıcı Deneyimi
+                    </h3>
+
+                    <p>
+                        Favoriler, yorumlar ve kullanıcı profili gibi
+                        özelliklerle seyahat deneyimini kişiselleştiriyoruz.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

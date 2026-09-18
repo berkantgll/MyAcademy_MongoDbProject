@@ -1,21 +1,24 @@
 ﻿using FluentValidation;
 using Travel.Web.DTOs.ReservationDtos;
 
-namespace Travel.Web.Validations.ReservationValidations
+namespace Travel.Web.Validators.ReservationValidators
 {
-    public class CreateReservationValidator : AbstractValidator<CreateReservationDto>
+    public class CreateReservationValidator
+        : AbstractValidator<CreateReservationDto>
     {
         public CreateReservationValidator()
         {
-            RuleFor(x => x.TourId).NotEmpty().WithMessage("Tur seçilmelidir.");
+            RuleFor(x => x.TourId)
+                .NotEmpty();
 
-            RuleFor(x => x.SelectedTourDate).NotEmpty().WithMessage("Tur tarihi seçilmelidir");
+            RuleFor(x => x.TourDateId)
+                .NotEmpty();
 
-            RuleFor(x => x.AdultCount).GreaterThanOrEqualTo(0).WithMessage("Yetişkin sayısı negatif olamaz.");
+            RuleFor(x => x.AdultCount)
+                .GreaterThan(0);
 
-            RuleFor(x => x.ChildCount).GreaterThanOrEqualTo(0).WithMessage("Çocuk sayısı negatif olamaz.");
-
-            RuleFor(x => x).Must(x => x.ChildCount + x.AdultCount > 0).WithMessage("En az bir yolcu seçilmelidir");
+            RuleFor(x => x.ChildCount)
+                .GreaterThanOrEqualTo(0);
         }
     }
 }

@@ -10,6 +10,7 @@
         public int AdultCount { get; set; }
         public int ChildCount { get; set; }
         public decimal TotalPrice { get; set; }
-        public string Status { get; set; } 
+        public string Status { get; set; }
+        public string TourDateId { get; set; } = string.Empty;
     }
 }

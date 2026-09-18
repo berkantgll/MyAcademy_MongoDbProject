@@ -1,0 +1,325 @@
+﻿@model Travel.Web.Entitites.User
+
+@{
+    ViewData["Title"] = "Profilim";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+
+        .profile-page {
+            padding: 45px 0 70px;
+        }
+
+        .profile-wrapper {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .profile-card {
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(14,42,59,.06);
+        }
+
+        .profile-header {
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--navy);
+            color: white;
+        }
+
+        .profile-avatar-big {
+            width: 80px;
+            height: 80px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            background: var(--teal);
+            color: white;
+            border-radius: 50%;
+            font-family: 'Sora';
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .profile-header h1 {
+            margin: 0 0 5px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .profile-header p {
+            margin: 0;
+            color: rgba(255,255,255,.75);
+            font-size: .8rem;
+        }
+
+        .profile-body {
+            padding: 25px 30px;
+        }
+
+        .profile-title {
+            margin-bottom: 18px;
+            color: var(--navy);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .profile-info {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #eeeae4;
+        }
+
+            .profile-info:last-child {
+                border-bottom: none;
+            }
+
+        .profile-info-icon {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: #edf8f7;
+            color: var(--teal);
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .profile-info small {
+            display: block;
+            color: var(--muted);
+            font-size: .6rem;
+        }
+
+        .profile-info strong {
+            display: block;
+            color: var(--navy);
+            font-size: .8rem;
+        }
+
+        .profile-actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .reservation-btn-profile {
+            padding: 10px 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--teal);
+            color: white;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 600;
+        }
+
+            .reservation-btn-profile:hover {
+                background: var(--teal-dark);
+                color: white;
+            }
+
+        .logout-profile-btn {
+            padding: 10px 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: white;
+            color: #c94d4d;
+            border: 1px solid #e7a5a5;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 600;
+        }
+
+            .logout-profile-btn:hover {
+                background: #fff1f1;
+                color: #c94d4d;
+            }
+
+    </style>
+}
+
+
+<section class="profile-page">
+
+    <div class="site-container">
+
+        <div class="profile-wrapper">
+
+
+            <div class="profile-card">
+
+
+                <!-- ÜST -->
+
+                <div class="profile-header">
+
+                    <div class="profile-avatar-big">
+
+                        @if (!string.IsNullOrWhiteSpace(Model.NameSurname))
+                        {
+                            @Model.NameSurname.Substring(0, 1).ToUpper()
+                        }
+                        else
+                        {
+                            <span>U</span>
+                        }
+
+                    </div>
+
+
+                    <div>
+
+                        <h1>
+                            @Model.NameSurname
+                        </h1>
+
+                        <p>
+                            Travelio hesabım
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BİLGİLER -->
+
+                <div class="profile-body">
+
+                    <div class="profile-title">
+                        Hesap Bilgileri
+                    </div>
+
+
+                    <div class="profile-info">
+
+                        <div class="profile-info-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+
+                        <div>
+
+                            <small>
+                                Ad Soyad
+                            </small>
+
+                            <strong>
+                                @Model.NameSurname
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-info">
+
+                        <div class="profile-info-icon">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+
+                        <div>
+
+                            <small>
+                                E-posta
+                            </small>
+
+                            <strong>
+                                @Model.Email
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-info">
+
+                        <div class="profile-info-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+
+                        <div>
+
+                            <small>
+                                Rol
+                            </small>
+
+                            <strong>
+                                @Model.Role
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- BUTONLAR -->
+                    <div class="profile-actions">
+
+                        <a asp-controller="Reservation"
+                               asp-action="MyReservations"
+                               class="reservation-btn-profile">
+
+                            <i class="bi bi-suitcase2"></i>
+
+                            Rezervasyonlarım
+
+                        </a>
+
+
+                        <a asp-controller="Favorite"
+                               asp-action="Index"
+                               class="reservation-btn-profile">
+
+                            <i class="bi bi-heart"></i>
+
+                            Favorilerim
+
+                        </a>
+
+
+                        <a asp-controller="Account"
+                               asp-action="Logout"
+                               class="logout-profile-btn">
+
+                            <i class="bi bi-box-arrow-right"></i>
+
+                            Çıkış Yap
+
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>

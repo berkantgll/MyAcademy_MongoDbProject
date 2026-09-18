@@ -1,0 +1,345 @@
+﻿@using Travel.Web.DTOs.TourDtos
+
+@model List<Travel.Web.DTOs.CommentDtos.ResultCommentDto>
+
+@{
+    ViewData["Title"] = "Yorumlar";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+
+    var tours =
+        ViewBag.Tours as List<ResultTourDto>;
+}
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+
+        .comments-page {
+            padding: 50px 0 80px;
+        }
+
+
+        .comments-header {
+            max-width: 650px;
+            margin-bottom: 35px;
+        }
+
+
+            .comments-header small {
+                color: var(--teal);
+                font-size: .7rem;
+                font-weight: 700;
+                letter-spacing: .12em;
+            }
+
+
+            .comments-header h1 {
+                margin: 6px 0 8px;
+                color: var(--navy);
+                font-size: 2.2rem;
+                font-weight: 800;
+            }
+
+
+            .comments-header p {
+                margin: 0;
+                color: var(--muted);
+                font-size: .85rem;
+            }
+
+
+        .comment-card {
+            height: 100%;
+            padding: 22px;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(14,42,59,.05);
+        }
+
+
+        .comment-stars {
+            margin-bottom: 8px;
+            color: #f4b400;
+            font-size: .8rem;
+        }
+
+
+        /* TUR ADI */
+
+        .comment-tour {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 12px;
+            color: var(--teal);
+            font-size: .7rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+
+            .comment-tour:hover {
+                color: var(--teal-dark);
+            }
+
+
+        .comment-text {
+            min-height: 70px;
+            margin-bottom: 18px;
+            color: var(--navy);
+            font-size: .83rem;
+            line-height: 1.7;
+        }
+
+
+        .comment-bottom {
+            padding-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eeeae4;
+        }
+
+
+        .comment-user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+
+        .comment-avatar {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            background: var(--navy);
+            color: white;
+            border-radius: 50%;
+        }
+
+
+        .comment-user strong {
+            display: block;
+            color: var(--navy);
+            font-size: .72rem;
+        }
+
+
+        .comment-user small {
+            display: block;
+            color: var(--muted);
+            font-size: .62rem;
+        }
+
+
+        .comment-rating {
+            color: var(--teal);
+            font-size: .72rem;
+            font-weight: 700;
+        }
+
+
+        .empty-comments {
+            padding: 60px 20px;
+            text-align: center;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 16px;
+        }
+
+
+            .empty-comments i {
+                display: block;
+                margin-bottom: 12px;
+                color: var(--teal);
+                font-size: 2rem;
+            }
+
+
+            .empty-comments h3 {
+                color: var(--navy);
+                font-size: 1rem;
+            }
+
+
+            .empty-comments p {
+                color: var(--muted);
+                font-size: .8rem;
+            }
+
+    </style>
+}
+
+
+<section class="comments-page">
+
+    <div class="site-container">
+
+
+        <!-- BAŞLIK -->
+
+        <div class="comments-header">
+
+            <small>
+                KULLANICI DENEYİMLERİ
+            </small>
+
+
+            <h1>
+                Gezginler Ne Diyor?
+            </h1>
+
+
+            <p>
+                Travelio turlarını deneyimleyen kullanıcıların yorumlarını inceleyin.
+            </p>
+
+        </div>
+
+
+
+        @if (Model != null && Model.Any())
+        {
+
+            <div class="row g-4">
+
+
+                @foreach (var comment in Model)
+                {
+                    var tour = tours?
+                        .FirstOrDefault(x => x.Id == comment.TourId);
+
+
+                    <div class="col-md-6 col-lg-4">
+
+
+                        <div class="comment-card">
+
+
+                            <!-- YILDIZ -->
+
+                            <div class="comment-stars">
+
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= comment.Rating)
+                                    {
+                                        <i class="bi bi-star-fill"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-star"></i>
+                                    }
+                                }
+
+                            </div>
+
+
+
+                            <!-- TUR -->
+                            @if (tour != null)
+                            {
+                                <a asp-controller="Tour"
+                                       asp-action="Details"
+                                       asp-route-id="@tour.Id"
+                                       class="comment-tour">
+
+                                    <i class="bi bi-geo-alt-fill"></i>
+
+                                    @tour.TourName
+
+                                </a>
+                            }
+
+
+
+                            <!-- YORUM -->
+
+                            <div class="comment-text">
+
+                                “@comment.CommentText”
+
+                            </div>
+
+
+
+                            <!-- ALT -->
+
+                            <div class="comment-bottom">
+
+
+                                <div class="comment-user">
+
+
+                                    <div class="comment-avatar">
+
+                                        <i class="bi bi-person"></i>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <strong>
+                                            Travelio Kullanıcısı
+                                        </strong>
+
+                                        <small>
+                                            @comment.CreatedDate.ToString("dd.MM.yyyy")
+                                        </small>
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <div class="comment-rating">
+
+                                    @comment.Rating / 5
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                }
+
+
+            </div>
+
+        }
+        else
+        {
+
+            <div class="empty-comments">
+
+                <i class="bi bi-chat-left-text"></i>
+
+                <h3>
+                    Henüz yayınlanmış yorum bulunmuyor
+                </h3>
+
+                <p>
+                    Onaylanan kullanıcı yorumları burada gösterilecek.
+                </p>
+
+            </div>
+
+        }
+
+
+    </div>
+
+</section>

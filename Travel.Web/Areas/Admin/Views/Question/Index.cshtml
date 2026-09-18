@@ -1,0 +1,225 @@
+﻿@using Travel.Web.DTOs.TourDtos
+@model List<Travel.Web.DTOs.QuestionDtos.ResultQuestionDto>
+
+@{
+    ViewData["Title"] = "Tur Soruları";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    var tours =
+        ViewBag.Tours as List<ResultTourDto>
+        ?? new List<ResultTourDto>();
+}
+
+
+<div class="container-fluid py-4">
+
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h3 class="mb-1">
+                Tur Soruları
+            </h3>
+
+            <p class="text-muted mb-0">
+                Kullanıcıların turlar hakkında gönderdiği soruları buradan yönetebilirsiniz.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+
+            @TempData["SuccessMessage"]
+
+        </div>
+    }
+
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Tur</th>
+
+                                <th>Soru</th>
+
+                                <th>Tarih</th>
+
+                                <th>Durum</th>
+
+                                <th style="width:220px;">
+                                    İşlem
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            @foreach (var question in Model)
+                            {
+                                var tour =
+                                    tours.FirstOrDefault(
+                                        x => x.Id == question.TourId);
+
+
+                                <tr>
+
+
+                                    <td>
+
+                                        <strong>
+
+                                            @(tour?.TourName ?? "-")
+
+                                        </strong>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @question.QuestionText
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @question.QuestionTime.ToString("dd.MM.yyyy HH:mm")
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (question.IsAnswered)
+                                        {
+                                            <span class="badge bg-success">
+
+                                                Cevaplandı
+
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning text-dark">
+
+                                                Bekliyor
+
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="d-flex gap-2">
+
+
+                                            <a asp-area="Admin"
+                                                   asp-controller="Question"
+                                                   asp-action="Answer"
+                                                   asp-route-id="@question.Id"
+                                                   class="btn btn-sm btn-outline-primary">
+
+                                                @if (question.IsAnswered)
+                                                {
+                                                    <span>
+                                                        Cevabı Düzenle
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span>
+                                                        Cevapla
+                                                    </span>
+                                                }
+
+                                            </a>
+
+
+                                            <form asp-area="Admin"
+                                                  asp-controller="Question"
+                                                  asp-action="Delete"
+                                                  method="post">
+
+                                                @Html.AntiForgeryToken()
+
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@question.Id" />
+
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Bu soruyu silmek istediğinize emin misiniz?')">
+
+                                                    Sil
+
+                                                </button>
+
+                                            </form>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+
+                    <h5>
+                        Henüz soru bulunmuyor
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Kullanıcıların tur detayından gönderdiği sorular burada görünecek.
+                    </p>
+
+                </div>
+            }
+
+
+        </div>
+
+    </div>
+
+
+</div>

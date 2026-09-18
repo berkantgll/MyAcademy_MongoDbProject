@@ -4,6 +4,8 @@ using Travel.Web.Services.CategoryServices;
 using Travel.Web.Services.DestinationServices;
 using Travel.Web.Services.ReservationService;
 using Travel.Web.Services.TourService;
+using Travel.Web.Services.CommentService;
+
 
 namespace Travel.Web.Controllers
 {
@@ -13,17 +15,20 @@ namespace Travel.Web.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IDestinationService _destinationService;
         private readonly IReservationService _reservationService;
+        private readonly ICommentService _commentService;
 
         public HomeController(
             ITourService tourService,
             ICategoryService categoryService,
             IDestinationService destinationService,
-            IReservationService reservationService)
+            IReservationService reservationService,
+            ICommentService commentService)
         {
             _tourService = tourService;
             _categoryService = categoryService;
             _destinationService = destinationService;
             _reservationService = reservationService;
+            _commentService = commentService;
         }
 
         public async Task<IActionResult> Index()
@@ -81,6 +86,16 @@ namespace Travel.Web.Controllers
                 .OrderByDescending(x => x.ReservationCount)
                 .Take(4)
                 .ToList();
+
+            var comments = await _commentService.GetAllAsync();
+
+            var approvedComments = comments
+                .Where(x => x.IsApproved)
+                .OrderByDescending(x => x.CreatedDate)
+                .Take(3)
+                .ToList();
+
+            ViewBag.HomeComments = approvedComments;
 
             return View(model);
         }

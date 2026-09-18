@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Travel.Web.Models;
 using Travel.Web.Services.CategoryServices;
+using Travel.Web.Services.CommentService;
 using Travel.Web.Services.DestinationServices;
+using Travel.Web.Services.QuestionService;
 using Travel.Web.Services.ReservationService;
 using Travel.Web.Services.TourService;
 
@@ -13,17 +15,24 @@ namespace Travel.Web.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IDestinationService _destinationService;
         private readonly IReservationService _reservationService;
+        private readonly ICommentService _commentService;
+        private readonly IQuestionService _questionService;
+
 
         public TourController(
             ITourService tourService,
             ICategoryService categoryService,
             IDestinationService destinationService,
-            IReservationService reservationService)
+            IReservationService reservationService,
+            ICommentService commentService,
+            IQuestionService questionService)
         {
             _tourService = tourService;
             _categoryService = categoryService;
             _destinationService = destinationService;
             _reservationService = reservationService;
+            _commentService = commentService;
+            _questionService = questionService;
         }
 
 
@@ -36,10 +45,17 @@ namespace Travel.Web.Controllers
             decimal? maxPrice,
             string? sort)
         {
-            var tours = await _tourService.GetAllAsync();
-            var categories = await _categoryService.GetAllAsync();
-            var destinations = await _destinationService.GetAllAsync();
-            var reservations = await _reservationService.GetAllAsync();
+            var tours =
+                await _tourService.GetAllAsync();
+
+            var categories =
+                await _categoryService.GetAllAsync();
+
+            var destinations =
+                await _destinationService.GetAllAsync();
+
+            var reservations =
+                await _reservationService.GetAllAsync();
 
 
             var activeTours = tours
@@ -47,16 +63,20 @@ namespace Travel.Web.Controllers
                 .ToList();
 
 
-            var model = new List<PublicTourListViewModel>();
+            var model =
+                new List<PublicTourListViewModel>();
 
 
             foreach (var tour in activeTours)
             {
                 var category = categories
-                    .FirstOrDefault(x => x.Id == tour.CategoryId);
+                    .FirstOrDefault(
+                        x => x.Id == tour.CategoryId);
+
 
                 var tourDestination = destinations
-                    .FirstOrDefault(x => x.Id == tour.DestinationId);
+                    .FirstOrDefault(
+                        x => x.Id == tour.DestinationId);
 
 
                 var nextDate = tour.TourDates?
@@ -67,34 +87,36 @@ namespace Travel.Web.Controllers
                     .FirstOrDefault();
 
 
-                var reservationCount = reservations.Count(x =>
-                    x.TourId == tour.Id &&
-                    x.Status != "İptal Edildi");
+                var reservationCount =
+                    reservations.Count(x =>
+                        x.TourId == tour.Id &&
+                        x.Status != "İptal Edildi");
 
 
-                model.Add(new PublicTourListViewModel
-                {
-                    Tour = tour,
+                model.Add(
+                    new PublicTourListViewModel
+                    {
+                        Tour = tour,
 
-                    CategoryName =
-                        category?.CategoryName ?? "-",
+                        CategoryName =
+                            category?.CategoryName ?? "-",
 
-                    DestinationName =
-                        tourDestination?.DestinationName ?? "-",
+                        DestinationName =
+                            tourDestination?.DestinationName ?? "-",
 
-                    NextDate =
-                        nextDate?.Date,
+                        NextDate =
+                            nextDate?.Date,
 
-                    RemainingCapacity =
-                        nextDate?.Capacity ?? 0,
+                        RemainingCapacity =
+                            nextDate?.Capacity ?? 0,
 
-                    ReservationCount =
-                        reservationCount
-                });
+                        ReservationCount =
+                            reservationCount
+                    });
             }
 
 
-            // Destinasyon
+            // DESTİNASYON
 
             if (!string.IsNullOrWhiteSpace(destination))
             {
@@ -115,17 +137,18 @@ namespace Travel.Web.Controllers
             }
 
 
-            // Kategori
+            // KATEGORİ
 
             if (!string.IsNullOrWhiteSpace(categoryId))
             {
                 model = model
-                    .Where(x => x.Tour.CategoryId == categoryId)
+                    .Where(x =>
+                        x.Tour.CategoryId == categoryId)
                     .ToList();
             }
 
 
-            // Tarih
+            // TARİH
 
             if (date.HasValue)
             {
@@ -139,9 +162,10 @@ namespace Travel.Web.Controllers
             }
 
 
-            // Kişi
+            // KİŞİ SAYISI
 
-            if (personCount.HasValue && !date.HasValue)
+            if (personCount.HasValue &&
+                !date.HasValue)
             {
                 model = model
                     .Where(x =>
@@ -153,67 +177,118 @@ namespace Travel.Web.Controllers
             }
 
 
-            // Minimum fiyat
+            // MİNİMUM FİYAT
 
             if (minPrice.HasValue)
             {
                 model = model
-                    .Where(x => x.Tour.Price >= minPrice.Value)
+                    .Where(x =>
+                        x.Tour.Price >= minPrice.Value)
                     .ToList();
             }
 
 
-            // Maximum fiyat
+            // MAKSİMUM FİYAT
 
             if (maxPrice.HasValue)
             {
                 model = model
-                    .Where(x => x.Tour.Price <= maxPrice.Value)
+                    .Where(x =>
+                        x.Tour.Price <= maxPrice.Value)
                     .ToList();
             }
 
 
-            // Sıralama
+            // SIRALAMA
 
             model = sort switch
             {
                 "priceAsc" =>
-                    model.OrderBy(x => x.Tour.Price).ToList(),
+                    model
+                        .OrderBy(x => x.Tour.Price)
+                        .ToList(),
 
                 "priceDesc" =>
-                    model.OrderByDescending(x => x.Tour.Price).ToList(),
+                    model
+                        .OrderByDescending(x => x.Tour.Price)
+                        .ToList(),
 
                 "popular" =>
-                    model.OrderByDescending(x => x.ReservationCount).ToList(),
+                    model
+                        .OrderByDescending(
+                            x => x.ReservationCount)
+                        .ToList(),
 
                 "duration" =>
-                    model.OrderBy(x => x.Tour.Day).ToList(),
+                    model
+                        .OrderBy(x => x.Tour.Day)
+                        .ToList(),
 
                 _ =>
-                    model.OrderBy(x => x.Tour.TourName).ToList()
+                    model
+                        .OrderBy(x => x.Tour.TourName)
+                        .ToList()
             };
 
 
-            ViewBag.Categories = categories;
+            ViewBag.Categories =
+                categories;
 
-            ViewBag.Destination = destination;
-            ViewBag.CategoryId = categoryId;
-            ViewBag.Date = date?.ToString("yyyy-MM-dd");
-            ViewBag.PersonCount = personCount;
-            ViewBag.MinPrice = minPrice;
-            ViewBag.MaxPrice = maxPrice;
-            ViewBag.Sort = sort;
+            ViewBag.Destination =
+                destination;
+
+            ViewBag.CategoryId =
+                categoryId;
+
+            ViewBag.Date =
+                date?.ToString("yyyy-MM-dd");
+
+            ViewBag.PersonCount =
+                personCount;
+
+            ViewBag.MinPrice =
+                minPrice;
+
+            ViewBag.MaxPrice =
+                maxPrice;
+
+            ViewBag.Sort =
+                sort;
+
 
             return View(model);
         }
-        public async Task<IActionResult> Details(string id)
+
+
+        public async Task<IActionResult> Details(
+            string id)
         {
-            var tour = await _tourService.GetByIdAsync(id);
+            var tour =
+                await _tourService.GetByIdAsync(id);
+
 
             if (tour == null)
             {
                 return NotFound();
             }
+
+
+            var comments =
+                await _commentService
+                    .GetByTourIdAsync(id);
+
+
+            var questions =
+                await _questionService
+                    .GetByTourIdAsync(id);
+
+
+            ViewBag.Comments =
+                comments;
+
+            ViewBag.Questions =
+                questions;
+
 
             return View(tour);
         }

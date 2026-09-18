@@ -1,0 +1,359 @@
+﻿@model List<Travel.Web.DTOs.TourDtos.ResultTourDto>
+
+@{
+    ViewData["Title"] = "Favorilerim";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+
+        .favorite-page {
+            padding: 45px 0 70px;
+        }
+
+        .favorite-header {
+            margin-bottom: 25px;
+        }
+
+            .favorite-header small {
+                color: var(--teal);
+                font-weight: 700;
+                letter-spacing: .12em;
+            }
+
+            .favorite-header h1 {
+                margin: 5px 0;
+                color: var(--navy);
+                font-size: 2rem;
+                font-weight: 800;
+            }
+
+            .favorite-header p {
+                margin: 0;
+                color: var(--muted);
+                font-size: .85rem;
+            }
+
+
+        .favorite-card {
+            height: 100%;
+            overflow: hidden;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 16px;
+            transition: .2s;
+        }
+
+            .favorite-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px rgba(14, 42, 59, .08);
+            }
+
+
+        .favorite-image {
+            height: 190px;
+        }
+
+            .favorite-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+
+        .favorite-content {
+            padding: 18px;
+        }
+
+        .favorite-location {
+            margin-bottom: 5px;
+            color: var(--teal);
+            font-size: .7rem;
+            font-weight: 600;
+        }
+
+        .favorite-title {
+            margin-bottom: 12px;
+            color: var(--navy);
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+
+        .favorite-info {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            color: var(--muted);
+            font-size: .7rem;
+        }
+
+            .favorite-info i {
+                color: var(--teal);
+            }
+
+
+        .favorite-bottom {
+            padding-top: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #eeeae4;
+        }
+
+        .favorite-price {
+            color: var(--navy);
+            font-family: 'Sora';
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+
+        .favorite-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+
+        .detail-btn {
+            padding: 7px 12px;
+            background: var(--navy);
+            color: white;
+            border-radius: 999px;
+            font-size: .68rem;
+            font-weight: 600;
+        }
+
+            .detail-btn:hover {
+                color: white;
+                background: var(--teal);
+            }
+
+
+        .remove-btn {
+            padding: 7px 12px;
+            background: white;
+            color: #c94d4d;
+            border: 1px solid #e7a5a5;
+            border-radius: 999px;
+            font-size: .68rem;
+            font-weight: 600;
+        }
+
+            .remove-btn:hover {
+                background: #fff1f1;
+            }
+
+
+        .empty-favorites {
+            padding: 60px 20px;
+            text-align: center;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 18px;
+        }
+
+            .empty-favorites i {
+                display: block;
+                margin-bottom: 15px;
+                color: var(--teal);
+                font-size: 2.5rem;
+            }
+
+            .empty-favorites h3 {
+                color: var(--navy);
+                font-size: 1.1rem;
+            }
+
+            .empty-favorites p {
+                color: var(--muted);
+                font-size: .8rem;
+            }
+
+    </style>
+}
+
+
+<section class="favorite-page">
+
+    <div class="site-container">
+
+
+        <div class="favorite-header">
+
+            <small>
+                SEYAHATLERİM
+            </small>
+
+            <h1>
+                Favorilerim
+            </h1>
+
+            <p>
+                Beğendiğin turları burada görebilirsin.
+            </p>
+
+        </div>
+
+
+
+        @if (Model.Any())
+        {
+
+            <div class="row g-4">
+
+                @foreach (var tour in Model)
+                {
+
+                    <div class="col-lg-4 col-md-6">
+
+                        <div class="favorite-card">
+
+
+                            <div class="favorite-image">
+
+                                <img src="@tour.CoverImageUrl"
+                                     alt="@tour.TourName" />
+
+                            </div>
+
+
+                            <div class="favorite-content">
+
+
+                                <div class="favorite-location">
+
+                                    <i class="bi bi-geo-alt-fill"></i>
+
+                                    @tour.City, @tour.Country
+
+                                </div>
+
+
+                                <div class="favorite-title">
+
+                                    @tour.TourName
+
+                                </div>
+
+
+                                <div class="favorite-info">
+
+                                    <span>
+
+                                        <i class="bi bi-calendar3"></i>
+
+                                        @tour.Day Gün
+
+                                    </span>
+
+
+                                    <span>
+
+                                        <i class="bi bi-moon"></i>
+
+                                        @tour.Night Gece
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="favorite-bottom">
+
+
+                                    <div class="favorite-price">
+
+                                        @tour.Price.ToString("N0") TL
+
+                                    </div>
+
+
+                                    <div class="favorite-actions">
+
+
+                                        <a asp-controller="Tour"
+                                               asp-action="Details"
+                                               asp-route-id="@tour.Id"
+                                               class="detail-btn">
+
+                                            Turu Gör
+
+                                        </a>
+
+
+                                        <form asp-controller="Favorite"
+                                              asp-action="Remove"
+                                              method="post">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <input type="hidden"
+                                                   name="tourId"
+                                                   value="@tour.Id" />
+
+                                            <button type="submit"
+                                                    class="remove-btn">
+
+                                                <i class="bi bi-heart-fill"></i>
+
+                                            </button>
+
+                                        </form>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+        }
+        else
+        {
+
+            <div class="empty-favorites">
+
+                <i class="bi bi-heart"></i>
+
+                <h3>
+                    Henüz favori turun yok
+                </h3>
+
+                <p>
+                    Beğendiğin turları favorilerine ekleyebilirsin.
+                </p>
+
+
+                <a asp-controller="Tour"
+                       asp-action="Index"
+                       class="btn-teal">
+
+                    Turları Keşfet
+
+                </a>
+
+            </div>
+
+        }
+
+
+    </div>
+
+</section>

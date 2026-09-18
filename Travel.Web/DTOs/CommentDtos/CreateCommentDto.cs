@@ -2,8 +2,12 @@
 {
     public class CreateCommentDto
     {
-        public string TourId { get; set; }
-        public string CommentText { get; set; }
+        public string UserId { get; set; } = string.Empty;
+
+        public string TourId { get; set; } = string.Empty;
+
+        public string CommentText { get; set; } = string.Empty;
+
         public int Rating { get; set; }
     }
 }

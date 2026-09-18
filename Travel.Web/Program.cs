@@ -10,7 +10,7 @@ using Travel.Web.Services.CategoryServices;
 using Travel.Web.Services.CommentService;
 using Travel.Web.Services.DestinationService;
 using Travel.Web.Services.DestinationServices;
-using Travel.Web.Services.FavoriteService;
+using Travel.Web.Services.FavoriteServices;
 using Travel.Web.Services.QuestionService;
 using Travel.Web.Services.ReservationService;
 using Travel.Web.Services.RouteServices;

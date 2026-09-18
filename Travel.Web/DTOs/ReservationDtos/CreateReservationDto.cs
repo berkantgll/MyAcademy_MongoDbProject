@@ -2,9 +2,14 @@
 {
     public class CreateReservationDto
     {
-        public string TourId { get; set; }
-        public DateTime SelectedTourDate { get; set; }
+        public string UserId { get; set; } = string.Empty;
+
+        public string TourId { get; set; } = string.Empty;
+
+        public string TourDateId { get; set; } = string.Empty;
+
         public int AdultCount { get; set; }
+
         public int ChildCount { get; set; }
     }
 }

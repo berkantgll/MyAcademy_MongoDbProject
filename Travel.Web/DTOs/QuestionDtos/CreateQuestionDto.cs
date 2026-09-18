@@ -2,7 +2,8 @@
 {
     public class CreateQuestionDto
     {
-        public string TourId { get; set; }
-        public string QuestionText { get; set; }
+        public string UserId { get; set; } = string.Empty;
+        public string TourId { get; set; } = string.Empty;
+        public string QuestionText { get; set; } = string.Empty;
     }
 }

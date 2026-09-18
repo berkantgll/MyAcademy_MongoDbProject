@@ -1,13 +1,14 @@
 ﻿@using Travel.Web.Models
+
 @model List<PublicTourListViewModel>
 
 @{
     ViewData["Title"] = "Ana Sayfa";
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
 
-    var tours = Model ?? new List<PublicTourListViewModel>();
+    var tours =
+        Model ?? new List<PublicTourListViewModel>();
 }
-
 
 @section Styles {
 
@@ -16,9 +17,7 @@
 
     <style>
 
-        /* =========================
-                   HERO
-                ========================= */
+        /* HERO */
 
         .hero {
             height: 500px;
@@ -60,9 +59,7 @@
         }
 
 
-        /* =========================
-                   SEARCH
-                ========================= */
+        /* SEARCH */
 
         .search-box {
             max-width: 900px;
@@ -118,7 +115,7 @@
         }
 
 
-        /* KİŞİ SELECT */
+        /* KİŞİ SAYISI */
 
         .person-select {
             width: 100%;
@@ -150,9 +147,7 @@
         }
 
 
-        /* =========================
-                   HERO STATS
-                ========================= */
+        /* HERO STATS */
 
         .hero-stats {
             display: flex;
@@ -185,9 +180,7 @@
         }
 
 
-        /* =========================
-                   POPÜLER TURLAR
-                ========================= */
+        /* POPÜLER TURLAR */
 
         .tours-section {
             padding: 16px 0 25px;
@@ -230,9 +223,7 @@
             }
 
 
-        /* =========================
-                   TOUR CARD
-                ========================= */
+        /* TOUR CARD */
 
         .tour-card {
             height: 100%;
@@ -248,9 +239,6 @@
                 transform: translateY(-3px);
                 box-shadow: 0 12px 26px rgba(14,42,59,.11);
             }
-
-
-        /* FOTOĞRAF */
 
         .tour-image {
             height: 118px;
@@ -279,9 +267,6 @@
             font-size: 1.5rem;
         }
 
-
-        /* KATEGORİ */
-
         .tour-category {
             position: absolute;
             top: 8px;
@@ -293,9 +278,6 @@
             font-size: .58rem;
             font-weight: 600;
         }
-
-
-        /* BODY */
 
         .tour-body {
             padding: 8px 11px 10px;
@@ -320,9 +302,6 @@
             text-overflow: ellipsis;
         }
 
-
-        /* TUR BİLGİLERİ */
-
         .tour-info {
             display: flex;
             align-items: center;
@@ -342,9 +321,6 @@
             .tour-info i {
                 color: var(--teal);
             }
-
-
-        /* FİYAT + BUTON */
 
         .tour-bottom {
             padding-top: 7px;
@@ -385,9 +361,7 @@
             }
 
 
-        /* =========================
-                   RESPONSIVE
-                ========================= */
+        /* RESPONSIVE */
 
         @@media(max-width: 992px) {
 
@@ -401,7 +375,6 @@
                 border-bottom: 1px solid #e9e5de;
             }
         }
-
 
         @@media(max-width: 768px) {
 
@@ -425,9 +398,7 @@
 
 
 
-<!-- =========================
-     HERO
-========================= -->
+<!-- HERO -->
 
 <section class="hero">
 
@@ -435,20 +406,26 @@
 
 
         <div class="hero-small">
+
             TRAVELIO İLE KEŞFET
+
         </div>
 
 
         <h1>
+
             Dünyayı Keşfetmeye
             <br />
             Hazır Mısın?
+
         </h1>
 
 
         <p class="hero-text">
+
             Avrupa'nın ikonik şehirlerinden benzersiz rotalara kadar
             unutulmaz seyahat deneyimleri seni bekliyor.
+
         </p>
 
 
@@ -468,9 +445,13 @@
 
                 <div class="col-md-3 search-field">
 
+
                     <div class="search-icon">
+
                         <i class="bi bi-geo-alt"></i>
+
                     </div>
+
 
                     <div class="search-content">
 
@@ -478,12 +459,14 @@
                             Destinasyon
                         </label>
 
+
                         <input type="text"
                                name="destination"
                                class="search-control"
                                placeholder="Nereye gidelim?" />
 
                     </div>
+
 
                 </div>
 
@@ -493,9 +476,13 @@
 
                 <div class="col-md-3 search-field">
 
+
                     <div class="search-icon">
+
                         <i class="bi bi-calendar3"></i>
+
                     </div>
+
 
                     <div class="search-content">
 
@@ -503,29 +490,36 @@
                             Tarih
                         </label>
 
+
                         <input type="date"
                                name="date"
                                class="search-control" />
 
                     </div>
 
+
                 </div>
 
 
 
-                <!-- KİŞİ SAYISI -->
+                <!-- KİŞİ -->
 
                 <div class="col-md-3 search-field">
 
+
                     <div class="search-icon">
+
                         <i class="bi bi-person"></i>
+
                     </div>
+
 
                     <div class="search-content">
 
                         <label>
                             Kişi Sayısı
                         </label>
+
 
                         <select name="personCount"
                                 class="person-select">
@@ -556,15 +550,18 @@
 
                         </select>
 
+
                     </div>
+
 
                 </div>
 
 
 
-                <!-- SEARCH BUTTON -->
+                <!-- BUTTON -->
 
                 <div class="col-md-3 p-2">
+
 
                     <button type="submit"
                             class="btn-teal search-button">
@@ -575,16 +572,18 @@
 
                     </button>
 
+
                 </div>
 
 
             </div>
 
+
         </form>
 
 
 
-        <!-- HERO STATS -->
+        <!-- İSTATİSTİKLER -->
 
         <div class="hero-stats">
 
@@ -657,9 +656,7 @@
 
 
 
-<!-- =========================
-     POPÜLER TURLAR
-========================= -->
+<!-- POPÜLER TURLAR -->
 
 <section class="tours-section"
          id="turlar">
@@ -667,19 +664,22 @@
     <div class="site-container">
 
 
-        <!-- BAŞLIK -->
-
         <div class="popular-header d-flex justify-content-between align-items-end">
 
 
             <div>
 
                 <div class="section-small">
+
                     POPÜLER ROTALAR
+
                 </div>
 
+
                 <h2 class="section-title">
+
                     En Çok Tercih Edilen Turlar
+
                 </h2>
 
             </div>
@@ -746,26 +746,24 @@
 
 
 
-                        <!-- CARD BODY -->
+                        <!-- BODY -->
 
                         <div class="tour-body">
 
-
-                            <!-- LOCATION -->
 
                             <div class="tour-location">
 
                                 <i class="bi bi-geo-alt-fill"></i>
 
                                 <span>
+
                                     @item.Tour.Country · @item.DestinationName
+
                                 </span>
 
                             </div>
 
 
-
-                            <!-- NAME -->
 
                             <h3 class="tour-name">
 
@@ -774,8 +772,6 @@
                             </h3>
 
 
-
-                            <!-- INFO -->
 
                             <div class="tour-info">
 
@@ -803,8 +799,6 @@
 
 
 
-                            <!-- PRICE -->
-
                             <div class="tour-bottom">
 
 
@@ -815,7 +809,9 @@
                                     </small>
 
                                     <strong>
+
                                         @item.Tour.Price.ToString("N0") TL
+
                                     </strong>
 
                                 </div>

@@ -16,6 +16,7 @@ namespace Travel.Web.Entitites
         public decimal TotalPrice { get; set; }
 
         public string Status { get; set; }
+        public string TourDateId { get; set; } = string.Empty;
 
     }
 }

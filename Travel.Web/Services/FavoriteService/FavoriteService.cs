@@ -1,67 +1,97 @@
-﻿using AutoMapper;
-using MongoDB.Driver.Linq;
-using MongoDB.Driver;
-using Travel.Web.DTOs.FavoriteDtos;
+﻿using MongoDB.Driver;
 using Travel.Web.Entitites;
 using Travel.Web.Settings;
 
-namespace Travel.Web.Services.FavoriteService
+namespace Travel.Web.Services.FavoriteServices
 {
     public class FavoriteService : IFavoriteService
     {
         private readonly IMongoCollection<Favorite> _favoriteCollection;
-        private readonly IMapper _mapper;
 
-        public FavoriteService(IDatabaseSettings databaseSettings, IMapper mapper)
+
+        public FavoriteService(
+            IDatabaseSettings databaseSettings)
         {
-            var client = new MongoClient(databaseSettings.ConnectionString);
+            var client =
+                new MongoClient(
+                    databaseSettings.ConnectionString);
 
-            var database = client.GetDatabase(databaseSettings.DatabaseName);
+            var database =
+                client.GetDatabase(
+                    databaseSettings.DatabaseName);
 
-            _favoriteCollection = database.GetCollection<Favorite>(databaseSettings.FavoriteCollectionName);
-
-            _mapper = mapper;
+            _favoriteCollection =
+                database.GetCollection<Favorite>(
+                    databaseSettings.FavoriteCollectionName);
         }
-        public async Task CreateAsync(CreateFavoriteDto createFavoriteDto)
+
+
+        public async Task AddAsync(
+            string userId,
+            string tourId)
         {
-            var favorite = _mapper.Map<Favorite>(createFavoriteDto);
+            var favorite = await _favoriteCollection
+                .Find(x =>
+                    x.UserId == userId &&
+                    x.TourId == tourId)
+                .FirstOrDefaultAsync();
 
-            // favorite.UserId = Identity gelince
 
-            /*  2.KEZ FAVORİLERE EKLENMESİN DİYE
-              
-             var existingFavorite = await _favoriteCollection.Find(x => x.UserId == userId && x.TourId == createFavoriteDto.TourId).FirstOrDefaultAsync();
-
-              if (existingFavorite != null)
+            if (favorite != null)
             {
-            throw new Exception("Bu tur zaten favorilerinizde!");
-            } 
-            */
-
-            await _favoriteCollection.InsertOneAsync(favorite);
-        }
-
-        public async Task DeleteAsync(string id)
-        {
-            await _favoriteCollection.DeleteOneAsync(x => x.Id == id);
-        }
-
-        public async Task<List<ResultFavoriteDto>> GetAllAsync()
-        {
-            var favorite = await _favoriteCollection.AsQueryable().ToListAsync();
-            return _mapper.Map<List<ResultFavoriteDto>>(favorite);
-        }
-
-        public async Task<ResultFavoriteDto> GetByIdAsync(string id)
-        {
-            var favorite = await _favoriteCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
-
-            if (favorite == null)
-            {
-                throw new Exception("Favori bulunamadı!");
+                return;
             }
 
-            return _mapper.Map<ResultFavoriteDto>(favorite);
+
+            var newFavorite = new Favorite
+            {
+                UserId = userId,
+                TourId = tourId,
+                CreatedDate = DateTime.Now
+            };
+
+
+            await _favoriteCollection
+                .InsertOneAsync(newFavorite);
+        }
+
+
+        public async Task RemoveAsync(
+            string userId,
+            string tourId)
+        {
+            await _favoriteCollection
+                .DeleteOneAsync(x =>
+                    x.UserId == userId &&
+                    x.TourId == tourId);
+        }
+
+
+        public async Task<bool> IsFavoriteAsync(
+            string userId,
+            string tourId)
+        {
+            var favorite = await _favoriteCollection
+                .Find(x =>
+                    x.UserId == userId &&
+                    x.TourId == tourId)
+                .FirstOrDefaultAsync();
+
+
+            return favorite != null;
+        }
+
+
+        public async Task<List<Favorite>>
+            GetByUserIdAsync(string userId)
+        {
+            var favorites = await _favoriteCollection
+                .Find(x => x.UserId == userId)
+                .SortByDescending(x => x.CreatedDate)
+                .ToListAsync();
+
+
+            return favorites;
         }
     }
 }

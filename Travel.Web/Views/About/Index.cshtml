@@ -1,0 +1,504 @@
+﻿@{
+    ViewData["Title"] = "Hakkımızda";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+
+        .about-page {
+            padding: 55px 0 80px;
+        }
+
+
+        /* ÜST ALAN */
+
+        .about-hero {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .about-small {
+            color: var(--teal);
+            font-family: 'Sora';
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .16em;
+        }
+
+        .about-title {
+            margin: 7px 0 15px;
+            max-width: 620px;
+            color: var(--navy);
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .about-description {
+            max-width: 650px;
+            margin: 0;
+            color: var(--muted);
+            font-size: .88rem;
+            line-height: 1.9;
+        }
+
+
+        /* GÖRSEL ALAN */
+
+        .about-image {
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 22px;
+            background: linear-gradient( 135deg, rgba(8, 48, 68, .10), rgba(15, 173, 176, .08) ), #e9efef;
+        }
+
+            .about-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .about-image-info {
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+            padding: 14px 18px;
+            background: rgba(255,255,255,.95);
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.12);
+        }
+
+            .about-image-info strong {
+                display: block;
+                color: var(--navy);
+                font-family: 'Sora';
+                font-size: 1.1rem;
+            }
+
+            .about-image-info span {
+                color: var(--muted);
+                font-size: .65rem;
+            }
+
+
+        /* DEĞERLER */
+
+        .about-values {
+            margin-bottom: 55px;
+        }
+
+        .about-section-header {
+            max-width: 650px;
+            margin-bottom: 25px;
+        }
+
+            .about-section-header small {
+                color: var(--teal);
+                font-size: .68rem;
+                font-weight: 700;
+                letter-spacing: .14em;
+            }
+
+            .about-section-header h2 {
+                margin: 5px 0 0;
+                color: var(--navy);
+                font-size: 1.7rem;
+                font-weight: 800;
+            }
+
+
+        .about-card {
+            height: 100%;
+            padding: 25px;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 17px;
+            box-shadow: 0 6px 20px rgba(14,42,59,.04);
+            transition: .2s;
+        }
+
+            .about-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 28px rgba(14,42,59,.09);
+            }
+
+        .about-card-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 17px;
+            display: grid;
+            place-items: center;
+            background: #edf8f7;
+            color: var(--teal);
+            border-radius: 14px;
+            font-size: 1.25rem;
+        }
+
+        .about-card h3 {
+            margin-bottom: 8px;
+            color: var(--navy);
+            font-size: .95rem;
+            font-weight: 700;
+        }
+
+        .about-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .77rem;
+            line-height: 1.75;
+        }
+
+
+        /* İSTATİSTİK */
+
+        .about-stats {
+            padding: 30px;
+            background: var(--navy);
+            border-radius: 20px;
+        }
+
+        .about-stat {
+            text-align: center;
+        }
+
+            .about-stat i {
+                display: block;
+                margin-bottom: 9px;
+                color: var(--teal);
+                font-size: 1.5rem;
+            }
+
+            .about-stat strong {
+                display: block;
+                color: white;
+                font-family: 'Sora';
+                font-size: 1.45rem;
+            }
+
+            .about-stat span {
+                color: rgba(255,255,255,.68);
+                font-size: .68rem;
+            }
+
+
+        @@media(max-width: 991px) {
+
+            .about-hero {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-image {
+                height: 300px;
+            }
+        }
+
+
+        @@media(max-width: 768px) {
+
+            .about-title {
+                font-size: 2rem;
+            }
+
+            .about-stat {
+                margin-bottom: 25px;
+            }
+        }
+
+    </style>
+}
+
+
+<section class="about-page">
+
+    <div class="site-container">
+
+
+        <!-- ÜST ALAN -->
+
+        <div class="about-hero">
+
+
+            <div>
+
+
+                <div class="about-small">
+                    BİZ KİMİZ?
+                </div>
+
+
+                <h1 class="about-title">
+
+                    Yeni Rotalar,
+                    <br />
+                    Unutulmaz Deneyimler
+
+                </h1>
+
+
+                <p class="about-description">
+
+                    Travelio, farklı şehirleri ve kültürleri keşfetmek isteyen
+                    gezginler için hazırlanmış bir seyahat platformudur.
+
+                    Kullanıcıların tur seçeneklerini inceleyebildiği,
+                    uygun tarihleri görüntüleyebildiği, rezervasyon oluşturabildiği
+                    ve seyahat deneyimlerini paylaşabildiği sade ve kullanışlı
+                    bir yapı sunuyoruz.
+
+                </p>
+
+
+            </div>
+
+
+
+            <div class="about-image">
+
+
+                <img src="/images/travelio-hero.png"
+                     alt="Travelio" />
+
+
+                <div class="about-image-info">
+
+                    <strong>
+                        Travelio
+                    </strong>
+
+                    <span>
+                        Keşfetmeye değer rotalar
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- DEĞERLER -->
+
+        <div class="about-values">
+
+
+            <div class="about-section-header">
+
+                <small>
+                    TRAVELIO DENEYİMİ
+                </small>
+
+                <h2>
+                    Seyahati Daha Kolay Hale Getiriyoruz
+                </h2>
+
+            </div>
+
+
+
+            <div class="row g-4">
+
+
+                <div class="col-md-4">
+
+                    <div class="about-card">
+
+
+                        <div class="about-card-icon">
+
+                            <i class="bi bi-globe2"></i>
+
+                        </div>
+
+
+                        <h3>
+                            Farklı Rotalar
+                        </h3>
+
+
+                        <p>
+                            Farklı ülkeler ve şehirlerdeki tur seçeneklerini
+                            tek bir platform üzerinden inceleyebilirsiniz.
+                        </p>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-md-4">
+
+                    <div class="about-card">
+
+
+                        <div class="about-card-icon">
+
+                            <i class="bi bi-calendar-check"></i>
+
+                        </div>
+
+
+                        <h3>
+                            Kolay Rezervasyon
+                        </h3>
+
+
+                        <p>
+                            Tur tarihlerini ve kalan kontenjanları görüntüleyerek
+                            size uygun seyahat için kolayca rezervasyon
+                            oluşturabilirsiniz.
+                        </p>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-md-4">
+
+                    <div class="about-card">
+
+
+                        <div class="about-card-icon">
+
+                            <i class="bi bi-chat-heart"></i>
+
+                        </div>
+
+
+                        <h3>
+                            Gerçek Kullanıcı Deneyimi
+                        </h3>
+
+
+                        <p>
+                            Kullanıcı yorumları, tur soruları ve favoriler
+                            sayesinde seyahat kararınızı daha kolay
+                            şekillendirebilirsiniz.
+                        </p>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- İSTATİSTİK -->
+
+        <div class="about-stats">
+
+
+            <div class="row g-4">
+
+
+                <div class="col-6 col-md-3">
+
+                    <div class="about-stat">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                        <strong>
+                            7+
+                        </strong>
+
+                        <span>
+                            Destinasyon
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-6 col-md-3">
+
+                    <div class="about-stat">
+
+                        <i class="bi bi-map"></i>
+
+                        <strong>
+                            7+
+                        </strong>
+
+                        <span>
+                            Tur Rotası
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-6 col-md-3">
+
+                    <div class="about-stat">
+
+                        <i class="bi bi-people"></i>
+
+                        <strong>
+                            100+
+                        </strong>
+
+                        <span>
+                            Seyahat Kapasitesi
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-6 col-md-3">
+
+                    <div class="about-stat">
+
+                        <i class="bi bi-headset"></i>
+
+                        <strong>
+                            7/24
+                        </strong>
+
+                        <span>
+                            Destek
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>

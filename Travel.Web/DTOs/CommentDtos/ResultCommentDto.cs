@@ -8,5 +8,6 @@
         public string CommentText { get; set; }
         public int Rating { get; set; }
         public DateTime CreatedDate { get; set; }
+        public bool IsApproved { get; set; }
     }
 }

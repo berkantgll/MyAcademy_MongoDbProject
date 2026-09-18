@@ -1,20 +1,44 @@
 ﻿@{
-    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    var currentController =
+        ViewContext.RouteData.Values["controller"]?.ToString();
+
+    var currentAction =
+        ViewContext.RouteData.Values["action"]?.ToString();
+
+    var isHome =
+        currentController == "Home" &&
+        currentAction == "Index";
+
+    var isTour =
+        currentController == "Tour";
+
+    var isDestination =
+        currentController == "Destination";
+
+    var isComment =
+        currentController == "Comment";
+
+    var isProfile =
+        currentController == "Profile";
+
+    var isAbout = currentController == "About";
+
+    var isContact = currentController == "Contact";
 }
 
 <style>
 
     .site-navbar {
         height: 72px;
-        background: rgba(255,255,255,.96);
-        border-bottom: 1px solid var(--line);
         display: flex;
         align-items: center;
         position: sticky;
         top: 0;
         z-index: 1000;
+        background: rgba(255, 255, 255, .96);
+        border-bottom: 1px solid var(--line);
     }
+
 
     .navbar-inner {
         width: 100%;
@@ -25,39 +49,75 @@
         align-items: center;
     }
 
+
+    /* LOGO */
+
     .site-brand {
-        font-family: 'Sora';
-        font-size: 1.45rem;
-        font-weight: 800;
-        color: var(--navy);
         display: flex;
         align-items: center;
         gap: 8px;
+        color: var(--navy);
+        font-family: 'Sora';
+        font-size: 1.45rem;
+        font-weight: 800;
+        text-decoration: none;
     }
+
+        .site-brand:hover {
+            color: var(--navy);
+        }
+
 
     .brand-dot {
         width: 11px;
         height: 11px;
         background: var(--teal);
         border-radius: 50%;
-        box-shadow: 0 0 0 4px rgba(15,163,163,.15);
+        box-shadow: 0 0 0 4px rgba(15, 163, 163, .15);
     }
+
+
+    /* MENU */
 
     .site-menu {
         margin: auto;
         display: flex;
+        align-items: center;
         gap: 30px;
     }
 
         .site-menu a {
+            position: relative;
+            padding-bottom: 8px;
             color: var(--navy);
             font-size: .88rem;
             font-weight: 500;
+            text-decoration: none;
+            transition: .2s;
         }
 
             .site-menu a:hover {
                 color: var(--teal);
             }
+
+            .site-menu a.active {
+                color: var(--teal);
+                font-weight: 700;
+            }
+
+                .site-menu a.active::after {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    height: 2px;
+                    background: var(--teal);
+                    border-radius: 10px;
+                }
+
+
+    /* USER */
 
     .nav-user {
         display: flex;
@@ -65,35 +125,63 @@
         gap: 10px;
     }
 
+
+    /* PROFİL */
+
     .profile-pill {
         display: flex;
         align-items: center;
         gap: 8px;
+        padding: 5px 10px 5px 14px;
         background: white;
         border: 1px solid var(--line);
         border-radius: 999px;
-        padding: 5px 10px 5px 14px;
+        color: var(--navy);
         font-size: .82rem;
         font-weight: 600;
+        text-decoration: none;
+        transition: .2s;
     }
+
+        .profile-pill:hover {
+            color: var(--teal);
+            border-color: var(--teal);
+        }
+
+        .profile-pill.profile-active {
+            color: var(--teal);
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(15, 163, 163, .08);
+        }
+
 
     .profile-avatar {
         width: 30px;
         height: 30px;
+        display: grid;
+        place-items: center;
         background: var(--navy);
         color: white;
         border-radius: 50%;
-        display: grid;
-        place-items: center;
         font-size: .7rem;
     }
 
+    .profile-pill:hover .profile-avatar,
+    .profile-pill.profile-active .profile-avatar {
+        background: var(--teal);
+    }
+
+
+    /* ÇIKIŞ */
+
     .logout-btn {
-        border: 1px solid #e7a5a5;
-        color: #c94d4d;
-        border-radius: 999px;
         padding: 7px 13px;
+        border: 1px solid #e7a5a5;
+        border-radius: 999px;
+        color: #c94d4d;
         font-size: .78rem;
+        text-decoration: none;
+        transition: .2s;
     }
 
         .logout-btn:hover {
@@ -101,16 +189,29 @@
             color: #c94d4d;
         }
 
+
+    /* LOGIN */
+
     .login-btn {
-        border: 1px solid var(--line);
-        color: var(--navy);
-        border-radius: 999px;
         padding: 8px 16px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--navy);
         font-size: .8rem;
         font-weight: 600;
+        text-decoration: none;
+        transition: .2s;
     }
 
-    @@media(max-width:900px) {
+        .login-btn:hover {
+            color: var(--teal);
+            border-color: var(--teal);
+        }
+
+
+    /* RESPONSIVE */
+
+    @@media(max-width: 900px) {
 
         .site-menu {
             display: none;
@@ -121,40 +222,15 @@
         }
     }
 
-    .site-menu a {
-        position: relative;
-        color: var(--navy);
-        font-size: .88rem;
-        font-weight: 500;
-        padding-bottom: 8px;
-    }
-
-        .site-menu a:hover {
-            color: var(--teal);
-        }
-
-        .site-menu a.active {
-            color: var(--teal);
-            font-weight: 700;
-        }
-
-            .site-menu a.active::after {
-                content: "";
-                position: absolute;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                height: 2px;
-                background: var(--teal);
-                border-radius: 10px;
-            }
-
 </style>
 
 
 <header class="site-navbar">
 
     <div class="navbar-inner">
+
+
+        <!-- LOGO -->
 
         <a asp-controller="Home"
                asp-action="Index"
@@ -167,62 +243,90 @@
         </a>
 
 
+
+        <!-- MENU -->
+
         <nav class="site-menu">
+
 
             <a asp-controller="Home"
                    asp-action="Index"
-                   class="@(currentController == "Home" && currentAction == "Index" ? "active" : "")">
+                   class="@(isHome ? "active" : "")">
+
                 Ana Sayfa
+
             </a>
+
 
             <a asp-controller="Tour"
                    asp-action="Index"
-                   class="@(currentController == "Tour" ? "active" : "")">
+                   class="@(isTour ? "active" : "")">
+
                 Turlar
+
             </a>
 
-            <a asp-controller="Home"
+
+            <a asp-controller="Destination"
                    asp-action="Index"
-                   asp-fragment="destinasyonlar">
+                   class="@(isDestination ? "active" : "")">
+
                 Destinasyonlar
+
             </a>
 
-            <a asp-controller="Home"
+            <a asp-controller="Comment"
                    asp-action="Index"
-                   asp-fragment="yorumlar">
+                   class="@(isComment ? "active" : "")">
+
                 Yorumlar
+
             </a>
 
-            <a asp-controller="Home"
+
+            <a asp-controller="About"
                    asp-action="Index"
-                   asp-fragment="hakkimizda">
+                   class="@(isAbout ? "active" : "")">
+
                 Hakkımızda
+
             </a>
 
-            <a asp-controller="Home"
+            <a asp-controller="Contact"
                    asp-action="Index"
-                   asp-fragment="iletisim">
+                   class="@(isContact ? "active" : "")">
+
                 İletişim
+
             </a>
 
         </nav>
 
 
+
+        <!-- USER -->
+
         <div class="nav-user">
+
 
             @if (User.Identity?.IsAuthenticated == true)
             {
-                <div class="profile-pill">
+
+                <a asp-controller="Profile"
+                       asp-action="Index"
+                       class="profile-pill @(isProfile ? "profile-active" : "")">
 
                     <span>
                         @User.Identity.Name
                     </span>
 
+
                     <span class="profile-avatar">
                         U
                     </span>
 
-                </div>
+                </a>
+
 
                 <a asp-controller="Account"
                        asp-action="Logout"
@@ -231,9 +335,11 @@
                     Çıkış
 
                 </a>
+
             }
             else
             {
+
                 <a asp-controller="Account"
                        asp-action="Login"
                        class="login-btn">
@@ -242,6 +348,7 @@
 
                 </a>
 
+
                 <a asp-controller="Account"
                        asp-action="Register"
                        class="btn-teal">
@@ -249,9 +356,12 @@
                     Kayıt Ol
 
                 </a>
+
             }
 
+
         </div>
+
 
     </div>
 

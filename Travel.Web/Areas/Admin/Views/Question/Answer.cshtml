@@ -1,0 +1,143 @@
+﻿@model Travel.Web.DTOs.QuestionDtos.UpdateQuestionDto
+
+@{
+    ViewData["Title"] = "Soruyu Cevapla";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="container-fluid py-4">
+
+
+    <div class="mb-4">
+
+
+        <a asp-area="Admin"
+               asp-controller="Question"
+               asp-action="Index"
+               class="btn btn-sm btn-outline-secondary mb-3">
+
+            ← Sorulara Dön
+
+        </a>
+
+
+        <h3 class="mb-1">
+            Soruyu Cevapla
+        </h3>
+
+        <p class="text-muted mb-0">
+            Kullanıcının tur hakkında gönderdiği soruya cevap verin.
+        </p>
+
+
+    </div>
+
+
+
+    <div class="row">
+
+
+        <div class="col-lg-8">
+
+
+            <div class="card border-0 shadow-sm">
+
+
+                <div class="card-body p-4">
+
+
+                    <div class="mb-4">
+
+                        <small class="text-muted">
+                            Tur
+                        </small>
+
+                        <h5 class="mt-1 mb-0">
+
+                            @ViewBag.TourName
+
+                        </h5>
+
+                    </div>
+
+
+
+                    <div class="mb-4">
+
+                        <small class="text-muted">
+                            Kullanıcının Sorusu
+                        </small>
+
+
+                        <div class="bg-light rounded p-3 mt-2">
+
+                            @ViewBag.QuestionText
+
+                        </div>
+
+                    </div>
+
+
+
+                    <form asp-area="Admin"
+                          asp-controller="Question"
+                          asp-action="Answer"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+
+                        <input type="hidden"
+                               asp-for="Id" />
+
+
+                        <div class="mb-3">
+
+
+                            <label asp-for="AnswerText"
+                                   class="form-label">
+
+                                Cevabınız
+
+                            </label>
+
+
+                            <textarea asp-for="AnswerText"
+                                      class="form-control"
+                                      rows="6"
+                                      placeholder="Kullanıcıya verilecek cevabı yazın..."></textarea>
+
+
+                            <span asp-validation-for="AnswerText"
+                                  class="text-danger"></span>
+
+
+                        </div>
+
+
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            Cevabı Kaydet
+
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>

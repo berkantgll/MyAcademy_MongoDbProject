@@ -13,5 +13,6 @@ namespace Travel.Web.Services.ReservationService
         Task CancelAsync(string id);
 
         Task<int> GetReservationCountByTourIdAsync(string tourId);
+        Task<List<ResultReservationDto>> GetByUserIdAsync(string userId);
     }
 }
