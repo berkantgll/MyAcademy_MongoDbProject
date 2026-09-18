@@ -120,11 +120,44 @@
   <data name="About" xml:space="preserve">
     <value>Hakkımızda</value>
   </data>
+  <data name="ActiveTours" xml:space="preserve">
+    <value>Aktif Tur</value>
+  </data>
+  <data name="AddFavorite" xml:space="preserve">
+    <value>Favorilere Ekle</value>
+  </data>
+  <data name="Adult" xml:space="preserve">
+    <value>Yetişkin</value>
+  </data>
+  <data name="AskQuestion" xml:space="preserve">
+    <value>Bu Tur Hakkında Soru Sor</value>
+  </data>
+  <data name="BackToTours" xml:space="preserve">
+    <value>Turlara Dön</value>
+  </data>
+  <data name="Child" xml:space="preserve">
+    <value>Çocuk</value>
+  </data>
   <data name="Contact" xml:space="preserve">
     <value>İletişim</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Tarih</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>Destinasyon</value>
+  </data>
   <data name="Destinations" xml:space="preserve">
     <value>Destinasyonlar</value>
+  </data>
+  <data name="DiscoverWithTravelio" xml:space="preserve">
+    <value>TRAVELIO İLE KEŞFET</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-posta</value>
+  </data>
+  <data name="HeroTitle" xml:space="preserve">
+    <value>Dünyayı Keşfetmeye Hazır Mısın?</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Ana Sayfa</value>
@@ -135,13 +168,97 @@
   <data name="Logout" xml:space="preserve">
     <value>Çıkış</value>
   </data>
+  <data name="MakeComment" xml:space="preserve">
+    <value>Yorum Yap</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Mesajınız</value>
+  </data>
+  <data name="MostPopularTours" xml:space="preserve">
+    <value>En Çok Tercih Edilen Turlar</value>
+  </data>
+  <data name="MyComments" xml:space="preserve">
+    <value>Yorumlarım</value>
+  </data>
+  <data name="MyFavorites" xml:space="preserve">
+    <value>Favorilerim</value>
+  </data>
+  <data name="MyQuestions" xml:space="preserve">
+    <value>Sorularım</value>
+  </data>
+  <data name="MyReservations" xml:space="preserve">
+    <value>Rezervasyonlarım</value>
+  </data>
+  <data name="NameSurname" xml:space="preserve">
+    <value>Ad Soyad</value>
+  </data>
+  <data name="PerPerson" xml:space="preserve">
+    <value>Kişi başı</value>
+  </data>
+  <data name="PersonCount" xml:space="preserve">
+    <value>Kişi Sayısı</value>
+  </data>
+  <data name="PopularRoutes" xml:space="preserve">
+    <value>POPÜLER ROTALAR</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Kayıt Ol</value>
+  </data>
+  <data name="Reservation" xml:space="preserve">
+    <value>Rezervasyon Yap</value>
   </data>
   <data name="Reviews" xml:space="preserve">
     <value>Yorumlar</value>
   </data>
+  <data name="SearchTours" xml:space="preserve">
+    <value>Turları Ara</value>
+  </data>
+  <data name="SelectPerson" xml:space="preserve">
+    <value>Kişi seç</value>
+  </data>
+  <data name="SendComment" xml:space="preserve">
+    <value>Yorumu Gönder</value>
+  </data>
+  <data name="SendMessage" xml:space="preserve">
+    <value>Mesajı Gönder</value>
+  </data>
+  <data name="SendQuestion" xml:space="preserve">
+    <value>Soruyu Gönder</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Konu</value>
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value>Toplam Tutar</value>
+  </data>
+  <data name="TourAbout" xml:space="preserve">
+    <value>Tur Hakkında</value>
+  </data>
+  <data name="TourDates" xml:space="preserve">
+    <value>Tur Tarihleri</value>
+  </data>
+  <data name="TourDetails" xml:space="preserve">
+    <value>Tur Detayları</value>
+  </data>
+  <data name="TourFeatures" xml:space="preserve">
+    <value>Tur Özellikleri</value>
+  </data>
+  <data name="TourProgram" xml:space="preserve">
+    <value>Tur Programı</value>
+  </data>
+  <data name="TourRating" xml:space="preserve">
+    <value>Tur Puanı</value>
+  </data>
   <data name="Tours" xml:space="preserve">
     <value>Turlar</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Kullanıcı</value>
+  </data>
+  <data name="ViewAllTours" xml:space="preserve">
+    <value>Tüm Turları Gör</value>
+  </data>
+  <data name="ViewTour" xml:space="preserve">
+    <value>Turu İncele</value>
   </data>
 </root>

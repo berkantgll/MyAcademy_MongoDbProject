@@ -120,11 +120,44 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="ActiveTours" xml:space="preserve">
+    <value>Active Tours</value>
+  </data>
+  <data name="AddFavorite" xml:space="preserve">
+    <value>Add to Favorites</value>
+  </data>
+  <data name="Adult" xml:space="preserve">
+    <value>Adult</value>
+  </data>
+  <data name="AskQuestion" xml:space="preserve">
+    <value>Ask About This Tour</value>
+  </data>
+  <data name="BackToTours" xml:space="preserve">
+    <value>Back to Tours</value>
+  </data>
+  <data name="Child" xml:space="preserve">
+    <value>Child</value>
+  </data>
   <data name="Contact" xml:space="preserve">
     <value>Contact</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>Destination</value>
+  </data>
   <data name="Destinations" xml:space="preserve">
     <value>Destinations</value>
+  </data>
+  <data name="DiscoverWithTravelio" xml:space="preserve">
+    <value>DISCOVER WITH TRAVELIO</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="HeroTitle" xml:space="preserve">
+    <value>Ready to Discover the World?</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
@@ -135,13 +168,97 @@
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="MakeComment" xml:space="preserve">
+    <value>Write a Review</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Your Message</value>
+  </data>
+  <data name="MostPopularTours" xml:space="preserve">
+    <value>Most Popular Tours</value>
+  </data>
+  <data name="MyComments" xml:space="preserve">
+    <value>My Reviews</value>
+  </data>
+  <data name="MyFavorites" xml:space="preserve">
+    <value>My Favorites</value>
+  </data>
+  <data name="MyQuestions" xml:space="preserve">
+    <value>My Questions</value>
+  </data>
+  <data name="MyReservations" xml:space="preserve">
+    <value>My Reservations</value>
+  </data>
+  <data name="NameSurname" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="PerPerson" xml:space="preserve">
+    <value>Per person</value>
+  </data>
+  <data name="PersonCount" xml:space="preserve">
+    <value>Guests</value>
+  </data>
+  <data name="PopularRoutes" xml:space="preserve">
+    <value>POPULAR ROUTES</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
+  </data>
+  <data name="Reservation" xml:space="preserve">
+    <value>Book Now</value>
   </data>
   <data name="Reviews" xml:space="preserve">
     <value>Reviews</value>
   </data>
+  <data name="SearchTours" xml:space="preserve">
+    <value>Search Tours</value>
+  </data>
+  <data name="SelectPerson" xml:space="preserve">
+    <value>Select guests</value>
+  </data>
+  <data name="SendComment" xml:space="preserve">
+    <value>Submit Review</value>
+  </data>
+  <data name="SendMessage" xml:space="preserve">
+    <value>Send Message</value>
+  </data>
+  <data name="SendQuestion" xml:space="preserve">
+    <value>Send Question</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value>Total Price</value>
+  </data>
+  <data name="TourAbout" xml:space="preserve">
+    <value>About This Tour</value>
+  </data>
+  <data name="TourDates" xml:space="preserve">
+    <value>Tour Dates</value>
+  </data>
+  <data name="TourDetails" xml:space="preserve">
+    <value>Tour Details</value>
+  </data>
+  <data name="TourFeatures" xml:space="preserve">
+    <value>Tour Features</value>
+  </data>
+  <data name="TourProgram" xml:space="preserve">
+    <value>Tour Program</value>
+  </data>
+  <data name="TourRating" xml:space="preserve">
+    <value>Tour Rating</value>
+  </data>
   <data name="Tours" xml:space="preserve">
     <value>Tours</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="ViewAllTours" xml:space="preserve">
+    <value>View All Tours</value>
+  </data>
+  <data name="ViewTour" xml:space="preserve">
+    <value>View Tour</value>
   </data>
 </root>

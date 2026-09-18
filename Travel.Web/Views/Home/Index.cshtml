@@ -5,7 +5,7 @@
 @model List<PublicTourListViewModel>
 
 @{
-    ViewData["Title"] = "Ana Sayfa";
+    ViewData["Title"] = Localizer["Home"].Value;
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
 
 
@@ -52,9 +52,9 @@
     <style>
 
         /*
-                    HOME'DA FOOTER CTA'NIN
-                    HEMEN ALTINDA BAŞLASIN
-                */
+                            HOME'DA FOOTER CTA'NIN
+                            HEMEN ALTINDA BAŞLASIN
+                        */
 
         main {
             flex: none;
@@ -62,8 +62,8 @@
 
 
         /* ==================================================
-                   HERO
-                ================================================== */
+                           HERO
+                        ================================================== */
 
         .hero {
             height: 500px;
@@ -111,8 +111,8 @@
 
 
         /* ==================================================
-                   SEARCH
-                ================================================== */
+                           SEARCH
+                        ================================================== */
 
         .search-box {
             max-width: 900px;
@@ -175,8 +175,8 @@
 
 
         /* ==================================================
-                   KİŞİ
-                ================================================== */
+                           KİŞİ
+                        ================================================== */
 
         .person-select {
             width: 100%;
@@ -211,8 +211,8 @@
 
 
         /* ==================================================
-                   HERO STATS
-                ================================================== */
+                           HERO STATS
+                        ================================================== */
 
         .hero-stats {
             display: flex;
@@ -251,8 +251,8 @@
 
 
         /* ==================================================
-                   POPÜLER TURLAR
-                ================================================== */
+                           POPÜLER TURLAR
+                        ================================================== */
 
         .tours-section {
             padding: 16px 0 25px;
@@ -303,8 +303,8 @@
 
 
         /* ==================================================
-                   TOUR CARD
-                ================================================== */
+                           TOUR CARD
+                        ================================================== */
 
         .tour-card {
             height: 100%;
@@ -460,8 +460,8 @@
 
 
         /* ==================================================
-                   TÜM TURLAR BANNER
-                ================================================== */
+                           TÜM TURLAR BANNER
+                        ================================================== */
 
         .all-tours-banner-section {
             padding: 20px 0 45px;
@@ -529,8 +529,8 @@
 
 
         /* ==================================================
-                   DESTİNASYONLAR
-                ================================================== */
+                           DESTİNASYONLAR
+                        ================================================== */
 
         .destination-section {
             padding: 15px 0 55px;
@@ -621,8 +621,8 @@
 
 
         /* ==================================================
-                   NEDEN TRAVELIO
-                ================================================== */
+                           NEDEN TRAVELIO
+                        ================================================== */
 
         .why-section {
             padding: 50px 0;
@@ -674,8 +674,8 @@
 
 
         /* ==================================================
-                   YORUMLAR
-                ================================================== */
+                           YORUMLAR
+                        ================================================== */
 
         .home-comments-section {
             padding: 55px 0;
@@ -744,8 +744,8 @@
 
 
         /* ==================================================
-                   CTA
-                ================================================== */
+                           CTA
+                        ================================================== */
 
         .home-cta-section {
             padding: 0;
@@ -836,8 +836,8 @@
 
 
         /* ==================================================
-                   RESPONSIVE
-                ================================================== */
+                           RESPONSIVE
+                        ================================================== */
 
         @@media(max-width: 992px) {
 
@@ -918,24 +918,21 @@
 
         <div class="hero-small">
 
-            TRAVELIO İLE KEŞFET
+            @Localizer["DiscoverWithTravelio"]
 
         </div>
 
 
         <h1>
 
-            Dünyayı Keşfetmeye
-            <br />
-            Hazır Mısın?
+            @Localizer["HeroTitle"]
 
         </h1>
 
 
         <p class="hero-text">
 
-            Avrupa'nın ikonik şehirlerinden benzersiz rotalara kadar
-            unutulmaz seyahat deneyimleri seni bekliyor.
+            @Localizer["HeroDescription"]
 
         </p>
 
@@ -967,14 +964,14 @@
                     <div class="search-content">
 
                         <label>
-                            Destinasyon
+                            @Localizer["Destination"]
                         </label>
 
 
                         <input type="text"
                                name="destination"
                                class="search-control"
-                               placeholder="Nereye gidelim?" />
+                               placeholder="@Localizer["WhereToGo"]" />
 
                     </div>
 
@@ -998,7 +995,7 @@
                     <div class="search-content">
 
                         <label>
-                            Tarih
+                            @Localizer["Date"]
                         </label>
 
 
@@ -1028,7 +1025,7 @@
                     <div class="search-content">
 
                         <label>
-                            Kişi Sayısı
+                            @Localizer["PersonCount"]
                         </label>
 
 
@@ -1036,27 +1033,27 @@
                                 class="person-select">
 
                             <option value="">
-                                Kişi seç
+                                @Localizer["SelectPerson"]
                             </option>
 
                             <option value="1">
-                                1 Kişi
+                                1 @Localizer["Person"]
                             </option>
 
                             <option value="2">
-                                2 Kişi
+                                2 @Localizer["Person"]
                             </option>
 
                             <option value="3">
-                                3 Kişi
+                                3 @Localizer["Person"]
                             </option>
 
                             <option value="4">
-                                4 Kişi
+                                4 @Localizer["Person"]
                             </option>
 
                             <option value="5">
-                                5+ Kişi
+                                5+ @Localizer["Person"]
                             </option>
 
                         </select>
@@ -1079,7 +1076,7 @@
 
                         <i class="bi bi-search"></i>
 
-                        Turları Ara
+                        @Localizer["SearchTours"]
 
                     </button>
 
@@ -1109,7 +1106,7 @@
                     </strong>
 
                     <span>
-                        Destinasyon
+                        @Localizer["Destination"]
                     </span>
 
                 </div>
@@ -1128,7 +1125,7 @@
                     </strong>
 
                     <span>
-                        Aktif Tur
+                        @Localizer["ActiveTours"]
                     </span>
 
                 </div>
@@ -1147,7 +1144,7 @@
                     </strong>
 
                     <span>
-                        Kullanıcı
+                        @Localizer["Users"]
                     </span>
 
                 </div>
@@ -1179,14 +1176,14 @@
 
                 <div class="section-small">
 
-                    POPÜLER ROTALAR
+                    @Localizer["PopularRoutes"]
 
                 </div>
 
 
                 <h2 class="section-title">
 
-                    En Çok Tercih Edilen Turlar
+                    @Localizer["MostPopularTours"]
 
                 </h2>
 
@@ -1198,7 +1195,7 @@
                    asp-action="Index"
                    class="all-tours-btn">
 
-                Tüm Turları Gör
+                @Localizer["ViewAllTours"]
 
                 <i class="bi bi-arrow-right"></i>
 
@@ -1283,8 +1280,8 @@
 
                                     <i class="bi bi-calendar3"></i>
 
-                                    @item.Tour.Day Gün /
-                                    @item.Tour.Night Gece
+                                    @item.Tour.Day @Localizer["Day"] /
+                                    @item.Tour.Night @Localizer["Night"]
 
                                 </span>
 
@@ -1293,7 +1290,7 @@
 
                                     <i class="bi bi-people"></i>
 
-                                    @item.ReservationCount Rezervasyon
+                                    @item.ReservationCount @Localizer["ReservationCount"]
 
                                 </span>
 
@@ -1308,7 +1305,7 @@
                                 <div class="tour-price">
 
                                     <small>
-                                        Kişi başı
+                                        @Localizer["PerPerson"]
                                     </small>
 
                                     <strong>
@@ -1326,7 +1323,7 @@
                                        asp-route-id="@item.Tour.Id"
                                        class="tour-btn">
 
-                                    Turu İncele
+                                    @Localizer["ViewTour"]
 
                                     <i class="bi bi-arrow-right"></i>
 
@@ -1382,20 +1379,19 @@
 
                 <div class="banner-small">
 
-                    DAHA FAZLA KEŞFET
+                    @Localizer["ExploreMore"]
 
                 </div>
 
 
                 <h2>
-                    Tüm Turlar
+                    @Localizer["AllTours"]
                 </h2>
 
 
                 <p>
 
-                    Farklı şehirleri, kültürleri ve rotaları keşfedin.
-                    Size uygun seyahati Travelio ile bulun.
+                    @Localizer["AllToursDescription"]
 
                 </p>
 
@@ -1408,7 +1404,7 @@
                    asp-action="Index"
                    class="banner-btn">
 
-                Tüm Turları Gör
+                @Localizer["ViewAllTours"]
 
                 <i class="bi bi-arrow-right"></i>
 
@@ -1440,21 +1436,21 @@
 
                 <div class="section-small">
 
-                    KEŞFEDİLECEK YERLER
+                    @Localizer["PlacesToDiscover"]
 
                 </div>
 
 
                 <h2 class="section-title">
 
-                    Öne Çıkan Destinasyonlar
+                    @Localizer["FeaturedDestinations"]
 
                 </h2>
 
 
                 <div class="home-section-text">
 
-                    Yeni şehirleri ve rotaları keşfet.
+                    @Localizer["DiscoverNewCities"]
 
                 </div>
 
@@ -1466,7 +1462,7 @@
                    asp-action="Index"
                    class="all-tours-btn">
 
-                Tüm Destinasyonları Gör
+                @Localizer["ViewAllDestinations"]
 
                 <i class="bi bi-arrow-right"></i>
 
@@ -1571,14 +1567,14 @@
 
                 <div class="section-small">
 
-                    NEDEN TRAVELIO?
+                    @Localizer["WhyTravelio"]
 
                 </div>
 
 
                 <h2 class="section-title">
 
-                    Seyahati Daha Kolay Hale Getiriyoruz
+                    @Localizer["EasierTravel"]
 
                 </h2>
 
@@ -1590,7 +1586,7 @@
                    asp-action="Index"
                    class="all-tours-btn">
 
-                Hakkımızda
+                @Localizer["About"]
 
                 <i class="bi bi-arrow-right"></i>
 
@@ -1619,13 +1615,12 @@
                     <div>
 
                         <h3>
-                            Kolay Rezervasyon
+                            @Localizer["EasyReservation"]
                         </h3>
 
                         <p>
 
-                            Tur tarihlerini ve kontenjanları görüntüleyerek
-                            birkaç adımda rezervasyon oluşturun.
+                            @Localizer["EasyReservationDescription"]
 
                         </p>
 
@@ -1653,13 +1648,12 @@
                     <div>
 
                         <h3>
-                            Seçili Rotalar
+                            @Localizer["SelectedRoutes"]
                         </h3>
 
                         <p>
 
-                            Farklı şehirler ve ülkelerdeki tur seçeneklerini
-                            tek bir yerde keşfedin.
+                            @Localizer["SelectedRoutesDescription"]
 
                         </p>
 
@@ -1687,13 +1681,12 @@
                     <div>
 
                         <h3>
-                            Gerçek Kullanıcı Deneyimleri
+                            @Localizer["RealUserExperiences"]
                         </h3>
 
                         <p>
 
-                            Gezginlerin yorumlarını inceleyin ve seyahat
-                            kararınızı daha kolay verin.
+                            @Localizer["RealUserExperiencesDescription"]
 
                         </p>
 
@@ -1730,14 +1723,14 @@
 
                 <div class="section-small">
 
-                    KULLANICI DENEYİMLERİ
+                    @Localizer["UserExperiences"]
 
                 </div>
 
 
                 <h2 class="section-title">
 
-                    Gezginler Ne Diyor?
+                    @Localizer["WhatTravelersSay"]
 
                 </h2>
 
@@ -1749,7 +1742,7 @@
                    asp-action="Index"
                    class="all-tours-btn">
 
-                Tüm Yorumları Gör
+                @Localizer["ViewAllReviews"]
 
                 <i class="bi bi-arrow-right"></i>
 
@@ -1817,7 +1810,7 @@
 
                                     <strong>
 
-                                        Travelio Kullanıcısı
+                                        @Localizer["TravelioUser"]
 
                                     </strong>
 
@@ -1849,7 +1842,7 @@
 
             <div class="text-muted small">
 
-                Henüz yayınlanmış kullanıcı yorumu bulunmuyor.
+                @Localizer["NoPublishedReviews"]
 
             </div>
 
@@ -1888,22 +1881,21 @@
 
                 <div class="home-cta-small">
 
-                    YENİ ROTALAR SENİ BEKLİYOR
+                    @Localizer["NewRoutesAwait"]
 
                 </div>
 
 
                 <h2>
 
-                    Sıradaki Seyahatinizi Keşfedin
+                    @Localizer["DiscoverNextTrip"]
 
                 </h2>
 
 
                 <p>
 
-                    Yeni şehirler, farklı kültürler ve unutulmaz
-                    deneyimler için Travelio rotalarını keşfedin.
+                    @Localizer["CtaDescription"]
 
                 </p>
 
@@ -1916,7 +1908,7 @@
                            asp-action="Index"
                            class="cta-primary">
 
-                        Turları Keşfet
+                        @Localizer["ExploreTours"]
 
                         <i class="bi bi-arrow-right"></i>
 
@@ -1927,7 +1919,7 @@
                            asp-action="Index"
                            class="cta-secondary">
 
-                        Bize Ulaş
+                        @Localizer["ContactUs"]
 
                     </a>
 
