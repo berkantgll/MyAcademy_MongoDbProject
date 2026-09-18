@@ -1,0 +1,342 @@
+﻿@using Travel.Web.DTOs.UserDtos
+@model LoginDto
+
+@{
+    ViewData["Title"] = "Giriş Yap";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>Giriş Yap — Travelio</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700;800&display=swap"
+          rel="stylesheet" />
+
+    <style>
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                min-height: 100vh;
+                font-family: 'Inter', sans-serif;
+                background: #f5f5f1;
+                color: #0e2a3b;
+            }
+
+            .auth-page {
+                min-height: 100vh;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .auth-visual {
+                background: linear-gradient( rgba(14,42,59,.5), rgba(14,42,59,.75) ), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=85') center/cover;
+                padding: 55px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                color: white;
+            }
+
+            .brand {
+                font-family: 'Sora';
+                font-weight: 800;
+                font-size: 1.45rem;
+            }
+
+                .brand span {
+                    color: #47d1d1;
+                }
+
+            .hero h1 {
+                font-family: 'Sora';
+                font-size: 3rem;
+                line-height: 1.1;
+                max-width: 600px;
+                margin-bottom: 20px;
+            }
+
+            .hero p {
+                max-width: 530px;
+                color: rgba(255,255,255,.8);
+                line-height: 1.7;
+                font-size: .95rem;
+            }
+
+            .auth-side {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 45px;
+            }
+
+            .auth-box {
+                width: 100%;
+                max-width: 470px;
+            }
+
+            .eyebrow {
+                font-family: 'Sora';
+                color: #0b7f80;
+                text-transform: uppercase;
+                letter-spacing: .16em;
+                font-size: .7rem;
+                font-weight: 700;
+            }
+
+            .auth-box h2 {
+                font-family: 'Sora';
+                font-size: 2rem;
+                margin: 8px 0;
+            }
+
+            .subtitle {
+                color: #6a7c88;
+                font-size: .9rem;
+                margin-bottom: 30px;
+            }
+
+            .field {
+                margin-bottom: 17px;
+            }
+
+                .field label {
+                    display: block;
+                    font-size: .8rem;
+                    font-weight: 600;
+                    margin-bottom: 7px;
+                }
+
+            .ctrl {
+                width: 100%;
+                border: 1px solid #ddd8cf;
+                background: white;
+                border-radius: 12px;
+                padding: 13px 14px;
+                font-family: inherit;
+                font-size: .9rem;
+                color: #0e2a3b;
+                outline: none;
+                transition: .2s;
+            }
+
+                .ctrl:focus {
+                    border-color: #0fa3a3;
+                    box-shadow: 0 0 0 3px rgba(15,163,163,.1);
+                }
+
+            .text-danger {
+                display: block;
+                font-size: .75rem;
+                color: #b45a4f;
+                margin-top: 5px;
+            }
+
+            .validation-summary-errors {
+                background: #f6e4e2;
+                color: #b45a4f;
+                border-radius: 10px;
+                padding: 12px 15px;
+                font-size: .82rem;
+                margin-bottom: 18px;
+            }
+
+                .validation-summary-errors ul {
+                    margin: 0;
+                    padding-left: 18px;
+                }
+
+            .submit-btn {
+                width: 100%;
+                border: none;
+                background: #0fa3a3;
+                color: white;
+                border-radius: 999px;
+                padding: 13px 18px;
+                font-family: 'Sora';
+                font-size: .9rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: .2s;
+                margin-top: 7px;
+            }
+
+                .submit-btn:hover {
+                    background: #0b7f80;
+                    box-shadow: 0 12px 25px rgba(15,163,163,.25);
+                }
+
+            .switch {
+                text-align: center;
+                font-size: .84rem;
+                color: #6a7c88;
+                margin-top: 22px;
+            }
+
+                .switch a {
+                    color: #0b7f80;
+                    font-weight: 600;
+                    text-decoration: none;
+                }
+
+            @@media(max-width:900px) {
+
+                .auth-page {
+                    grid-template-columns: 1fr;
+                }
+
+                .auth-visual {
+                    display: none;
+                }
+
+                .auth-side {
+                    padding: 30px 20px;
+                }
+            }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="auth-page">
+
+
+        <section class="auth-visual">
+
+            <div class="brand">
+                Travel<span>io</span>
+            </div>
+
+
+            <div class="hero">
+
+                <h1>
+                    Yolculuğunuz kaldığı yerden devam etsin.
+                </h1>
+
+                <p>
+                    Rezervasyonlarınızı, favorilerinizi ve yaklaşan
+                    seyahatlerinizi yönetmek için hesabınıza giriş yapın.
+                </p>
+
+            </div>
+
+
+            <div style="font-size:.78rem;color:rgba(255,255,255,.6)">
+                © 2026 Travelio
+            </div>
+
+        </section>
+
+
+        <section class="auth-side">
+
+            <div class="auth-box">
+
+                <div class="eyebrow">
+                    Travelio
+                </div>
+
+                <h2>
+                    Tekrar Hoş Geldiniz
+                </h2>
+
+                <div class="subtitle">
+                    Hesabınıza giriş yapın.
+                </div>
+
+
+                <form asp-controller="Account"
+                      asp-action="Login"
+                      method="post">
+
+                    <div asp-validation-summary="ModelOnly"></div>
+
+
+                    <div class="field">
+
+                        <label>
+                            E-posta
+                        </label>
+
+                        <input asp-for="Email"
+                               type="email"
+                               class="ctrl"
+                               placeholder="ornek@mail.com" />
+
+                        <span asp-validation-for="Email"
+                              class="text-danger"></span>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Şifre
+                        </label>
+
+                        <input asp-for="Password"
+                               type="password"
+                               class="ctrl"
+                               placeholder="Şifreniz" />
+
+                        <span asp-validation-for="Password"
+                              class="text-danger"></span>
+
+                    </div>
+
+
+                    <button type="submit"
+                            class="submit-btn">
+
+                        Giriş Yap
+
+                    </button>
+
+                </form>
+
+
+                <div class="switch">
+
+                    Henüz hesabınız yok mu?
+
+                    <a asp-controller="Account"
+                           asp-action="Register">
+
+                        Kayıt Ol
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</body>
+
+</html>

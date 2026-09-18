@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Travel.Web.Areas.Admin.Models;
 using Travel.Web.Services.ReservationService;
 using Travel.Web.Services.TourService;
@@ -7,6 +8,7 @@ using Travel.Web.Services.TourService;
 namespace Travel.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ReservationController : Controller
     {
         private readonly IReservationService _reservationService;

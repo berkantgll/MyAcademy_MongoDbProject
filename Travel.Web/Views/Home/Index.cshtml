@@ -1,8 +1,856 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Travel.Web.Models
+@model List<PublicTourListViewModel>
+
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+
+    var tours = Model ?? new List<PublicTourListViewModel>();
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+
+        /* =========================
+                   HERO
+                ========================= */
+
+        .hero {
+            height: 500px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient( 90deg, rgba(7, 35, 54, .72), rgba(7, 35, 54, .15) ), url('/images/travelio-hero.png') center / cover no-repeat;
+            color: white;
+        }
+
+        .hero-content {
+            width: 100%;
+            max-width: 1280px;
+            margin: auto;
+            padding: 28px 25px;
+        }
+
+        .hero-small {
+            color: #68e2e2;
+            font-family: 'Sora';
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .18em;
+        }
+
+        .hero h1 {
+            max-width: 610px;
+            margin: 10px 0 12px;
+            font-size: 3.1rem;
+            font-weight: 800;
+            line-height: 1.04;
+        }
+
+        .hero-text {
+            max-width: 580px;
+            margin-bottom: 0;
+            color: rgba(255,255,255,.90);
+            font-size: .95rem;
+            line-height: 1.65;
+        }
+
+
+        /* =========================
+                   SEARCH
+                ========================= */
+
+        .search-box {
+            max-width: 900px;
+            margin-top: 25px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,.98);
+            border-radius: 18px;
+            box-shadow: 0 18px 45px rgba(0,0,0,.20);
+        }
+
+        .search-field {
+            min-height: 58px;
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-right: 1px solid #e9e5de;
+        }
+
+        .search-icon {
+            width: 27px;
+            color: var(--teal);
+            font-size: 1.25rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .search-content {
+            width: 100%;
+            min-width: 0;
+        }
+
+            .search-content label {
+                display: block;
+                margin-bottom: 3px;
+                color: #657985;
+                font-size: .62rem;
+                font-weight: 700;
+                letter-spacing: .10em;
+                text-transform: uppercase;
+            }
+
+        .search-control {
+            width: 100%;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            background: transparent;
+            color: var(--navy);
+            font-family: 'Inter', sans-serif;
+            font-size: .82rem;
+            font-weight: 600;
+        }
+
+
+        /* KİŞİ SELECT */
+
+        .person-select {
+            width: 100%;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: transparent;
+            color: var(--navy);
+            font-family: 'Inter', sans-serif;
+            font-size: .82rem;
+            font-weight: 600;
+            padding: 2px 25px 2px 0;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%235d7180' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right center;
+        }
+
+        .search-button {
+            width: 100%;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+        }
+
+
+        /* =========================
+                   HERO STATS
+                ========================= */
+
+        .hero-stats {
+            display: flex;
+            align-items: center;
+            gap: 42px;
+            margin-top: 24px;
+        }
+
+        .hero-stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-stat-icon {
+            color: rgba(255,255,255,.75);
+            font-size: 1.5rem;
+        }
+
+        .hero-stat strong {
+            display: block;
+            font-family: 'Sora';
+            font-size: 1.2rem;
+            line-height: 1.1;
+        }
+
+        .hero-stat span {
+            color: rgba(255,255,255,.80);
+            font-size: .68rem;
+        }
+
+
+        /* =========================
+                   POPÜLER TURLAR
+                ========================= */
+
+        .tours-section {
+            padding: 16px 0 25px;
+        }
+
+        .popular-header {
+            margin-bottom: 8px;
+        }
+
+        .section-small {
+            margin-bottom: 2px;
+            color: var(--teal);
+            font-family: 'Sora';
+            font-size: .66rem;
+            font-weight: 700;
+            letter-spacing: .17em;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: 1.65rem;
+            font-weight: 800;
+        }
+
+        .all-tours-btn {
+            padding: 7px 14px;
+            border: 1px solid #d9dfdf;
+            border-radius: 999px;
+            color: var(--navy);
+            background: white;
+            font-size: .68rem;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+            .all-tours-btn:hover {
+                color: white;
+                background: var(--teal);
+                border-color: var(--teal);
+            }
+
+
+        /* =========================
+                   TOUR CARD
+                ========================= */
+
+        .tour-card {
+            height: 100%;
+            background: white;
+            border: 1px solid #e4e0d9;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(14,42,59,.05);
+            transition: .2s;
+        }
+
+            .tour-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 26px rgba(14,42,59,.11);
+            }
+
+
+        /* FOTOĞRAF */
+
+        .tour-image {
+            height: 118px;
+            position: relative;
+            background: #e9ecef;
+            overflow: hidden;
+        }
+
+            .tour-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: .3s;
+            }
+
+        .tour-card:hover .tour-image img {
+            transform: scale(1.03);
+        }
+
+        .tour-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            color: #91a0a8;
+            font-size: 1.5rem;
+        }
+
+
+        /* KATEGORİ */
+
+        .tour-category {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            padding: 4px 8px;
+            background: rgba(255,255,255,.95);
+            border-radius: 999px;
+            color: var(--navy);
+            font-size: .58rem;
+            font-weight: 600;
+        }
+
+
+        /* BODY */
+
+        .tour-body {
+            padding: 8px 11px 10px;
+        }
+
+        .tour-location {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--teal-dark);
+            font-size: .62rem;
+            font-weight: 600;
+        }
+
+        .tour-name {
+            margin: 3px 0 5px;
+            color: var(--navy);
+            font-size: .88rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+
+        /* TUR BİLGİLERİ */
+
+        .tour-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 7px;
+            color: var(--muted);
+            font-size: .61rem;
+        }
+
+            .tour-info span {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                white-space: nowrap;
+            }
+
+            .tour-info i {
+                color: var(--teal);
+            }
+
+
+        /* FİYAT + BUTON */
+
+        .tour-bottom {
+            padding-top: 7px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eeeae4;
+        }
+
+        .tour-price small {
+            display: block;
+            margin-bottom: 0;
+            color: var(--muted);
+            font-size: .54rem;
+        }
+
+        .tour-price strong {
+            color: var(--navy);
+            font-family: 'Sora';
+            font-size: .92rem;
+        }
+
+        .tour-btn {
+            padding: 6px 9px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--navy);
+            border-radius: 999px;
+            color: white;
+            font-size: .59rem;
+            font-weight: 600;
+        }
+
+            .tour-btn:hover {
+                color: white;
+                background: var(--teal);
+            }
+
+
+        /* =========================
+                   RESPONSIVE
+                ========================= */
+
+        @@media(max-width: 992px) {
+
+            .hero {
+                height: auto;
+                min-height: 500px;
+            }
+
+            .search-field {
+                border-right: none;
+                border-bottom: 1px solid #e9e5de;
+            }
+        }
+
+
+        @@media(max-width: 768px) {
+
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .hero-stats {
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+
+            .popular-header {
+                align-items: flex-start !important;
+                gap: 10px;
+            }
+        }
+
+    </style>
+}
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+
+        <div class="hero-small">
+            TRAVELIO İLE KEŞFET
+        </div>
+
+
+        <h1>
+            Dünyayı Keşfetmeye
+            <br />
+            Hazır Mısın?
+        </h1>
+
+
+        <p class="hero-text">
+            Avrupa'nın ikonik şehirlerinden benzersiz rotalara kadar
+            unutulmaz seyahat deneyimleri seni bekliyor.
+        </p>
+
+
+
+        <!-- SEARCH -->
+
+        <form asp-controller="Tour"
+              asp-action="Index"
+              method="get"
+              class="search-box">
+
+
+            <div class="row g-0 align-items-center">
+
+
+                <!-- DESTİNASYON -->
+
+                <div class="col-md-3 search-field">
+
+                    <div class="search-icon">
+                        <i class="bi bi-geo-alt"></i>
+                    </div>
+
+                    <div class="search-content">
+
+                        <label>
+                            Destinasyon
+                        </label>
+
+                        <input type="text"
+                               name="destination"
+                               class="search-control"
+                               placeholder="Nereye gidelim?" />
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TARİH -->
+
+                <div class="col-md-3 search-field">
+
+                    <div class="search-icon">
+                        <i class="bi bi-calendar3"></i>
+                    </div>
+
+                    <div class="search-content">
+
+                        <label>
+                            Tarih
+                        </label>
+
+                        <input type="date"
+                               name="date"
+                               class="search-control" />
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- KİŞİ SAYISI -->
+
+                <div class="col-md-3 search-field">
+
+                    <div class="search-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+
+                    <div class="search-content">
+
+                        <label>
+                            Kişi Sayısı
+                        </label>
+
+                        <select name="personCount"
+                                class="person-select">
+
+                            <option value="">
+                                Kişi seç
+                            </option>
+
+                            <option value="1">
+                                1 Kişi
+                            </option>
+
+                            <option value="2">
+                                2 Kişi
+                            </option>
+
+                            <option value="3">
+                                3 Kişi
+                            </option>
+
+                            <option value="4">
+                                4 Kişi
+                            </option>
+
+                            <option value="5">
+                                5+ Kişi
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SEARCH BUTTON -->
+
+                <div class="col-md-3 p-2">
+
+                    <button type="submit"
+                            class="btn-teal search-button">
+
+                        <i class="bi bi-search"></i>
+
+                        Turları Ara
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </form>
+
+
+
+        <!-- HERO STATS -->
+
+        <div class="hero-stats">
+
+
+            <div class="hero-stat">
+
+                <i class="bi bi-globe2 hero-stat-icon"></i>
+
+                <div>
+
+                    <strong>
+                        @ViewBag.DestinationCount
+                    </strong>
+
+                    <span>
+                        Destinasyon
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="hero-stat">
+
+                <i class="bi bi-map hero-stat-icon"></i>
+
+                <div>
+
+                    <strong>
+                        @ViewBag.ActiveTourCount
+                    </strong>
+
+                    <span>
+                        Aktif Tur
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="hero-stat">
+
+                <i class="bi bi-people hero-stat-icon"></i>
+
+                <div>
+
+                    <strong>
+                        @ViewBag.TotalCapacity
+                    </strong>
+
+                    <span>
+                        Kalan Kontenjan
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     POPÜLER TURLAR
+========================= -->
+
+<section class="tours-section"
+         id="turlar">
+
+    <div class="site-container">
+
+
+        <!-- BAŞLIK -->
+
+        <div class="popular-header d-flex justify-content-between align-items-end">
+
+
+            <div>
+
+                <div class="section-small">
+                    POPÜLER ROTALAR
+                </div>
+
+                <h2 class="section-title">
+                    En Çok Tercih Edilen Turlar
+                </h2>
+
+            </div>
+
+
+
+            <a asp-controller="Tour"
+                   asp-action="Index"
+                   class="all-tours-btn">
+
+                Tüm Turları Gör
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- TUR KARTLARI -->
+
+        <div class="row g-3">
+
+
+            @foreach (var item in tours)
+            {
+
+                <div class="col-md-6 col-lg-3">
+
+
+                    <div class="tour-card">
+
+
+                        <!-- FOTOĞRAF -->
+
+                        <div class="tour-image">
+
+
+                            @if (!string.IsNullOrWhiteSpace(item.Tour.CoverImageUrl))
+                            {
+                                <img src="@item.Tour.CoverImageUrl"
+                                     alt="@item.Tour.TourName" />
+                            }
+                            else
+                            {
+                                <div class="tour-image-placeholder">
+
+                                    <i class="bi bi-image"></i>
+
+                                </div>
+                            }
+
+
+                            <span class="tour-category">
+
+                                @item.CategoryName
+
+                            </span>
+
+
+                        </div>
+
+
+
+                        <!-- CARD BODY -->
+
+                        <div class="tour-body">
+
+
+                            <!-- LOCATION -->
+
+                            <div class="tour-location">
+
+                                <i class="bi bi-geo-alt-fill"></i>
+
+                                <span>
+                                    @item.Tour.Country · @item.DestinationName
+                                </span>
+
+                            </div>
+
+
+
+                            <!-- NAME -->
+
+                            <h3 class="tour-name">
+
+                                @item.Tour.TourName
+
+                            </h3>
+
+
+
+                            <!-- INFO -->
+
+                            <div class="tour-info">
+
+
+                                <span>
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                    @item.Tour.Day Gün /
+                                    @item.Tour.Night Gece
+
+                                </span>
+
+
+                                <span>
+
+                                    <i class="bi bi-people"></i>
+
+                                    @item.ReservationCount Rezervasyon
+
+                                </span>
+
+
+                            </div>
+
+
+
+                            <!-- PRICE -->
+
+                            <div class="tour-bottom">
+
+
+                                <div class="tour-price">
+
+                                    <small>
+                                        Kişi başı
+                                    </small>
+
+                                    <strong>
+                                        @item.Tour.Price.ToString("N0") TL
+                                    </strong>
+
+                                </div>
+
+
+
+                                <a asp-controller="Tour"
+                                       asp-action="Details"
+                                       asp-route-id="@item.Tour.Id"
+                                       class="tour-btn">
+
+                                    Turu İncele
+
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </a>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+            }
+
+
+        </div>
+
+
+    </div>
+
+</section>

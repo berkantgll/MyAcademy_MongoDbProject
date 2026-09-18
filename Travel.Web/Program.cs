@@ -1,8 +1,10 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using System.Net;
 using System.Reflection;
+using Travel.Web.Entitites;
 using Travel.Web.Services.BannerServices;
 using Travel.Web.Services.CategoryServices;
 using Travel.Web.Services.CommentService;
@@ -13,7 +15,7 @@ using Travel.Web.Services.QuestionService;
 using Travel.Web.Services.ReservationService;
 using Travel.Web.Services.RouteServices;
 using Travel.Web.Services.TourService;
-using Travel.Web.Services.UserService;
+using Travel.Web.Services.UserServices;
 using Travel.Web.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +38,25 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+
+        options.SlidingExpiration = true;
+    });
+
+
+builder.Services.AddAuthorization();
+
 
 builder.Services.AddSingleton<IDatabaseSettings>(sp =>
 {
@@ -59,6 +80,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

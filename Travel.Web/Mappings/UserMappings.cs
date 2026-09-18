@@ -8,10 +8,7 @@ namespace Travel.Web.Mappings
     {
         public UserMappings()
         {
-            CreateMap<CreateUserDto,User>();
-            CreateMap<UpdateUserDto,User>();
-            CreateMap<User,ResultUserDto>();
-            CreateMap<ResultUserDto,UpdateUserDto>();
+            CreateMap<User, ResultUserDto>();
         }
     }
 }

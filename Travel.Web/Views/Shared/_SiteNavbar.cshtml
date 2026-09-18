@@ -1,0 +1,258 @@
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<style>
+
+    .site-navbar {
+        height: 72px;
+        background: rgba(255,255,255,.96);
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .navbar-inner {
+        width: 100%;
+        max-width: 1450px;
+        margin: auto;
+        padding: 0 25px;
+        display: flex;
+        align-items: center;
+    }
+
+    .site-brand {
+        font-family: 'Sora';
+        font-size: 1.45rem;
+        font-weight: 800;
+        color: var(--navy);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .brand-dot {
+        width: 11px;
+        height: 11px;
+        background: var(--teal);
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgba(15,163,163,.15);
+    }
+
+    .site-menu {
+        margin: auto;
+        display: flex;
+        gap: 30px;
+    }
+
+        .site-menu a {
+            color: var(--navy);
+            font-size: .88rem;
+            font-weight: 500;
+        }
+
+            .site-menu a:hover {
+                color: var(--teal);
+            }
+
+    .nav-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-pill {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 5px 10px 5px 14px;
+        font-size: .82rem;
+        font-weight: 600;
+    }
+
+    .profile-avatar {
+        width: 30px;
+        height: 30px;
+        background: var(--navy);
+        color: white;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: .7rem;
+    }
+
+    .logout-btn {
+        border: 1px solid #e7a5a5;
+        color: #c94d4d;
+        border-radius: 999px;
+        padding: 7px 13px;
+        font-size: .78rem;
+    }
+
+        .logout-btn:hover {
+            background: #fff1f1;
+            color: #c94d4d;
+        }
+
+    .login-btn {
+        border: 1px solid var(--line);
+        color: var(--navy);
+        border-radius: 999px;
+        padding: 8px 16px;
+        font-size: .8rem;
+        font-weight: 600;
+    }
+
+    @@media(max-width:900px) {
+
+        .site-menu {
+            display: none;
+        }
+
+        .nav-user {
+            margin-left: auto;
+        }
+    }
+
+    .site-menu a {
+        position: relative;
+        color: var(--navy);
+        font-size: .88rem;
+        font-weight: 500;
+        padding-bottom: 8px;
+    }
+
+        .site-menu a:hover {
+            color: var(--teal);
+        }
+
+        .site-menu a.active {
+            color: var(--teal);
+            font-weight: 700;
+        }
+
+            .site-menu a.active::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 2px;
+                background: var(--teal);
+                border-radius: 10px;
+            }
+
+</style>
+
+
+<header class="site-navbar">
+
+    <div class="navbar-inner">
+
+        <a asp-controller="Home"
+               asp-action="Index"
+               class="site-brand">
+
+            <span class="brand-dot"></span>
+
+            Travelio
+
+        </a>
+
+
+        <nav class="site-menu">
+
+            <a asp-controller="Home"
+                   asp-action="Index"
+                   class="@(currentController == "Home" && currentAction == "Index" ? "active" : "")">
+                Ana Sayfa
+            </a>
+
+            <a asp-controller="Tour"
+                   asp-action="Index"
+                   class="@(currentController == "Tour" ? "active" : "")">
+                Turlar
+            </a>
+
+            <a asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="destinasyonlar">
+                Destinasyonlar
+            </a>
+
+            <a asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="yorumlar">
+                Yorumlar
+            </a>
+
+            <a asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="hakkimizda">
+                Hakkımızda
+            </a>
+
+            <a asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="iletisim">
+                İletişim
+            </a>
+
+        </nav>
+
+
+        <div class="nav-user">
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="profile-pill">
+
+                    <span>
+                        @User.Identity.Name
+                    </span>
+
+                    <span class="profile-avatar">
+                        U
+                    </span>
+
+                </div>
+
+                <a asp-controller="Account"
+                       asp-action="Logout"
+                       class="logout-btn">
+
+                    Çıkış
+
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Account"
+                       asp-action="Login"
+                       class="login-btn">
+
+                    Giriş Yap
+
+                </a>
+
+                <a asp-controller="Account"
+                       asp-action="Register"
+                       class="btn-teal">
+
+                    Kayıt Ol
+
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+</header>

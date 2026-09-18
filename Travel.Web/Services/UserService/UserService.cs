@@ -1,64 +1,65 @@
 ﻿using AutoMapper;
-using MongoDB.Driver.Linq;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Travel.Web.DTOs.UserDtos;
 using Travel.Web.Entitites;
 using Travel.Web.Settings;
 
-namespace Travel.Web.Services.UserService
+namespace Travel.Web.Services.UserServices
 {
     public class UserService : IUserService
     {
         private readonly IMongoCollection<User> _userCollection;
         private readonly IMapper _mapper;
 
-        public UserService(IDatabaseSettings databaseSettings, IMapper mapper)
+        public UserService(
+            IOptions<DatabaseSettings> databaseSettings,
+            IMapper mapper)
         {
-            var client = new MongoClient(databaseSettings.ConnectionString);
-            var database = client.GetDatabase(databaseSettings.DatabaseName);
-            _userCollection = database.GetCollection<User>(databaseSettings.UserCollectionName);
+            var client = new MongoClient(
+                databaseSettings.Value.ConnectionString
+            );
+
+            var database = client.GetDatabase(
+                databaseSettings.Value.DatabaseName
+            );
+
+            _userCollection =
+                database.GetCollection<User>("Users");
+
             _mapper = mapper;
         }
-        public async Task CreateAsync(CreateUserDto createUserDto)
+
+
+        public async Task<User?> GetByEmailAsync(string email)
         {
-            var user = _mapper.Map<User>(createUserDto);
-            await _userCollection.InsertOneAsync(user);
+            return await _userCollection
+                .Find(x => x.Email == email)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task DeleteAsync(string id)
+
+        public async Task<User?> GetByIdAsync(string id)
         {
-            await _userCollection.DeleteOneAsync(x => x.Id == id);
+            return await _userCollection
+                .Find(x => x.Id == id)
+                .FirstOrDefaultAsync();
         }
+
 
         public async Task<List<ResultUserDto>> GetAllAsync()
         {
-            var user = await _userCollection.AsQueryable().ToListAsync();
-            return _mapper.Map<List<ResultUserDto>>(user);
+            var users = await _userCollection
+                .Find(x => true)
+                .ToListAsync();
+
+            return _mapper.Map<List<ResultUserDto>>(users);
         }
 
-        public async Task<ResultUserDto> GetByIdAsync(string id)
+
+        public async Task CreateAsync(User user)
         {
-            var user = await _userCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
-
-            if (user == null)
-            {
-                throw new Exception("Kullanıcı bulunamadı!");
-            }
-
-            return _mapper.Map<ResultUserDto>(user);
-        }
-
-        public async Task UpdateAsync(UpdateUserDto updateUserDto)
-        {
-            var existingUser = await _userCollection.Find(x => x.Id == updateUserDto.Id).FirstOrDefaultAsync();
-
-            if (existingUser == null)
-            {
-                throw new Exception("Kullanıcı bulunamadı!");
-            }
-
-            var user = _mapper.Map<User>(updateUserDto);
-            await _userCollection.FindOneAndReplaceAsync(x => x.Id == user.Id, user);
+            await _userCollection.InsertOneAsync(user);
         }
     }
 }

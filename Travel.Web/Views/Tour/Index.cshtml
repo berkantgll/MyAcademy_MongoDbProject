@@ -1,0 +1,747 @@
+﻿@using Travel.Web.Models
+@model List<PublicTourListViewModel>
+
+@{
+    ViewData["Title"] = "Turlar";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+
+        .tours-page {
+            padding: 45px 0 70px;
+        }
+
+
+        /* HEADER */
+
+        .page-small {
+            color: var(--teal);
+            font-family: 'Sora';
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .16em;
+        }
+
+        .page-title {
+            margin: 5px 0 5px;
+            color: var(--navy);
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
+
+        .page-description {
+            color: var(--muted);
+            font-size: .85rem;
+        }
+
+        .result-count {
+            color: var(--muted);
+            font-size: .78rem;
+            font-weight: 500;
+        }
+
+
+        /* FILTER */
+
+        .filter-card {
+            position: sticky;
+            top: 95px;
+            padding: 20px;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(14,42,59,.06);
+        }
+
+        .filter-title {
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Sora';
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+            .filter-title i {
+                color: var(--teal);
+            }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+            .filter-group label {
+                display: block;
+                margin-bottom: 5px;
+                color: var(--navy);
+                font-size: .68rem;
+                font-weight: 700;
+            }
+
+        .filter-control {
+            width: 100%;
+            height: 39px;
+            padding: 0 11px;
+            background: #faf9f7;
+            border: 1px solid #e5e1db;
+            border-radius: 9px;
+            outline: none;
+            color: var(--navy);
+            font-size: .75rem;
+        }
+
+            .filter-control:focus {
+                border-color: var(--teal);
+            }
+
+        .price-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-button {
+            width: 100%;
+            height: 40px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 999px;
+            background: var(--teal);
+            color: white;
+            font-size: .75rem;
+            font-weight: 600;
+        }
+
+            .filter-button:hover {
+                background: var(--teal-dark);
+            }
+
+        .clear-filter {
+            width: 100%;
+            margin-top: 9px;
+            display: block;
+            text-align: center;
+            color: var(--muted);
+            font-size: .7rem;
+        }
+
+            .clear-filter:hover {
+                color: var(--teal);
+            }
+
+
+        /* CARD */
+
+        .tour-card {
+            height: 100%;
+            background: white;
+            border: 1px solid #e4e0d9;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(14,42,59,.05);
+            transition: .2s;
+        }
+
+            .tour-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 14px 30px rgba(14,42,59,.11);
+            }
+
+
+        .tour-image {
+            height: 165px;
+            position: relative;
+            overflow: hidden;
+            background: #e9ecef;
+        }
+
+            .tour-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: .3s;
+            }
+
+        .tour-card:hover .tour-image img {
+            transform: scale(1.04);
+        }
+
+
+        .tour-category {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 5px 9px;
+            background: rgba(255,255,255,.95);
+            border-radius: 999px;
+            color: var(--navy);
+            font-size: .62rem;
+            font-weight: 600;
+        }
+
+
+        .tour-body {
+            padding: 12px 14px;
+        }
+
+
+        .tour-location {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--teal-dark);
+            font-size: .68rem;
+            font-weight: 600;
+        }
+
+
+        .tour-name {
+            margin: 4px 0 8px;
+            color: var(--navy);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+
+        .tour-info {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 10px;
+            color: var(--muted);
+            font-size: .67rem;
+        }
+
+            .tour-info span {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .tour-info i {
+                color: var(--teal);
+            }
+
+
+        .tour-bottom {
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eeeae4;
+        }
+
+
+        .tour-price small {
+            display: block;
+            color: var(--muted);
+            font-size: .57rem;
+        }
+
+
+        .tour-price strong {
+            font-family: 'Sora';
+            font-size: 1rem;
+        }
+
+
+        .tour-btn {
+            padding: 7px 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--navy);
+            border-radius: 999px;
+            color: white;
+            font-size: .64rem;
+            font-weight: 600;
+        }
+
+
+            .tour-btn:hover {
+                color: white;
+                background: var(--teal);
+            }
+
+
+        /* EMPTY */
+
+        .empty-result {
+            padding: 60px 20px;
+            background: white;
+            border: 1px solid #e5e1db;
+            border-radius: 16px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+            .empty-result i {
+                display: block;
+                margin-bottom: 10px;
+                color: var(--teal);
+                font-size: 2rem;
+            }
+
+
+        @@media(max-width: 991px) {
+
+            .filter-card {
+                position: static;
+                margin-top: 25px;
+            }
+        }
+
+    </style>
+}
+
+
+
+<section class="tours-page">
+
+    <div class="site-container">
+
+
+        <!-- HEADER -->
+
+        <div class="d-flex justify-content-between align-items-end mb-4">
+
+            <div>
+
+                <div class="page-small">
+                    TRAVELIO TURLARI
+                </div>
+
+                <h1 class="page-title">
+                    Tüm Turlar
+                </h1>
+
+                <div class="page-description">
+                    Yeni rotaları keşfet ve sana uygun turu seç.
+                </div>
+
+            </div>
+
+
+            <div class="result-count">
+
+                <i class="bi bi-compass"></i>
+
+                @Model.Count tur bulundu
+
+            </div>
+
+        </div>
+
+
+
+        <div class="row g-4">
+
+
+            <!-- TURLAR -->
+
+            <div class="col-lg-9">
+
+                @if (Model.Any())
+                {
+
+                    <div class="row g-3">
+
+
+                        @foreach (var item in Model)
+                        {
+
+                            <div class="col-md-6 col-xl-4">
+
+
+                                <div class="tour-card">
+
+
+                                    <div class="tour-image">
+
+
+                                        @if (!string.IsNullOrWhiteSpace(item.Tour.CoverImageUrl))
+                                        {
+                                            <img src="@item.Tour.CoverImageUrl"
+                                                 alt="@item.Tour.TourName" />
+                                        }
+
+
+                                        <span class="tour-category">
+
+                                            @item.CategoryName
+
+                                        </span>
+
+
+                                    </div>
+
+
+
+                                    <div class="tour-body">
+
+
+                                        <div class="tour-location">
+
+                                            <i class="bi bi-geo-alt-fill"></i>
+
+                                            @item.Tour.Country ·
+                                            @item.DestinationName
+
+                                        </div>
+
+
+
+                                        <h2 class="tour-name">
+
+                                            @item.Tour.TourName
+
+                                        </h2>
+
+
+
+                                        <div class="tour-info">
+
+
+                                            <span>
+
+                                                <i class="bi bi-calendar3"></i>
+
+                                                @item.Tour.Day Gün /
+                                                @item.Tour.Night Gece
+
+                                            </span>
+
+
+                                            <span>
+
+                                                <i class="bi bi-people"></i>
+
+                                                @item.ReservationCount Rezervasyon
+
+                                            </span>
+
+
+                                        </div>
+
+
+
+                                        <div class="tour-bottom">
+
+
+                                            <div class="tour-price">
+
+                                                <small>
+                                                    Kişi başı
+                                                </small>
+
+                                                <strong>
+                                                    @item.Tour.Price.ToString("N0") TL
+                                                </strong>
+
+                                            </div>
+
+
+
+                                            <a asp-controller="Tour"
+                                                   asp-action="Details"
+                                                   asp-route-id="@item.Tour.Id"
+                                                   class="tour-btn">
+
+                                                Turu İncele
+
+                                                <i class="bi bi-arrow-right"></i>
+
+                                            </a>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+                        }
+
+
+                    </div>
+
+                }
+                else
+                {
+
+                    <div class="empty-result">
+
+                        <i class="bi bi-search"></i>
+
+                        <strong>
+                            Uygun tur bulunamadı.
+                        </strong>
+
+                        <div class="mt-1">
+                            Filtreleri değiştirerek tekrar deneyebilirsin.
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+
+
+            <!-- FILTER -->
+
+            <div class="col-lg-3">
+
+                <div class="filter-card">
+
+
+                    <div class="filter-title">
+
+                        <i class="bi bi-sliders"></i>
+
+                        Turları Filtrele
+
+                    </div>
+
+
+
+                    <form asp-controller="Tour"
+                          asp-action="Index"
+                          method="get">
+
+
+                        <!-- DESTINATION -->
+
+                        <div class="filter-group">
+
+                            <label>
+                                Destinasyon
+                            </label>
+
+                            <input type="text"
+                                   name="destination"
+                                   value="@ViewBag.Destination"
+                                   class="filter-control"
+                                   placeholder="Örn. Paris" />
+
+                        </div>
+
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="filter-group">
+
+                            <label>
+                                Kategori
+                            </label>
+
+                            <select name="categoryId"
+                                    class="filter-control">
+
+                                <option value="">
+                                    Tüm kategoriler
+                                </option>
+
+
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    if (ViewBag.CategoryId == category.Id)
+                                    {
+                                        <option value="@category.Id"
+                                                selected>
+
+                                            @category.CategoryName
+
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@category.Id">
+
+                                            @category.CategoryName
+
+                                        </option>
+                                    }
+                                }
+
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- DATE -->
+
+                        <div class="filter-group">
+
+                            <label>
+                                Tarih
+                            </label>
+
+                            <input type="date"
+                                   name="date"
+                                   value="@ViewBag.Date"
+                                   class="filter-control" />
+
+                        </div>
+
+
+
+                        <!-- PERSON -->
+
+                        <div class="filter-group">
+
+                            <label>
+                                Kişi Sayısı
+                            </label>
+
+                            <select name="personCount"
+                                    class="filter-control">
+
+                                <option value="">
+                                    Farketmez
+                                </option>
+
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (ViewBag.PersonCount == i)
+                                    {
+                                        <option value="@i"
+                                                selected>
+
+                                            @i Kişi
+
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i">
+
+                                            @i Kişi
+
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- PRICE -->
+
+                        <div class="filter-group">
+
+                            <label>
+                                Fiyat Aralığı
+                            </label>
+
+                            <div class="price-row">
+
+                                <input type="number"
+                                       name="minPrice"
+                                       value="@ViewBag.MinPrice"
+                                       class="filter-control"
+                                       placeholder="Min" />
+
+                                <input type="number"
+                                       name="maxPrice"
+                                       value="@ViewBag.MaxPrice"
+                                       class="filter-control"
+                                       placeholder="Max" />
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- SORT -->
+
+                        <div class="filter-group">
+
+                            <label>
+                                Sıralama
+                            </label>
+
+                            <select name="sort"
+                                    class="filter-control">
+
+                                <option value="">
+                                    Varsayılan
+                                </option>
+
+                                <option value="popular">
+                                    En Popüler
+                                </option>
+
+                                <option value="priceAsc">
+                                    Fiyat: Artan
+                                </option>
+
+                                <option value="priceDesc">
+                                    Fiyat: Azalan
+                                </option>
+
+                                <option value="duration">
+                                    Süre: Kısa → Uzun
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <button type="submit"
+                                class="filter-button">
+
+                            <i class="bi bi-search"></i>
+
+                            Turları Göster
+
+                        </button>
+
+
+
+                        <a asp-controller="Tour"
+                               asp-action="Index"
+                               class="clear-filter">
+
+                            <i class="bi bi-arrow-counterclockwise"></i>
+
+                            Filtreleri Temizle
+
+                        </a>
+
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>

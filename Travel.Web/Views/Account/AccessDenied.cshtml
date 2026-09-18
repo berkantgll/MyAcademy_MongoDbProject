@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Yetkisiz Erişim";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Yetkisiz Erişim — Travelio</title>
+
+    <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: #f4f5f4;
+                display: grid;
+                place-items: center;
+                min-height: 100vh;
+                margin: 0;
+            }
+
+            .box {
+                background: white;
+                padding: 45px;
+                border-radius: 16px;
+                text-align: center;
+                max-width: 500px;
+            }
+
+            h1 {
+                color: #0e2a3b;
+            }
+
+            p {
+                color: #6a7c88;
+            }
+
+            a {
+                display: inline-block;
+                margin-top: 15px;
+                padding: 10px 20px;
+                border-radius: 999px;
+                background: #0fa3a3;
+                color: white;
+                text-decoration: none;
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h1>Yetkiniz Bulunmuyor</h1>
+
+        <p>
+            Bu sayfaya erişmek için gerekli yetkiye sahip değilsiniz.
+        </p>
+
+        <a asp-controller="Home"
+               asp-action="Index">
+            Ana Sayfaya Dön
+        </a>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,32 +1,88 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using Travel.Web.Models;
+using Travel.Web.Services.CategoryServices;
+using Travel.Web.Services.DestinationServices;
+using Travel.Web.Services.ReservationService;
+using Travel.Web.Services.TourService;
 
 namespace Travel.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ITourService _tourService;
+        private readonly ICategoryService _categoryService;
+        private readonly IDestinationService _destinationService;
+        private readonly IReservationService _reservationService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ITourService tourService,
+            ICategoryService categoryService,
+            IDestinationService destinationService,
+            IReservationService reservationService)
         {
-            _logger = logger;
+            _tourService = tourService;
+            _categoryService = categoryService;
+            _destinationService = destinationService;
+            _reservationService = reservationService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            var tours = await _tourService.GetAllAsync();
+            var categories = await _categoryService.GetAllAsync();
+            var destinations = await _destinationService.GetAllAsync();
+            var reservations = await _reservationService.GetAllAsync();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            var activeTours = tours
+                .Where(x => x.IsActive)
+                .ToList();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ViewBag.ActiveTourCount = activeTours.Count;
+
+            ViewBag.DestinationCount = activeTours
+                .Select(x => x.DestinationId)
+                .Distinct()
+                .Count();
+
+            ViewBag.TotalCapacity = activeTours
+                .Sum(x => x.TourDates?.Sum(d => d.Capacity) ?? 0);
+
+            var model = new List<PublicTourListViewModel>();
+
+            foreach (var tour in activeTours)
+            {
+                var category = categories
+                    .FirstOrDefault(x => x.Id == tour.CategoryId);
+
+                var destination = destinations
+                    .FirstOrDefault(x => x.Id == tour.DestinationId);
+
+                var nextDate = tour.TourDates?
+                    .Where(x => x.Date >= DateTime.Today)
+                    .OrderBy(x => x.Date)
+                    .FirstOrDefault();
+
+                var reservationCount = reservations.Count(x =>
+                    x.TourId == tour.Id &&
+                    x.Status != "İptal Edildi");
+
+                model.Add(new PublicTourListViewModel
+                {
+                    Tour = tour,
+                    CategoryName = category?.CategoryName ?? "-",
+                    DestinationName = destination?.DestinationName ?? "-",
+                    NextDate = nextDate?.Date,
+                    RemainingCapacity = nextDate?.Capacity ?? 0,
+                    ReservationCount = reservationCount
+                });
+            }
+
+            model = model
+                .OrderByDescending(x => x.ReservationCount)
+                .Take(4)
+                .ToList();
+
+            return View(model);
         }
     }
 }

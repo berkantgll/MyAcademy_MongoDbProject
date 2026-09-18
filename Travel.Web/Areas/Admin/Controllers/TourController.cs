@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Travel.Web.Areas.Admin.Models;
@@ -12,6 +13,7 @@ using Travel.Web.Services.TourService;
 namespace Travel.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class TourController : Controller
     {
         private readonly ITourService _tourService;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Travel.Web.DTOs.RouteDtos;
@@ -7,6 +8,7 @@ using Travel.Web.Services.RouteServices;
 namespace Travel.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class RouteController(IRouteService _routeService, IMapper _mapper) : Controller
     {
         public async Task<IActionResult> Index()
