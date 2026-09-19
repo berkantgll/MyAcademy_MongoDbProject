@@ -129,6 +129,12 @@
   <data name="Adult" xml:space="preserve">
     <value>Yetişkin</value>
   </data>
+  <data name="AllTours" xml:space="preserve">
+    <value>Tüm Turlar</value>
+  </data>
+  <data name="AllToursDescription" xml:space="preserve">
+    <value>Farklı şehirleri, kültürleri ve rotaları keşfedin. Size uygun seyahati Travelio ile bulun.</value>
+  </data>
   <data name="AskQuestion" xml:space="preserve">
     <value>Bu Tur Hakkında Soru Sor</value>
   </data>
@@ -141,8 +147,17 @@
   <data name="Contact" xml:space="preserve">
     <value>İletişim</value>
   </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Bize Ulaş</value>
+  </data>
+  <data name="CtaDescription" xml:space="preserve">
+    <value>Yeni şehirler, farklı kültürler ve unutulmaz deneyimler için Travelio rotalarını keşfedin.</value>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Tarih</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Gün</value>
   </data>
   <data name="Destination" xml:space="preserve">
     <value>Destinasyon</value>
@@ -150,11 +165,38 @@
   <data name="Destinations" xml:space="preserve">
     <value>Destinasyonlar</value>
   </data>
+  <data name="DiscoverNewCities" xml:space="preserve">
+    <value>Yeni şehirleri ve rotaları keşfet.</value>
+  </data>
+  <data name="DiscoverNextTrip" xml:space="preserve">
+    <value>Sıradaki Seyahatinizi Keşfedin</value>
+  </data>
   <data name="DiscoverWithTravelio" xml:space="preserve">
     <value>TRAVELIO İLE KEŞFET</value>
   </data>
+  <data name="EasierTravel" xml:space="preserve">
+    <value>Seyahati Daha Kolay Hale Getiriyoruz</value>
+  </data>
+  <data name="EasyReservation" xml:space="preserve">
+    <value>Kolay Rezervasyon</value>
+  </data>
+  <data name="EasyReservationDescription" xml:space="preserve">
+    <value>Tur tarihlerini ve kontenjanları görüntüleyerek birkaç adımda rezervasyon oluşturun.</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>E-posta</value>
+  </data>
+  <data name="ExploreMore" xml:space="preserve">
+    <value>DAHA FAZLA KEŞFET</value>
+  </data>
+  <data name="ExploreTours" xml:space="preserve">
+    <value>Turları Keşfet</value>
+  </data>
+  <data name="FeaturedDestinations" xml:space="preserve">
+    <value>Öne Çıkan Destinasyonlar</value>
+  </data>
+  <data name="HeroDescription" xml:space="preserve">
+    <value>Avrupa'nın ikonik şehirlerinden benzersiz rotalara kadar unutulmaz seyahat deneyimleri seni bekliyor.</value>
   </data>
   <data name="HeroTitle" xml:space="preserve">
     <value>Dünyayı Keşfetmeye Hazır Mısın?</value>
@@ -192,14 +234,35 @@
   <data name="NameSurname" xml:space="preserve">
     <value>Ad Soyad</value>
   </data>
+  <data name="NewRoutesAwait" xml:space="preserve">
+    <value>YENİ ROTALAR SENİ BEKLİYOR</value>
+  </data>
+  <data name="Night" xml:space="preserve">
+    <value>Gece</value>
+  </data>
+  <data name="NoPublishedReviews" xml:space="preserve">
+    <value>Henüz yayınlanmış kullanıcı yorumu bulunmuyor.</value>
+  </data>
   <data name="PerPerson" xml:space="preserve">
     <value>Kişi başı</value>
+  </data>
+  <data name="Person" xml:space="preserve">
+    <value>Kişi</value>
   </data>
   <data name="PersonCount" xml:space="preserve">
     <value>Kişi Sayısı</value>
   </data>
+  <data name="PlacesToDiscover" xml:space="preserve">
+    <value>KEŞFEDİLECEK YERLER</value>
+  </data>
   <data name="PopularRoutes" xml:space="preserve">
     <value>POPÜLER ROTALAR</value>
+  </data>
+  <data name="RealUserExperiences" xml:space="preserve">
+    <value>Gerçek Kullanıcı Deneyimleri</value>
+  </data>
+  <data name="RealUserExperiencesDescription" xml:space="preserve">
+    <value>Gezginlerin yorumlarını inceleyin ve seyahat kararınızı daha kolay verin.</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Kayıt Ol</value>
@@ -207,11 +270,20 @@
   <data name="Reservation" xml:space="preserve">
     <value>Rezervasyon Yap</value>
   </data>
+  <data name="ReservationCount" xml:space="preserve">
+    <value>Rezervasyon</value>
+  </data>
   <data name="Reviews" xml:space="preserve">
     <value>Yorumlar</value>
   </data>
   <data name="SearchTours" xml:space="preserve">
     <value>Turları Ara</value>
+  </data>
+  <data name="SelectedRoutes" xml:space="preserve">
+    <value>Seçili Rotalar</value>
+  </data>
+  <data name="SelectedRoutesDescription" xml:space="preserve">
+    <value>Farklı şehirler ve ülkelerdeki tur seçeneklerini tek bir yerde keşfedin.</value>
   </data>
   <data name="SelectPerson" xml:space="preserve">
     <value>Kişi seç</value>
@@ -252,13 +324,34 @@
   <data name="Tours" xml:space="preserve">
     <value>Turlar</value>
   </data>
+  <data name="TravelioUser" xml:space="preserve">
+    <value>Travelio Kullanıcısı</value>
+  </data>
+  <data name="UserExperiences" xml:space="preserve">
+    <value>KULLANICI DENEYİMLERİ</value>
+  </data>
   <data name="Users" xml:space="preserve">
     <value>Kullanıcı</value>
+  </data>
+  <data name="ViewAllDestinations" xml:space="preserve">
+    <value>Tüm Destinasyonları Gör</value>
+  </data>
+  <data name="ViewAllReviews" xml:space="preserve">
+    <value>Tüm Yorumları Gör</value>
   </data>
   <data name="ViewAllTours" xml:space="preserve">
     <value>Tüm Turları Gör</value>
   </data>
   <data name="ViewTour" xml:space="preserve">
     <value>Turu İncele</value>
+  </data>
+  <data name="WhatTravelersSay" xml:space="preserve">
+    <value>Gezginler Ne Diyor?</value>
+  </data>
+  <data name="WhereToGo" xml:space="preserve">
+    <value>Nereye gidelim?</value>
+  </data>
+  <data name="WhyTravelio" xml:space="preserve">
+    <value>NEDEN TRAVELIO?</value>
   </data>
 </root>
