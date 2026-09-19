@@ -9,8 +9,12 @@ namespace Travel.Web.Services.ReservationService
 {
     public class ReservationService : IReservationService
     {
-        private readonly IMongoCollection<Reservation> _reservationCollection;
-        private readonly IMongoCollection<Tour> _tourCollection;
+        private readonly IMongoCollection<Reservation>
+            _reservationCollection;
+
+        private readonly IMongoCollection<Tour>
+            _tourCollection;
+
         private readonly IMapper _mapper;
 
 
@@ -19,45 +23,60 @@ namespace Travel.Web.Services.ReservationService
             IMapper mapper)
         {
             var client =
-                new MongoClient(databaseSettings.ConnectionString);
+                new MongoClient(
+                    databaseSettings.ConnectionString);
 
             var database =
-                client.GetDatabase(databaseSettings.DatabaseName);
+                client.GetDatabase(
+                    databaseSettings.DatabaseName);
+
 
             _reservationCollection =
                 database.GetCollection<Reservation>(
-                    databaseSettings.ReservationCollectionName);
+                    databaseSettings
+                        .ReservationCollectionName);
+
 
             _tourCollection =
                 database.GetCollection<Tour>(
-                    databaseSettings.TourCollectionName);
+                    databaseSettings
+                        .TourCollectionName);
+
 
             _mapper = mapper;
         }
 
 
-
         // CREATE
         public async Task CreateAsync(
-    CreateReservationDto createReservationDto)
+            CreateReservationDto createReservationDto)
         {
-            var tour = await _tourCollection
-                .Find(x => x.Id == createReservationDto.TourId)
-                .FirstOrDefaultAsync();
+            var tour =
+                await _tourCollection
+                    .Find(x =>
+                        x.Id ==
+                        createReservationDto.TourId)
+                    .FirstOrDefaultAsync();
+
 
             if (tour == null)
             {
-                throw new Exception("Tur bulunamadı!");
+                throw new Exception(
+                    "Tur bulunamadı!");
             }
 
 
-            var tourDate = tour.TourDates
-                .FirstOrDefault(x =>
-                    x.Id == createReservationDto.TourDateId);
+            var tourDate =
+                tour.TourDates
+                    .FirstOrDefault(x =>
+                        x.Id ==
+                        createReservationDto.TourDateId);
+
 
             if (tourDate == null)
             {
-                throw new Exception("Seçilen tur tarihi bulunamadı!");
+                throw new Exception(
+                    "Seçilen tur tarihi bulunamadı!");
             }
 
 
@@ -68,56 +87,70 @@ namespace Travel.Web.Services.ReservationService
 
             if (personCount <= 0)
             {
-                throw new Exception("Kişi sayısı geçersiz!");
+                throw new Exception(
+                    "Kişi sayısı geçersiz!");
             }
 
 
             if (tourDate.Capacity < personCount)
             {
-                throw new Exception("Kapasite yetersiz!");
+                throw new Exception(
+                    "Kapasite yetersiz!");
             }
 
 
             var reservation =
-                _mapper.Map<Reservation>(createReservationDto);
+                _mapper.Map<Reservation>(
+                    createReservationDto);
 
 
-            reservation.TourDateId = tourDate.Id;
+            reservation.TourDateId =
+                tourDate.Id;
 
-            reservation.SelectedTourDate = tourDate.Date;
+
+            reservation.SelectedTourDate =
+                tourDate.Date;
 
 
             reservation.TotalPrice =
                 (reservation.AdultCount * tour.Price)
                 +
-                (reservation.ChildCount * (tour.Price / 2));
+                (reservation.ChildCount *
+                 (tour.Price / 2));
 
 
-            reservation.ReservationDate = DateTime.Now;
-
-            reservation.Status = "Bekliyor";
-
-
-            tourDate.Capacity -= personCount;
+            reservation.ReservationDate =
+                DateTime.Now;
 
 
-            await _tourCollection.FindOneAndReplaceAsync(
-                x => x.Id == tour.Id,
-                tour);
+            reservation.Status =
+                "Bekliyor";
 
 
-            await _reservationCollection.InsertOneAsync(
-                reservation);
+            tourDate.Capacity -=
+                personCount;
+
+
+            await _tourCollection
+                .FindOneAndReplaceAsync(
+                    x => x.Id == tour.Id,
+                    tour);
+
+
+            await _reservationCollection
+                .InsertOneAsync(
+                    reservation);
         }
 
 
         // DELETE
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(
+            string id)
         {
             await _reservationCollection
-                .DeleteOneAsync(x => x.Id == id);
+                .DeleteOneAsync(
+                    x => x.Id == id);
         }
-
 
 
         // GET ALL
@@ -134,7 +167,6 @@ namespace Travel.Web.Services.ReservationService
                 .Map<List<ResultReservationDto>>(
                     reservations);
         }
-
 
 
         // GET BY ID
@@ -160,7 +192,6 @@ namespace Travel.Web.Services.ReservationService
         }
 
 
-
         // UPDATE STATUS
         public async Task UpdateStatusAsync(
             UpdateReservationDto updateReservationDto)
@@ -168,7 +199,8 @@ namespace Travel.Web.Services.ReservationService
             var reservation =
                 await _reservationCollection
                     .Find(x =>
-                        x.Id == updateReservationDto.Id)
+                        x.Id ==
+                        updateReservationDto.Id)
                     .FirstOrDefaultAsync();
 
 
@@ -185,10 +217,11 @@ namespace Travel.Web.Services.ReservationService
 
             await _reservationCollection
                 .FindOneAndReplaceAsync(
-                    x => x.Id == reservation.Id,
+                    x =>
+                        x.Id ==
+                        reservation.Id,
                     reservation);
         }
-
 
 
         // TURUN REZERVASYON SAYISI
@@ -206,9 +239,9 @@ namespace Travel.Web.Services.ReservationService
         }
 
 
-
         // ONAYLA
-        public async Task ApproveAsync(string id)
+        public async Task ApproveAsync(
+            string id)
         {
             var reservation =
                 await _reservationCollection
@@ -239,7 +272,8 @@ namespace Travel.Web.Services.ReservationService
 
 
             var update =
-                Builders<Reservation>.Update
+                Builders<Reservation>
+                    .Update
                     .Set(
                         x => x.Status,
                         "Onaylandı");
@@ -252,11 +286,10 @@ namespace Travel.Web.Services.ReservationService
         }
 
 
-
         // İPTAL ET
-        public async Task CancelAsync(string id)
+        public async Task CancelAsync(
+            string id)
         {
-            // Rezervasyonu bul
             var reservation =
                 await _reservationCollection
                     .Find(x => x.Id == id)
@@ -270,8 +303,6 @@ namespace Travel.Web.Services.ReservationService
             }
 
 
-            // Daha önce iptal edilmişse
-            // kapasiteyi tekrar artırma
             if (reservation.Status ==
                 "İptal Edildi")
             {
@@ -279,11 +310,11 @@ namespace Travel.Web.Services.ReservationService
             }
 
 
-            // Turu bul
             var tour =
                 await _tourCollection
                     .Find(x =>
-                        x.Id == reservation.TourId)
+                        x.Id ==
+                        reservation.TourId)
                     .FirstOrDefaultAsync();
 
 
@@ -294,7 +325,6 @@ namespace Travel.Web.Services.ReservationService
             }
 
 
-            // TourDate'i artık ID ile buluyoruz
             var tourDate =
                 tour.TourDates
                     .FirstOrDefault(x =>
@@ -309,27 +339,24 @@ namespace Travel.Web.Services.ReservationService
             }
 
 
-            // Toplam kişi
             var totalPerson =
                 reservation.AdultCount +
                 reservation.ChildCount;
 
 
-            // Kapasiteyi geri ver
             tourDate.Capacity +=
                 totalPerson;
 
 
-            // Tour güncelle
             await _tourCollection
                 .FindOneAndReplaceAsync(
                     x => x.Id == tour.Id,
                     tour);
 
 
-            // Rezervasyonu iptal et
             var update =
-                Builders<Reservation>.Update
+                Builders<Reservation>
+                    .Update
                     .Set(
                         x => x.Status,
                         "İptal Edildi");
@@ -337,27 +364,127 @@ namespace Travel.Web.Services.ReservationService
 
             await _reservationCollection
                 .UpdateOneAsync(
-                    x => x.Id == reservation.Id,
+                    x =>
+                        x.Id ==
+                        reservation.Id,
                     update);
         }
 
 
-
         // KULLANICININ REZERVASYONLARI
         public async Task<List<ResultReservationDto>>
-            GetByUserIdAsync(string userId)
+            GetByUserIdAsync(
+                string userId)
         {
             var reservations =
                 await _reservationCollection
-                    .Find(x => x.UserId == userId)
+                    .Find(x =>
+                        x.UserId == userId)
                     .SortByDescending(
-                        x => x.ReservationDate)
+                        x =>
+                            x.ReservationDate)
                     .ToListAsync();
 
 
             return _mapper
                 .Map<List<ResultReservationDto>>(
                     reservations);
+        }
+
+
+        // =====================================================
+        // AGGREGATION
+        // EN ÇOK REZERVASYON ALAN 5 TUR
+        // =====================================================
+        public async Task<List<TourReservationStatisticDto>>
+            GetTop5ToursByReservationAsync()
+        {
+            var statistics =
+                await _reservationCollection
+                    .Aggregate()
+
+                    .Match(x =>
+                        x.Status != "İptal Edildi")
+
+                    .Group(
+                        x => x.TourId,
+                        group =>
+                            new TourReservationStatisticDto
+                            {
+                                TourId =
+                                    group.Key,
+
+                                ReservationCount =
+                                    group.Count()
+                            })
+
+                    .SortByDescending(x =>
+                        x.ReservationCount)
+
+                    .Limit(5)
+
+                    .ToListAsync();
+
+
+            return statistics;
+        }
+
+
+        // =====================================================
+        // AGGREGATION
+        // SON 6 AYLIK REZERVASYON SAYILARI
+        // =====================================================
+        public async Task<List<MonthlyReservationStatisticDto>>
+            GetLast6MonthsReservationStatsAsync()
+        {
+            var startDate =
+                new DateTime(
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    1)
+                .AddMonths(-5);
+
+
+            var statistics =
+                await _reservationCollection
+                    .Aggregate()
+
+                    .Match(x =>
+                        x.ReservationDate >=
+                        startDate)
+
+                    .Group(
+                        x => new
+                        {
+                            Year =
+                                x.ReservationDate.Year,
+
+                            Month =
+                                x.ReservationDate.Month
+                        },
+                        group =>
+                            new MonthlyReservationStatisticDto
+                            {
+                                Year =
+                                    group.Key.Year,
+
+                                Month =
+                                    group.Key.Month,
+
+                                ReservationCount =
+                                    group.Count()
+                            })
+
+                    .SortBy(x =>
+                        x.Year)
+
+                    .ThenBy(x =>
+                        x.Month)
+
+                    .ToListAsync();
+
+
+            return statistics;
         }
     }
 }

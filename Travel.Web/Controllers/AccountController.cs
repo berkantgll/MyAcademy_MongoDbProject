@@ -24,6 +24,7 @@ namespace Travel.Web.Controllers
         }
 
 
+        // REGISTER GET
         [HttpGet]
         public IActionResult Register()
         {
@@ -31,6 +32,7 @@ namespace Travel.Web.Controllers
         }
 
 
+        // REGISTER POST
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
@@ -51,10 +53,13 @@ namespace Travel.Web.Controllers
             }
 
 
+            var email = registerDto.Email
+                .Trim()
+                .ToLowerInvariant();
+
+
             var existingUser =
-                await _userService.GetByEmailAsync(
-                    registerDto.Email
-                );
+                await _userService.GetByEmailAsync(email);
 
 
             if (existingUser != null)
@@ -72,9 +77,9 @@ namespace Travel.Web.Controllers
             {
                 NameSurname = registerDto.NameSurname,
 
-                Email = registerDto.Email
-                    .Trim()
-                    .ToLowerInvariant(),
+                Email = email,
+
+                Phone = registerDto.Phone,
 
                 Role = "User",
 
@@ -96,6 +101,7 @@ namespace Travel.Web.Controllers
         }
 
 
+        // LOGIN GET
         [HttpGet]
         public IActionResult Login()
         {
@@ -103,6 +109,7 @@ namespace Travel.Web.Controllers
         }
 
 
+        // LOGIN POST
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
@@ -112,10 +119,9 @@ namespace Travel.Web.Controllers
             }
 
 
-            var email =
-                loginDto.Email
-                    .Trim()
-                    .ToLowerInvariant();
+            var email = loginDto.Email
+                .Trim()
+                .ToLowerInvariant();
 
 
             var user =
@@ -213,16 +219,19 @@ namespace Travel.Web.Controllers
         }
 
 
+        // LOGOUT
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme
             );
 
+
             return RedirectToAction(nameof(Login));
         }
 
 
+        // ACCESS DENIED
         public IActionResult AccessDenied()
         {
             return View();

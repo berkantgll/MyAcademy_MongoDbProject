@@ -19,9 +19,11 @@ using Travel.Web.Services.RouteServices;
 using Travel.Web.Services.TourService;
 using Travel.Web.Services.UserServices;
 using Travel.Web.Settings;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+QuestPDF.Settings.License = LicenseType.Community;
 
 // ======================================================
 // AUTOMAPPER

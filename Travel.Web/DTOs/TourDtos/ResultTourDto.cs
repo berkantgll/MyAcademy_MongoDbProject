@@ -6,6 +6,8 @@
         public string CategoryId { get; set; }
         public string TourName { get; set; }
         public string Description { get; set; }
+        public string TourNameEn { get; set; } = string.Empty;
+        public string DescriptionEn { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public string DestinationId { get; set; }
         public string Country { get; set; }

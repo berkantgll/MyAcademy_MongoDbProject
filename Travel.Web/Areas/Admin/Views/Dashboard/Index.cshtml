@@ -89,7 +89,6 @@
         padding: 1.3rem;
     }
 
-
     /* KPI */
 
     .kpi {
@@ -148,7 +147,6 @@
                 font-weight: 600;
             }
 
-
     /* CHART */
 
     .chart-wrap {
@@ -163,7 +161,6 @@
         border-radius: 999px;
         padding: .35rem .7rem;
     }
-
 
     /* POPULAR */
 
@@ -230,7 +227,6 @@
         width: 20px;
         text-align: center;
     }
-
 
     /* TABLE */
 
@@ -346,7 +342,6 @@
             color: var(--teal-dark);
         }
 
-
     /* QUICK ACTIONS */
 
     .qa-link {
@@ -387,14 +382,12 @@
         color: var(--muted);
     }
 
-
     .coming-soon {
         color: var(--muted);
         font-size: .85rem;
         padding: 1rem 0;
         line-height: 1.6;
     }
-
 
     @@media(max-width:575px) {
 
@@ -405,9 +398,7 @@
 
 </style>
 
-
 <div class="content">
-
 
     <!-- HEADER -->
 
@@ -428,7 +419,6 @@
             </p>
 
         </div>
-
 
         <div class="date-pill">
 
@@ -462,20 +452,15 @@
 
             </svg>
 
-            @DateTime.Now.ToString(
-                "dd MMMM yyyy",
-                trCulture
-            )
+            @DateTime.Now.ToString("dd MMMM yyyy", trCulture)
 
         </div>
 
     </div>
 
-
     <!-- KPI -->
 
     <div class="row g-3 mb-3">
-
 
         <!-- TOTAL TOUR -->
 
@@ -504,7 +489,6 @@
 
                 </div>
 
-
                 <div class="num">
                     @Model.TotalTourCount
                 </div>
@@ -516,7 +500,8 @@
                 <div class="sub">
 
                     <span class="up">
-                        @Model.ActiveTourCount aktif tur
+                        @Model.ActiveTourCount aktif /
+                        @Model.PassiveTourCount pasif
                     </span>
 
                 </div>
@@ -553,7 +538,6 @@
 
                 </div>
 
-
                 <div class="num">
                     @Model.TotalReservationCount
                 </div>
@@ -565,7 +549,7 @@
                 <div class="sub">
 
                     <span class="up">
-                        @Model.PendingReservationCount bekliyor
+                        Bu ay @Model.ThisMonthReservationCount rezervasyon
                     </span>
 
                 </div>
@@ -575,7 +559,7 @@
         </div>
 
 
-        <!-- REVENUE -->
+        <!-- USERS -->
 
         <div class="col-6 col-xl-3">
 
@@ -585,26 +569,35 @@
 
                     <div class="ic">
 
-                        ₺
+                        <svg width="20"
+                             height="20"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2">
+
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+
+                            <circle cx="12"
+                                    cy="7"
+                                    r="4" />
+
+                        </svg>
 
                     </div>
 
                 </div>
 
-
-                <div class="num"
-                     style="font-size:1.5rem">
-
-                    @Model.TotalRevenue.ToString("N0") ₺
-
+                <div class="num">
+                    @Model.TotalUserCount
                 </div>
 
                 <div class="lab">
-                    Onaylanan Gelir
+                    Toplam Kullanıcı
                 </div>
 
                 <div class="sub">
-                    Onaylanmış rezervasyonlar
+                    Kayıtlı kullanıcılar
                 </div>
 
             </div>
@@ -612,7 +605,7 @@
         </div>
 
 
-        <!-- CAPACITY -->
+        <!-- QUESTIONS -->
 
         <div class="col-6 col-xl-3">
 
@@ -622,23 +615,40 @@
 
                     <div class="ic warn">
 
-                        K
+                        <svg width="20"
+                             height="20"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2">
+
+                            <circle cx="12"
+                                    cy="12"
+                                    r="10" />
+
+                            <path d="M9.1 9a3 3 0 1 1 5.8 1c0 2-3 2-3 4" />
+
+                            <line x1="12"
+                                  y1="18"
+                                  x2="12.01"
+                                  y2="18" />
+
+                        </svg>
 
                     </div>
 
                 </div>
 
-
                 <div class="num">
-                    @Model.TotalCapacity
+                    @Model.PendingQuestionCount
                 </div>
 
                 <div class="lab">
-                    Kalan Kontenjan
+                    Bekleyen Soru
                 </div>
 
                 <div class="sub">
-                    Tüm tur tarihleri
+                    Henüz cevaplanmamış sorular
                 </div>
 
             </div>
@@ -651,7 +661,6 @@
     <!-- CHART + POPULAR -->
 
     <div class="row g-3 mb-3">
-
 
         <!-- CHART -->
 
@@ -671,7 +680,6 @@
 
                 </div>
 
-
                 <div class="card-body">
 
                     <div class="chart-wrap">
@@ -685,7 +693,6 @@
             </div>
 
         </div>
-
 
         <!-- POPULAR TOURS -->
 
@@ -701,7 +708,6 @@
 
                 </div>
 
-
                 <div class="card-body pt-2">
 
                     @if (Model.PopularTours.Any())
@@ -716,7 +722,6 @@
                                     @rank
                                 </span>
 
-
                                 @if (!string.IsNullOrWhiteSpace(tour.CoverImageUrl))
                                 {
                                     <img src="@tour.CoverImageUrl"
@@ -728,7 +733,6 @@
                                         TR
                                     </div>
                                 }
-
 
                                 <div class="nm">
 
@@ -762,7 +766,6 @@
 
     </div>
 
-
     <!-- RECENT RESERVATIONS -->
 
     <div class="card-x mb-3">
@@ -773,10 +776,7 @@
                 Son Rezervasyonlar
             </h3>
 
-
-            <a asp-area="Admin"
-                   asp-controller="Reservation"
-                   asp-action="Index"
+            <a href='@Url.Action("Index", "Reservation", new { area = "Admin" })'
                    class="btn-soft">
 
                 Tümünü Gör
@@ -784,7 +784,6 @@
             </a>
 
         </div>
-
 
         <div class="card-body pt-2">
 
@@ -830,7 +829,6 @@
 
                         </thead>
 
-
                         <tbody>
 
                             @foreach (var reservation in Model.RecentReservations)
@@ -846,7 +844,6 @@
                                             ? "b-cancel"
                                             : "b-wait";
 
-
                                 <tr>
 
                                     <td>
@@ -854,62 +851,52 @@
                                         <span class="res-no">
 
                                             @(reservation.Id.Length > 8
-                                                ? reservation.Id.Substring(
-                                                    reservation.Id.Length - 8
-                                                )
+                                                ? reservation.Id.Substring(reservation.Id.Length - 8)
                                                 : reservation.Id)
 
                                         </span>
 
                                     </td>
 
-
                                     <td>
-
                                         <div class="guest">
 
                                             <span class="av">
-                                                U
+                                                @(string.IsNullOrWhiteSpace(reservation.UserName)
+                                                    ? "U"
+                                                    : reservation.UserName.Substring(0, 1).ToUpper())
                                             </span>
 
                                             <span>
-                                                @reservation.UserId
+                                                @reservation.UserName
                                             </span>
 
                                         </div>
-
                                     </td>
-
 
                                     <td>
                                         @reservation.TourName
                                     </td>
 
-
                                     <td>
 
-                                        @reservation.SelectedTourDate
-                                        .ToString("dd.MM.yyyy")
+                                        @reservation.SelectedTourDate.ToString("dd.MM.yyyy")
 
                                     </td>
-
 
                                     <td>
                                         @personCount kişi
                                     </td>
 
-
                                     <td>
 
                                         <span class="amount">
 
-                                            @reservation.TotalPrice
-                                            .ToString("N0") TL
+                                            @reservation.TotalPrice.ToString("N0") TL
 
                                         </span>
 
                                     </td>
-
 
                                     <td>
 
@@ -941,11 +928,9 @@
 
     </div>
 
-
     <!-- BOTTOM -->
 
     <div class="row g-3">
-
 
         <!-- COMMENTS -->
 
@@ -961,22 +946,22 @@
 
                 </div>
 
-
                 <div class="card-body pt-2">
 
                     <div class="coming-soon">
-
-                        Yorum modülü tamamlandığında son kullanıcı
-                        yorumları burada görüntülenecek.
-
+                        Yorumları görüntülemek ve yönetmek için yorum sayfasına geçebilirsiniz.
                     </div>
+
+                    <a href='@Url.Action("Index", "Comment", new { area = "Admin" })'
+                           class="btn-soft">
+                        Yorumları Gör
+                    </a>
 
                 </div>
 
             </div>
 
         </div>
-
 
         <!-- QUESTIONS -->
 
@@ -992,22 +977,22 @@
 
                 </div>
 
-
                 <div class="card-body pt-2">
 
                     <div class="coming-soon">
-
-                        Soru & cevap modülü tamamlandığında
-                        bekleyen sorular burada görüntülenecek.
-
+                        Kullanıcı sorularını görüntülemek ve yanıtlamak için sorular sayfasına geçebilirsiniz.
                     </div>
+
+                    <a href='@Url.Action("Index", "Question", new { area = "Admin" })'
+                           class="btn-soft">
+                        Soruları Gör
+                    </a>
 
                 </div>
 
             </div>
 
         </div>
-
 
         <!-- QUICK ACTIONS -->
 
@@ -1023,13 +1008,9 @@
 
                 </div>
 
-
                 <div class="card-body pt-2">
 
-
-                    <a asp-area="Admin"
-                           asp-controller="Tour"
-                           asp-action="Create"
+                    <a href='@Url.Action("Create", "Tour", new { area = "Admin" })'
                            class="qa-link">
 
                         <span class="qa-ic">
@@ -1044,10 +1025,7 @@
 
                     </a>
 
-
-                    <a asp-area="Admin"
-                           asp-controller="Reservation"
-                           asp-action="Index"
+                    <a href='@Url.Action("Index", "Reservation", new { area = "Admin" })'
                            class="qa-link">
 
                         <span class="qa-ic">
@@ -1062,10 +1040,7 @@
 
                     </a>
 
-
-                    <a asp-area="Admin"
-                           asp-controller="Category"
-                           asp-action="Create"
+                    <a href='@Url.Action("Create", "Category", new { area = "Admin" })'
                            class="qa-link">
 
                         <span class="qa-ic">
@@ -1080,10 +1055,7 @@
 
                     </a>
 
-
-                    <a asp-area="Admin"
-                           asp-controller="Destination"
-                           asp-action="Create"
+                    <a href='@Url.Action("Create", "Destination", new { area = "Admin" })'
                            class="qa-link">
 
                         <span class="qa-ic">
@@ -1098,7 +1070,6 @@
 
                     </a>
 
-
                 </div>
 
             </div>
@@ -1109,179 +1080,79 @@
 
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <script>
+    const chartLabels = @Html.Raw(JsonSerializer.Serialize(Model.ChartLabels));
+    const chartData = @Html.Raw(JsonSerializer.Serialize(Model.ChartReservationCounts));
 
-    const chartLabels =
-    @Html.Raw(
-        JsonSerializer.Serialize(
-            Model.ChartLabels
-        )
-    );
+    const ctx = document.getElementById("resChart");
+    const context = ctx.getContext("2d");
 
+    const grad = context.createLinearGradient(0, 0, 0, 280);
+    grad.addColorStop(0, "rgba(15,163,163,.28)");
+    grad.addColorStop(1, "rgba(15,163,163,0)");
 
-    const chartData =
-    @Html.Raw(
-        JsonSerializer.Serialize(
-            Model.ChartReservationCounts
-        )
-    );
-
-
-    const ctx =
-    document.getElementById("resChart");
-
-
-    const grad =
-    ctx
-    .getContext("2d")
-    .createLinearGradient(
-    0,
-    0,
-    0,
-    280
-    );
-
-
-    grad.addColorStop(
-    0,
-    "rgba(15,163,163,.28)"
-    );
-
-
-    grad.addColorStop(
-    1,
-    "rgba(15,163,163,0)"
-    );
-
-
-    new Chart(
-    ctx,
-    {
+    new Chart(ctx, {
     type: "line",
-
     data: {
-
     labels: chartLabels,
-
     datasets: [
     {
     label: "Rezervasyon",
-
     data: chartData,
-
-    borderColor:
-    "#0fa3a3",
-
-    backgroundColor:
-    grad,
-
+    borderColor: "#0fa3a3",
+    backgroundColor: grad,
     borderWidth: 3,
-
     fill: true,
-
     tension: .38,
-
-    pointBackgroundColor:
-    "#fff",
-
-    pointBorderColor:
-    "#0fa3a3",
-
-    pointBorderWidth:
-    2.5,
-
-    pointRadius:
-    4,
-
-    pointHoverRadius:
-    6
+    pointBackgroundColor: "#fff",
+    pointBorderColor: "#0fa3a3",
+    pointBorderWidth: 2.5,
+    pointRadius: 4,
+    pointHoverRadius: 6
     }
     ]
-
     },
-
     options: {
-
     responsive: true,
-
     maintainAspectRatio: false,
-
     plugins: {
-
     legend: {
     display: false
     },
-
     tooltip: {
-
-    backgroundColor:
-    "#0e2a3b",
-
-    padding:
-    12,
-
-    cornerRadius:
-    10,
-
-    displayColors:
-    false,
-
+    backgroundColor: "#0e2a3b",
+    padding: 12,
+    cornerRadius: 10,
+    displayColors: false,
     callbacks: {
-
-    label: context =>
-    context.parsed.y +
-    " rezervasyon"
-
+    label: context => context.parsed.y + " rezervasyon"
     }
-
     }
-
     },
-
     scales: {
-
     y: {
-
     beginAtZero: true,
-
     ticks: {
-
     precision: 0,
-
-    color:
-    "#6a7c88"
-
+    color: "#6a7c88"
     },
-
     grid: {
-
-    color:
-    "#eef0ef"
-
+    color: "#eef0ef"
     }
-
     },
-
     x: {
-
     grid: {
     display: false
     },
-
     ticks: {
     color: "#6a7c88"
     }
-
     }
-
     }
-
     }
-
-    }
-    );
-
+    });
 </script>
+
+

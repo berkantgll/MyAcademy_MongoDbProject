@@ -2,10 +2,25 @@
 
 @using Travel.Web.DTOs.CommentDtos
 @using Travel.Web.DTOs.QuestionDtos
+@using System.Globalization
 
 @{
-    ViewData["Title"] = Model.TourName;
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
+
+    var isEnglish =
+        CultureInfo.CurrentUICulture.Name.StartsWith("en");
+
+    var tourName =
+        isEnglish && !string.IsNullOrWhiteSpace(Model.TourNameEn)
+            ? Model.TourNameEn
+            : Model.TourName;
+
+    var tourDescription =
+        isEnglish && !string.IsNullOrWhiteSpace(Model.DescriptionEn)
+            ? Model.DescriptionEn
+            : Model.Description;
+
+    ViewData["Title"] = tourName;
 
     var comments =
         ViewBag.Comments as List<ResultCommentDto>
@@ -879,7 +894,7 @@
 
         <h1 class="detail-title">
 
-            @Model.TourName
+            @tourName
 
         </h1>
 
@@ -910,7 +925,7 @@
 
                                 <img src="@galleryImages[i]"
                                      class="gallery-main-image"
-                                     alt="@Model.TourName" />
+                                     alt="@tourName" />
 
                             </div>
                         }
@@ -968,7 +983,7 @@
                                     aria-label="@(i + 1). görsel">
 
                                 <img src="@galleryImages[i]"
-                                     alt="@Model.TourName" />
+                                     alt="@tourName" />
 
                             </button>
                         }
@@ -1088,7 +1103,7 @@
 
                     <p class="detail-description">
 
-                        @Model.Description
+                        @tourDescription
 
                     </p>
 
@@ -2024,4 +2039,5 @@
     </script>
 
 }
+
 

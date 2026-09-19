@@ -351,6 +351,22 @@
             <div class="field">
 
                 <label>
+                    Tur Adı (İngilizce)
+                </label>
+
+                <input asp-for="TourNameEn"
+                       class="ctrl"
+                       placeholder="Örn. Rome & Tuscany Discovery" />
+
+                <span asp-validation-for="TourNameEn"
+                      class="text-danger"></span>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
                     Açıklama <span class="req">*</span>
                 </label>
 
@@ -360,6 +376,23 @@
                           placeholder="Tur açıklamasını yazın..."></textarea>
 
                 <span asp-validation-for="Description"
+                      class="text-danger"></span>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Açıklama (İngilizce)
+                </label>
+
+                <textarea asp-for="DescriptionEn"
+                          class="ctrl"
+                          rows="4"
+                          placeholder="Write the tour description in English..."></textarea>
+
+                <span asp-validation-for="DescriptionEn"
                       class="text-danger"></span>
 
             </div>

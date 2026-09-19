@@ -7,6 +7,8 @@
 
         public string? TourName { get; set; }
         public string? Description { get; set; }
+        public string TourNameEn { get; set; } = string.Empty;
+        public string DescriptionEn { get; set; } = string.Empty;
 
         public decimal? Price { get; set; }
 

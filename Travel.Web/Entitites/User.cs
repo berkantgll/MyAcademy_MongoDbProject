@@ -13,5 +13,6 @@ namespace Travel.Web.Entitites
         public string Role { get; set; } = "User";
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public string Phone { get; set; } = string.Empty;
     }
 }

@@ -273,9 +273,9 @@
             }
 
     /*
-                Dropdown'ın tablo tarafından kesilmemesi için
-                visible bırakıyoruz.
-            */
+                    Dropdown'ın tablo tarafından kesilmemesi için
+                    visible bırakıyoruz.
+                */
     .tbl-wrap {
         overflow: visible;
     }
@@ -1220,6 +1220,36 @@
                                         </li>
 
 
+                                        <!-- EXCEL REPORT -->
+                                        <li>
+
+                                            <a class="dropdown-item"
+                                                   asp-area="Admin"
+                                                   asp-controller="Report"
+                                                   asp-action="ExportExcel"
+                                                   asp-route-tourId="@item.Tour.Id">
+
+                                                Excel Rapor
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <!-- PDF REPORT -->
+                                        <li>
+                                            <a class="dropdown-item"
+                                                   asp-area="Admin"
+                                                   asp-controller="Report"
+                                                   asp-action="ExportPdf"
+                                                   asp-route-tourId="@item.Tour.Id">
+
+                                                PDF Rapor
+
+                                            </a>
+                                        </li>
+
+
                                         <!-- DELETE -->
                                         <li>
 
@@ -1227,13 +1257,13 @@
                                                     class="dropdown-item danger btn-delete"
                                                     data-name="@item.Tour.TourName"
                                                     data-url="@Url.Action(
-                                                                                                                                                                                                                                                                "Delete",
-                                                                                                                                                                                                                                                                "Tour",
-                                                                                                                                                                                                                                                                new
-                                                                                                                                                                                                                                                                {
-                                                                                                                                                                                                                                                                    area = "Admin",
-                                                                                                                                                                                                                                                                    id = item.Tour.Id
-                                                                                                                                                                                                                                                                })">
+                                                                                                                                                                                                                                                                                                                                                                    "Delete",
+                                                                                                                                                                                                                                                                                                                                                                    "Tour",
+                                                                                                                                                                                                                                                                                                                                                                    new
+                                                                                                                                                                                                                                                                                                                                                                    {
+                                                                                                                                                                                                                                                                                                                                                                        area = "Admin",
+                                                                                                                                                                                                                                                                                                                                                                        id = item.Tour.Id
+                                                                                                                                                                                                                                                                                                                                                                    })">
 
                                                 Sil
 
@@ -2050,10 +2080,10 @@
 
         const baseUrl =
             '@Url.Action(
-                                                                "ChangeStatus",
-                                                                "Tour",
-                                                                new { area = "Admin" }
-                                                )';
+                                                                                                                                "ChangeStatus",
+                                                                                                                                "Tour",
+                                                                                                                                new { area = "Admin" }
+                                                                                                )';
 
 
         const rowsToChange =
@@ -2122,10 +2152,10 @@
 
         const baseUrl =
             '@Url.Action(
-                                                                "Delete",
-                                                                "Tour",
-                                                                new { area = "Admin" }
-                                                )';
+                                                                                                                                "Delete",
+                                                                                                                                "Tour",
+                                                                                                                                new { area = "Admin" }
+                                                                                                )';
 
 
         await Promise.all(

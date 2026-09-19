@@ -6,9 +6,17 @@
 
         public int ActiveTourCount { get; set; }
 
+        public int PassiveTourCount { get; set; }
+
         public int TotalReservationCount { get; set; }
 
         public int PendingReservationCount { get; set; }
+
+        public int ThisMonthReservationCount { get; set; }
+
+        public int TotalUserCount { get; set; }
+
+        public int PendingQuestionCount { get; set; }
 
         public decimal TotalRevenue { get; set; }
 
@@ -41,6 +49,8 @@
         public string Id { get; set; } = string.Empty;
 
         public string UserId { get; set; } = string.Empty;
+
+        public string UserName { get; set; } = string.Empty;
 
         public string TourName { get; set; } = string.Empty;
 

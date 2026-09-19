@@ -322,12 +322,21 @@
 
         <div class="row g-2">
 
-            <div class="col-md-8">
+            <div class="col-md-5">
 
                 <input type="text"
                        id="search"
                        class="ctrl"
                        placeholder="Tur veya kullanıcı ara..." />
+
+            </div>
+
+            <div class="col-md-3">
+
+                <input type="date"
+                       id="dateFilter"
+                       class="ctrl"
+                       title="Tur tarihine göre filtrele" />
 
             </div>
 
@@ -411,6 +420,7 @@
                         <tr class="reservation-row"
                             data-tour="@item.TourName"
                             data-user="@reservation.UserId"
+                            data-date="@reservation.SelectedTourDate.ToString("yyyy-MM-dd")"
                             data-status="@reservation.Status">
 
                             <td>
@@ -514,6 +524,9 @@
     const statusFilter =
         document.getElementById("statusFilter");
 
+    const dateFilter =
+        document.getElementById("dateFilter");
+
 
     function applyFilters() {
 
@@ -523,6 +536,9 @@
 
         const statusValue =
             statusFilter.value;
+
+        const dateValue =
+            dateFilter.value;
 
 
         document
@@ -540,6 +556,9 @@
                 const status =
                     row.dataset.status || "";
 
+                const date =
+                    row.dataset.date || "";
+
 
                 const matchesSearch =
                     !searchValue ||
@@ -551,10 +570,15 @@
                     !statusValue ||
                     status === statusValue;
 
+                const matchesDate =
+                    !dateValue ||
+                    date === dateValue;
+
 
                 row.style.display =
                     matchesSearch &&
-                    matchesStatus
+                    matchesStatus &&
+                    matchesDate
                         ? ""
                         : "none";
 
@@ -570,6 +594,12 @@
 
 
     statusFilter.addEventListener(
+        "change",
+        applyFilters
+    );
+
+
+    dateFilter.addEventListener(
         "change",
         applyFilters
     );

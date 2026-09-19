@@ -1,0 +1,292 @@
+﻿@model List<Travel.Web.DTOs.UserDtos.ResultUserDto>
+
+@{
+    ViewData["Title"] = "Kullanıcılar";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+
+    .users-content {
+        padding: 1.8rem;
+        flex: 1;
+        max-width: 1500px;
+    }
+
+    .users-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+        .users-header h1 {
+            margin: .3rem 0;
+            font-family: 'Sora';
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .users-header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+    .user-count {
+        padding: .5rem 1rem;
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--navy);
+        font-size: .82rem;
+        font-weight: 600;
+    }
+
+    .users-card {
+        background: white;
+        border: 1px solid var(--line-2);
+        border-radius: var(--r);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    .users-table {
+        width: 100%;
+        min-width: 800px;
+        border-collapse: collapse;
+    }
+
+        .users-table th {
+            padding: .85rem 1rem;
+            background: #fafafa;
+            border-bottom: 1px solid var(--line);
+            color: var(--muted);
+            font-size: .72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            text-align: left;
+        }
+
+        .users-table td {
+            padding: .95rem 1rem;
+            border-bottom: 1px solid var(--line-2);
+            color: var(--navy);
+            font-size: .86rem;
+            vertical-align: middle;
+        }
+
+        .users-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .users-table tbody tr:hover {
+            background: var(--cream);
+        }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: .7rem;
+    }
+
+    .user-avatar {
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        border-radius: 10px;
+        background: var(--navy);
+        color: white;
+        font-family: 'Sora';
+        font-size: .75rem;
+        font-weight: 700;
+    }
+
+    .user-name {
+        font-weight: 600;
+    }
+
+    .role-badge {
+        display: inline-flex;
+        padding: .3rem .7rem;
+        border-radius: 999px;
+        font-size: .72rem;
+        font-weight: 600;
+    }
+
+    .role-admin {
+        background: #e3f4f0;
+        color: #0b7f80;
+    }
+
+    .role-user {
+        background: #f1f2f3;
+        color: #62727c;
+    }
+
+    .empty-users {
+        padding: 2rem;
+        text-align: center;
+        color: var(--muted);
+    }
+
+</style>
+
+
+<div class="users-content">
+
+    <div class="users-header">
+
+        <div>
+
+            <div class="eyebrow">
+                Kullanıcı Yönetimi
+            </div>
+
+            <h1>
+                Kullanıcılar
+            </h1>
+
+            <p>
+                Sisteme kayıtlı kullanıcıları buradan görüntüleyebilirsiniz.
+            </p>
+
+        </div>
+
+
+        <div class="user-count">
+
+            Toplam @Model.Count Kullanıcı
+
+        </div>
+
+    </div>
+
+
+    <div class="users-card">
+
+        @if (Model.Any())
+        {
+            <div class="table-wrap">
+
+                <table class="users-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Kullanıcı
+                            </th>
+
+                            <th>
+                                E-posta
+                            </th>
+
+                            <th>
+                                Rol
+                            </th>
+
+                            <th>
+                                Kayıt Tarihi
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var user in Model)
+                        {
+                            var initials = "U";
+
+                            if (!string.IsNullOrWhiteSpace(user.NameSurname))
+                            {
+                                var parts = user.NameSurname
+                                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                                if (parts.Length >= 2)
+                                {
+                                    initials =
+                                        $"{parts[0][0]}{parts[^1][0]}";
+                                }
+                                else
+                                {
+                                    initials =
+                                        parts[0][0].ToString();
+                                }
+                            }
+
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="user-info">
+
+                                        <div class="user-avatar">
+                                            @initials.ToUpper()
+                                        </div>
+
+                                        <div class="user-name">
+                                            @user.NameSurname
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    @user.Email
+                                </td>
+
+
+                                <td>
+
+                                    <span class="role-badge @(user.Role == "Admin" ? "role-admin" : "role-user")">
+
+                                        @user.Role
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    @user.CreatedDate.ToString("dd.MM.yyyy")
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="empty-users">
+
+                Henüz kayıtlı kullanıcı bulunmuyor.
+
+            </div>
+        }
+
+    </div>
+
+</div>
