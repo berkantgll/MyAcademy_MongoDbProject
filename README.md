@@ -242,4 +242,42 @@ Raporlarda katılımcı bilgileri, tur adı, seyahat tarihi, kişi sayısı, top
 <img width="1917" height="955" alt="Ekran görüntüsü 2026-09-22 135315" src="https://github.com/user-attachments/assets/8352f0d1-73c5-42c4-82dd-bbc919bc0ec9" />
 <img width="1869" height="919" alt="Ekran görüntüsü 2026-09-22 135241" src="https://github.com/user-attachments/assets/7ef4e5cd-3a20-47ac-8c27-c81bdb5403cd" />
 
+---
+
+## 🛠️ Kullanılan Teknolojiler
+
+| Teknoloji | Kullanım Amacı |
+|---|---|
+| ASP.NET Core MVC | Web uygulaması |
+| C# | Backend geliştirme |
+| MongoDB | NoSQL veritabanı |
+| AutoMapper | Entity ve DTO dönüşümleri |
+| FluentValidation | Veri doğrulama |
+| Cookie Authentication | Kimlik doğrulama |
+| Bootstrap & JavaScript | Kullanıcı arayüzü |
+| Chart.js | İstatistik grafikleri |
+| ClosedXML | Excel raporlama |
+| QuestPDF | PDF raporlama |
+
+---
+
+## 👨‍💻 Geliştirici
+
+**Berkant Gülel**  
+Yazılım Mühendisi
+
+[![GitHub](https://img.shields.io/badge/GitHub-berkantgll-181717?style=for-the-badge&logo=github)](https://github.com/berkantgll)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Berkant_Gülel-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/berkant-gülel-06783b286/)
+
+---
+
+<div align="center">
+
+### 🌍 Travelio
+**Discover New Places, Create Unforgettable Memories.**
+
+Developed by Berkant Gülel © 2026
+
+</div>
 
