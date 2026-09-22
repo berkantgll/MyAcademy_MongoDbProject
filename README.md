@@ -77,7 +77,6 @@ Sabit arayüz metinlerinin yanında tur adı ve açıklaması gibi dinamik içer
 </table>
 
 ---
-<img width="1919" height="1079" alt="6" src="https://github.com/user-attachments/assets/ceab164f-f9a8-4ac2-86fa-c1a238f255e1" />
 
 ## 🗺️ Tur Listeleme ve Filtreleme
 
@@ -123,7 +122,7 @@ Bu yapı sayesinde fiyat ve kapasite işlemleri kullanıcı tarafına bırakılm
 
 ### 📅 Tur Programı ve Rezervasyon
 
-<img src="TUR_PROGRAM_REZERVASYON_GORSEL_LINKI" width="100%" />
+<img width="1919" height="1079" alt="7" src="https://github.com/user-attachments/assets/d32f34ec-2ce7-497b-bd97-fd06c418d43e" />
 
 <br>
 
@@ -133,5 +132,4 @@ Kullanıcılar tur deneyimlerini puanlayıp yorumlayabilir ve tur hakkında mera
 
 Onaylanan yorumlar ve admin tarafından cevaplanan sorular tur detay sayfasında diğer kullanıcılar tarafından görüntülenebilir.
 
-<img width="1919" height="1079" alt="7" src="https://github.com/user-attachments/assets/d32f34ec-2ce7-497b-bd97-fd06c418d43e" />
 <img width="1919" height="1079" alt="8" src="https://github.com/user-attachments/assets/149a8985-40bb-4c85-a202-bfc148483ffe" />
