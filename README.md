@@ -133,3 +133,113 @@ Kullanıcılar tur deneyimlerini puanlayıp yorumlayabilir ve tur hakkında mera
 Onaylanan yorumlar ve admin tarafından cevaplanan sorular tur detay sayfasında diğer kullanıcılar tarafından görüntülenebilir.
 
 <img width="1919" height="1079" alt="8" src="https://github.com/user-attachments/assets/149a8985-40bb-4c85-a202-bfc148483ffe" />
+
+
+---
+
+## 👤 Kullanıcı Profil Alanı
+
+Travelio, kullanıcıların tüm seyahat işlemlerini tek bir yerden yönetebileceği kişisel bir profil alanına sahiptir.
+
+Kullanıcılar profil ekranında yaklaşan ve tamamlanan seyahatlerini görüntüleyebilir, favori turlarını inceleyebilir, yorumlarını ve tur hakkında sordukları soruları takip edebilir.
+
+### 📊 Profil ve Genel Bakış
+
+Profilin ana ekranında yaklaşan ve tamamlanan tur sayıları, favoriler, yorumlar, yaklaşan seyahat bilgileri ve son aktiviteler gösterilmektedir.
+
+<img width="1919" height="1079" alt="12 1" src="https://github.com/user-attachments/assets/0b2196e6-1275-45f2-a898-e56c8e645052" />
+
+### ❤️ Favori Turlarım
+
+Kullanıcılar ilgilendikleri turları favorilerine ekleyebilir ve daha sonra profil alanından bu turlara kolayca ulaşabilir.
+
+<img width="1919" height="1079" alt="12 2" src="https://github.com/user-attachments/assets/d7f4f50e-7cd4-49bc-9846-3103f3c37446" />
+
+
+### 💬 Sorularım
+
+Kullanıcıların turlar hakkında gönderdiği sorular ve yönetici tarafından verilen cevaplar, kişisel profil alanında görüntülenebilir.
+
+<img width="1919" height="1079" alt="12 3" src="https://github.com/user-attachments/assets/f4e5e755-25c9-4df1-9e54-8dbd1414a49d" />
+
+
+---
+
+## 📊 Admin Paneli ve Dashboard
+
+Travelio'nun yönetim paneli üzerinden turlar, rezervasyonlar, kullanıcılar, yorumlar ve sorular yönetilebilmektedir.
+
+Dashboard ekranında MongoDB Aggregation kullanılarak elde edilen veriler, Chart.js ile görselleştirilmektedir.
+
+### 📈 Dashboard ve İstatistikler
+
+Dashboard üzerinden aşağıdaki bilgiler takip edilebilmektedir:
+
+- Toplam tur, rezervasyon ve kullanıcı sayıları
+- Aktif ve pasif turlar
+- Bekleyen sorular
+- En çok rezervasyon alan turlar
+- Son 6 aylık rezervasyon istatistikleri
+- Son rezervasyonlar
+
+<img width="1919" height="1079" alt="13" src="https://github.com/user-attachments/assets/86a07e93-82dd-4713-8779-4004536ba79c" />
+
+
+<br>
+
+### 🗺️ Tur Yönetimi
+
+Yöneticiler turları oluşturabilir, güncelleyebilir, silebilir ve aktif/pasif durumlarını değiştirebilir. Tur adı, destinasyon, kategori ve durum kriterlerine göre arama ve filtreleme yapılabilmektedir.
+
+<img width="1919" height="1079" alt="14" src="https://github.com/user-attachments/assets/a369b7d7-9ecc-49f8-8d00-530eae425bfe" />
+
+
+<br>
+
+### 🎟️ Rezervasyon Yönetimi
+
+Rezervasyonlar; tur, kullanıcı, tarih ve durum kriterlerine göre filtrelenebilir. Yöneticiler rezervasyonları onaylayabilir veya iptal edebilir.
+
+<img width="1919" height="1077" alt="15" src="https://github.com/user-attachments/assets/b755a0e7-72d5-48dd-a767-743c2f94dae9" />
+
+
+---
+
+## 💬 Yorum ve Soru Yönetimi
+
+Admin paneli üzerinden kullanıcı yorumları ve turlar hakkında gönderilen sorular yönetilebilmektedir.
+
+### ⭐ Yorum Yönetimi
+
+Kullanıcıların yaptığı yorumlar, yönetici onayından geçtikten sonra ilgili turun detay sayfasında yayınlanmaktadır.
+
+Yöneticiler yorumları inceleyebilir, onaylayabilir ve silebilir.
+
+<img width="1919" height="1079" alt="16" src="https://github.com/user-attachments/assets/646573bd-5207-4d48-a0d8-37abad2b1f54" />
+
+<br>
+
+### ❓ Soru ve Cevap Yönetimi
+
+Kullanıcıların turlar hakkında gönderdiği sorular yönetim panelinde listelenmektedir.
+
+Yöneticiler bu soruları cevaplayabilir veya silebilir. Cevaplanan sorular ilgili tur sayfasında görüntülenmektedir.
+
+<img width="1919" height="1079" alt="18" src="https://github.com/user-attachments/assets/8805f495-1440-4573-97f1-b9387a8d07e4" />
+
+
+---
+
+## 📄 Excel ve PDF Raporlama
+
+Travelio'da rezervasyon ve katılımcı bilgileri Excel ve PDF formatlarında dışa aktarılabilmektedir.
+
+- **ClosedXML:** Excel dosyalarının oluşturulması
+- **QuestPDF:** PDF raporlarının oluşturulması
+- 
+Raporlarda katılımcı bilgileri, tur adı, seyahat tarihi, kişi sayısı, toplam ücret ve rezervasyon durumu gibi bilgiler yer almaktadır.
+
+<img width="1917" height="955" alt="Ekran görüntüsü 2026-09-22 135315" src="https://github.com/user-attachments/assets/8352f0d1-73c5-42c4-82dd-bbc919bc0ec9" />
+<img width="1869" height="919" alt="Ekran görüntüsü 2026-09-22 135241" src="https://github.com/user-attachments/assets/7ef4e5cd-3a20-47ac-8c27-c81bdb5403cd" />
+
+
