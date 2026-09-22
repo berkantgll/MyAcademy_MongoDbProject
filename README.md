@@ -77,7 +77,7 @@ Sabit arayüz metinlerinin yanında tur adı ve açıklaması gibi dinamik içer
 </table>
 
 ---
-
+<img width="1919" height="1079" alt="6" src="https://github.com/user-attachments/assets/ceab164f-f9a8-4ac2-86fa-c1a238f255e1" />
 
 ## 🗺️ Tur Listeleme ve Filtreleme
 
@@ -96,3 +96,42 @@ gibi seçenekler bulunmaktadır.
 
 <img width="1870" height="919" alt="5" src="https://github.com/user-attachments/assets/3f9af5d2-11a2-4f7b-a9e6-142ee60c2597" />
 
+---
+
+## 🎟️ Tur Detayı ve Rezervasyon Sistemi
+
+Kullanıcılar seçtikleri turun detay sayfasında tur açıklamasını, galeri görsellerini, tur süresini, destinasyon bilgisini, fiyatı, puanlamayı ve tur programını görüntüleyebilir.
+
+Tur programı gün gün accordion yapısında gösterilmektedir. Rezervasyon alanında ise kullanıcı tur tarihini, yetişkin ve çocuk sayısını seçerek toplam tutarı görüntüleyebilir ve rezervasyon oluşturabilir.
+
+Rezervasyon sürecinde;
+
+- Seçilen tur tarihi kontrol edilir
+- Kalan kontenjan doğrulanır
+- Yetişkin ve çocuk sayısına göre toplam ücret hesaplanır
+- Rezervasyon backend tarafında oluşturulur
+- Tur kontenjanı otomatik olarak azaltılır
+- Rezervasyon iptal edildiğinde kontenjan geri yüklenir
+
+Bu yapı sayesinde fiyat ve kapasite işlemleri kullanıcı tarafına bırakılmadan uygulamanın backend tarafında güvenli şekilde yönetilmektedir.
+
+### 🗺️ Tur Detay Sayfası
+
+<img width="1919" height="1079" alt="6" src="https://github.com/user-attachments/assets/b646a3b0-698f-4c68-b7b1-c0cea7dca370" />
+
+<br>
+
+### 📅 Tur Programı ve Rezervasyon
+
+<img src="TUR_PROGRAM_REZERVASYON_GORSEL_LINKI" width="100%" />
+
+<br>
+
+### 💬 Yorum, Puanlama ve Soru / Cevap
+
+Kullanıcılar tur deneyimlerini puanlayıp yorumlayabilir ve tur hakkında merak ettikleri soruları sistem üzerinden gönderebilir.
+
+Onaylanan yorumlar ve admin tarafından cevaplanan sorular tur detay sayfasında diğer kullanıcılar tarafından görüntülenebilir.
+
+<img width="1919" height="1079" alt="7" src="https://github.com/user-attachments/assets/d32f34ec-2ce7-497b-bd97-fd06c418d43e" />
+<img width="1919" height="1079" alt="8" src="https://github.com/user-attachments/assets/149a8985-40bb-4c85-a202-bfc148483ffe" />
