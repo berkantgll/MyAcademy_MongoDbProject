@@ -45,3 +45,54 @@ Yönetim tarafında ise turlar, rezervasyonlar, kullanıcı yorumları ve sorula
 Travelio'nun kullanıcı tarafında; öne çıkan turlar, destinasyon arama, tarih ve kişi sayısı seçimi ile tur arama işlemleri tek ekran üzerinden gerçekleştirilebilmektedir.
 
 <img width="1873" height="919" alt="3" src="https://github.com/user-attachments/assets/3b40f742-1c49-4ca0-bf56-1bc2cca52148" />
+
+---
+
+## 🌍 Çoklu Dil Desteği
+
+Travelio, Türkçe ve İngilizce olmak üzere iki farklı dil desteğine sahiptir.
+
+Sabit arayüz metinlerinin yanında tur adı ve açıklaması gibi dinamik içerikler de seçilen dile göre görüntülenmektedir.
+
+<table>
+<tr>
+<td width="50%">
+
+### 🇹🇷 Türkçe
+
+<img width="1873" height="919" alt="3" src="https://github.com/user-attachments/assets/ccb3a51e-6c34-4e47-a357-c10ec4d8ec2c" />
+
+
+</td>
+
+<td width="50%">
+
+### 🇬🇧 English
+
+<img width="1874" height="920" alt="4" src="https://github.com/user-attachments/assets/86a5d05a-e4a8-4d9b-9d01-f3cbaef34a25" />
+
+
+</td>
+</tr>
+</table>
+
+---
+
+
+## 🗺️ Tur Listeleme ve Filtreleme
+
+Kullanıcılar mevcut turları tek bir ekran üzerinden inceleyebilir ve ihtiyaçlarına göre filtreleyebilir.
+
+Filtreleme seçenekleri arasında;
+
+- Destinasyon
+- Kategori
+- Tur tarihi
+- Kişi sayısı
+- Minimum / maksimum fiyat
+- Sıralama
+
+gibi seçenekler bulunmaktadır.
+
+<img width="1870" height="919" alt="5" src="https://github.com/user-attachments/assets/3f9af5d2-11a2-4f7b-a9e6-142ee60c2597" />
+
