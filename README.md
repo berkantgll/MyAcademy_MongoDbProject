@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="screenshots/travelio-banner.png" alt="Travelio Banner" width="100%" />
+<img width="1873" height="919" alt="52" src="https://github.com/user-attachments/assets/66d35754-e1b7-4b4e-952e-f804b66c278f" />
 
 # 🌍 Travelio
 
